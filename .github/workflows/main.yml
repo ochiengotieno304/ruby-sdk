@@ -1,16 +1,28 @@
-name: Ruby
+env:
+  RUBY_VERSION: 2.7.2
+
+name: CI/CD
 
 on: [push,pull_request]
 
 jobs:
-  build:
+  rubocop:
+    name: Rubocop
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.7.2
-        bundler-cache: true
-    - name: Run the default task
-      run: bundle exec rake
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - name: Run bundle install
+        run: |
+          gem install bundler:2.2.4
+          bundle install --jobs 4 --retry 3
+
+      - name: Run rubocop checks
+        run: bundle exec rubocop -D -c .rubocop.yml
