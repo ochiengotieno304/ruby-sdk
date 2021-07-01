@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -21,8 +21,7 @@ jobs:
 
       - name: Run bundle install
         run: |
-          gem install bundler:2.2.4
-          bundle install --jobs 4 --retry 3
+          bundle install
 
       - name: Run rubocop checks
         run: bundle exec rubocop -D -c .rubocop.yml
