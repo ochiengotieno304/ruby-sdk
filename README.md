@@ -22,7 +22,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The library needs to be instantiated with your client_id and client_secret. This returns a client object that is authenticated with Oauth2.
+
+```ruby
+require "elarian"
+elarian = Elarian::Client.new(api_key: "test_api_key", org_id: "test_org", app_id: "test_app_id")
+customer = Elarian::Customer.new(client: elarian, number: "+254709759881")
+
+elarian.await.connect
+
+# get customer state
+resp = customer.await.get_state
+
+puts(resp)
+```
+
 
 ## Development
 
@@ -32,7 +46,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/elarian. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/elarian/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/elarian/ruby-sdk. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/elarian/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -40,4 +54,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Elarian project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/elarian/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Elarian project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/elarian/ruby-sdk/blob/master/CODE_OF_CONDUCT.md).
