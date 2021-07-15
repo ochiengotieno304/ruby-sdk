@@ -24,8 +24,6 @@ Or install it yourself as:
 
 ## Usage
 
-Simple usage example below only connects to an organization and fetches information about customer by phone number
-
 ```ruby
 require 'elarian'
 ...
