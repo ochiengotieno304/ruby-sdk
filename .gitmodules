@@ -1,0 +1,3 @@
+[submodule "lib/rsocket-rb"]
+	path = lib/rsocket-rb
+	url = https://github.com/no-lodging-or-fresh-baked-cookies/rsocket-rb.git

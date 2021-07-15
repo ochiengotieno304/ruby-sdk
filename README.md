@@ -22,8 +22,6 @@ Or install it yourself as:
 
 ## Usage
 
-The library needs to be instantiated with your client_id and client_secret. This returns a client object that is authenticated with Oauth2.
-
 ```ruby
 require "elarian"
 elarian = Elarian::Client.new(api_key: "test_api_key", org_id: "test_org", app_id: "test_app_id")
