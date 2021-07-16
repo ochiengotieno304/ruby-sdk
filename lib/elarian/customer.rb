@@ -27,11 +27,11 @@ module Elarian
     # @param tags [Array]
     def update_tags(tags)
       raise ArgumentError, "Expected tags to be an Array. Got #{tags.class}" unless tags.is_a?(Array)
-      
+
       command = P::UpdateCustomerTagCommand.new(id_or_number)
-      tags.each do |tag| 
+      tags.each do |tag|
         mapping = P::IndexMapping.new(
-          key: tag[:key], 
+          key: tag[:key],
           value: GP::StringValue.new(value: tag[:value])
         )
         if tag.key?(:expires_at)
@@ -226,7 +226,7 @@ module Elarian
       res = @client.send_command(req)
       parse_response(res)
     end
-    
+
     # @param other_customer [Hash]
     def adopt_state(other_customer)
       raise ArgumentError, "Expected other customer to be a Hash. Got #{other_customer.class}" unless other_customer.is_a? Hash
@@ -263,7 +263,7 @@ module Elarian
       res = @client.send_command(req)
       parse_response(res)
     end
-    
+
     # @param messaging_channel [Hash]
     # @param action [String]
     def update_messaging_consent(messaging_channel, action="ALLOW")
