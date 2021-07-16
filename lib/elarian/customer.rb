@@ -7,6 +7,28 @@ module Elarian
   P = Com::Elarian::Hera::Proto
   GP = Google::Protobuf
 
+  class ResponseParser
+    def initialize(payload, command)
+      @payload = payload
+      decoded = P::AppToServerCommandReply.decode(payload.data_utf8)
+      @reply = decoded.to_h[command]
+    end
+
+    def error?
+      !@reply[:status]
+    end
+
+    def error_message
+      return unless error?
+
+      @reply[:description]
+    end
+
+    def data
+      @reply[:data]
+    end
+  end
+
   class Customer
     def initialize(client:, id: nil, number: nil, provider: nil)
       @client = client
