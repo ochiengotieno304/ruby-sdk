@@ -45,7 +45,7 @@ module Elarian
     end
 
     def send_command(data)
-      raise RuntimeError("Client is not connected") unless connected?
+      raise RuntimeError, "Client is not connected" unless connected?
 
       @socket.request_response(payload_of(data.to_proto, nil))
     end
