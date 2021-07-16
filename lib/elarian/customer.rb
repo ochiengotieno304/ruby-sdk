@@ -40,6 +40,7 @@ module Elarian
     end
 
     def get_state
+<<<<<<< HEAD
       command = P::GetCustomerStateCommand.new(id_or_number)
       req = P::AppToServerCommand.new(get_customer_state: command)
       res = @client.send_command(req)
@@ -306,6 +307,18 @@ module Elarian
       req = P::AppToServerCommand.new(update_messaging_consent: command)
       res = @client.send_command(req)
       parse_response(res)
+=======
+      if @number
+        customer_number = P::CustomerNumber.new(number: @number)
+        customer_number.provider = provider_symbol if @provider
+        command = P::GetCustomerStateCommand.new(customer_number: customer_number)
+      elsif @id
+        command = P::GetCustomerStateCommand.new(customer_id: @id)
+      end
+      req = P::AppToServerCommand.new(get_customer_state: command)
+      res = @client.send_command(req)
+      async_response(res, :get_customer_state)
+>>>>>>> 877a265... add Customer#get_state
     end
 
     private
