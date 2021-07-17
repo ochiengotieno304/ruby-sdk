@@ -398,6 +398,15 @@ module Elarian
       async_response(res)
     end
 
+    def delete_metadata(keys)
+      raise ArgumentError, "Expected keys to be an Array. Got #{keys.class}" unless keys.is_a?(Array)
+
+      command = P::DeleteCustomerMetadataCommand.new(**id_or_number, deletions: keys)
+      req = P::AppToServerCommand.new(delete_customer_metadata: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
     private
 
     def validate
