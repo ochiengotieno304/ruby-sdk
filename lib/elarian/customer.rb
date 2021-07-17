@@ -323,6 +323,32 @@ module Elarian
       end
     end
 
+    # @param reminder [Hash]
+    def add_reminder(reminder)
+      raise ArgumentError, "Expected reminder to be a Hash. Got #{reminder.class}" unless reminder.is_a? Hash
+
+      valid_keys = %i[key remind_at interval payload]
+      reminder.keys.each do |key|
+        unless valid_keys.include? key
+          raise ArgumentError, "Invalid reminder property #{key}. Valid keys are: #{valid_keys}"
+        end
+      end
+
+      # NOTE: the protobuf interface suggests that "key" and "remind_at" are optional.
+      # But requests fail without these values.. and they fail in such a way that we get back an
+      # RSocket frame that the library does not know how to handle...
+      # So let's force users to provide these for now.
+      if !reminder[:key] || !reminder[:remind_at]
+        raise ArgumentError, "Either :key or :remind_at is missing in reminder"
+      end
+
+      customer_reminder = P::CustomerReminder.new(reminder)
+      command = P::AddCustomerReminderCommand.new(**id_or_number, reminder: customer_reminder)
+      req = P::AppToServerCommand.new(add_customer_reminder: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
     private
 
     def validate
