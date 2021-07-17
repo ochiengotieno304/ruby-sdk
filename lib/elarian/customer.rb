@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "response_parser"
+
 module Elarian
   P = Com::Elarian::Hera::Proto
   GP = Google::Protobuf
@@ -342,7 +344,8 @@ module Elarian
         raise ArgumentError, "Either :key or :remind_at is missing in reminder"
       end
 
-      customer_reminder = P::CustomerReminder.new(reminder)
+      payload = GP::StringValue.new(value: reminder[:payload])
+      customer_reminder = P::CustomerReminder.new(reminder.merge(payload: payload))
       command = P::AddCustomerReminderCommand.new(**id_or_number, reminder: customer_reminder)
       req = P::AppToServerCommand.new(add_customer_reminder: command)
       res = @client.send_command(req)
@@ -353,6 +356,44 @@ module Elarian
       command = P::CancelCustomerReminderCommand.new(**id_or_number, key: key)
 
       req = P::AppToServerCommand.new(cancel_customer_reminder: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
+    def update_secondary_ids(secondary_ids)
+      updates = secondary_ids.map do |id|
+        raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
+
+        mapping = P::IndexMapping.new(key: id[:key], value: GP::StringValue.new(value: id[:value]))
+        P::CustomerIndex.new(mapping: mapping, expires_at: id[:expires_at])
+      end
+
+      command = P::UpdateCustomerSecondaryIdCommand.new(**id_or_number, updates: updates)
+      req = P::AppToServerCommand.new(update_customer_secondary_id: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
+    def delete_secondary_ids(secondary_ids)
+      deletions = secondary_ids.map do |id|
+        raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
+
+        P::IndexMapping.new(key: id[:key], value: GP::StringValue.new(value: id[:value]))
+      end
+
+      command = P::DeleteCustomerSecondaryIdCommand.new(**id_or_number, deletions: deletions)
+      req = P::AppToServerCommand.new(delete_customer_secondary_id: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
+    def update_metadata(data)
+      command = P::UpdateCustomerMetadataCommand.new(**id_or_number)
+      data.map do |key, val|
+        # TODO: This could either go into string_val or bytes_val, figure out when to use bytes_val
+        command.updates[key] = P::DataMapValue.new(string_val: val)
+      end
+      req = P::AppToServerCommand.new(update_customer_metadata: command)
       res = @client.send_command(req)
       async_response(res)
     end
