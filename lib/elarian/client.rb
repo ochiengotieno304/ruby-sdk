@@ -38,14 +38,14 @@ module Elarian
     end
 
     def on(event, handler)
-      raise ArgumentError("Unrecognized event (#{event})") unless EXPECTED_EVENTS.include?(event&.to_s)
-      raise ArgumentError("Invalid handler provided. Handler must be callable.") unless handler.respond_to?(:call)
+      raise ArgumentError, "Unrecognized event (#{event})" unless EXPECTED_EVENTS.include?(event&.to_s)
+      raise ArgumentError, "Invalid handler provided. Handler must be callable." unless handler.respond_to?(:call)
 
       @handlers[event.to_sym] = handler
     end
 
     def send_command(data)
-      raise RuntimeError, "Client is not connected" unless connected?
+      raise "Client is not connected" unless connected?
 
       @socket.request_response(payload_of(data.to_proto, nil))
     end
