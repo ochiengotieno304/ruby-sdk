@@ -349,6 +349,14 @@ module Elarian
       async_response(res)
     end
 
+    def cancel_reminder(key)
+      command = P::CancelCustomerReminderCommand.new(**id_or_number, key: key)
+
+      req = P::AppToServerCommand.new(cancel_customer_reminder: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
     private
 
     def validate
