@@ -1,33 +1,8 @@
 # frozen_string_literal: true
 
-require "json"
-require_relative "utils/outgoing_message_serializer"
-
 module Elarian
   P = Com::Elarian::Hera::Proto
   GP = Google::Protobuf
-
-  class ResponseParser
-    def initialize(payload, command)
-      @payload = payload
-      decoded = P::AppToServerCommandReply.decode(payload.data_utf8)
-      @reply = decoded.to_h[command]
-    end
-
-    def error?
-      !@reply[:status]
-    end
-
-    def error_message
-      return unless error?
-
-      @reply[:description]
-    end
-
-    def data
-      @reply[:data]
-    end
-  end
 
   class Customer
     def initialize(client:, id: nil, number: nil, provider: nil)
@@ -40,7 +15,6 @@ module Elarian
     end
 
     def get_state
-<<<<<<< HEAD
       command = P::GetCustomerStateCommand.new(id_or_number)
       req = P::AppToServerCommand.new(get_customer_state: command)
       res = @client.send_command(req)
@@ -57,9 +31,7 @@ module Elarian
           key: tag[:key],
           value: GP::StringValue.new(value: tag[:value])
         )
-        if tag.key?(:expires_at)
-          expires_at = GP::Timestamp.new(seconds: tag[:expires_at])
-        end
+        expires_at = GP::Timestamp.new(seconds: tag[:expires_at]) if tag.key?(:expires_at)
         index = P::CustomerIndex.new(mapping: mapping, expires_at: expires_at)
         command.updates.push index
       end
@@ -252,7 +224,9 @@ module Elarian
 
     # @param other_customer [Hash]
     def adopt_state(other_customer)
-      raise ArgumentError, "Expected other customer to be a Hash. Got #{other_customer.class}" unless other_customer.is_a? Hash
+      unless other_customer.is_a? Hash
+        raise ArgumentError, "Expected other customer to be a Hash. Got #{other_customer.class}"
+      end
       raise "Customer id not set" unless @id
 
       command = P::AdoptCustomerStateCommand.new(customer_id: @id)
@@ -289,9 +263,12 @@ module Elarian
 
     # @param messaging_channel [Hash]
     # @param action [String]
-    def update_messaging_consent(messaging_channel, action="ALLOW")
-      raise ArgumentError, "Expected channel to be a Hash. Got #{messaging_channel.class}" unless messaging_channel.is_a? Hash
+    def update_messaging_consent(messaging_channel, action = "ALLOW")
+      unless messaging_channel.is_a? Hash
+        raise ArgumentError, "Expected channel to be a Hash. Got #{messaging_channel.class}"
+      end
       raise "Missing Customer Number" unless @number
+
       Utils.assert_keys_present(messaging_channel, %i[number channel], "messaging_channel")
 
       channel = Utils.get_enum_value(
@@ -307,18 +284,6 @@ module Elarian
       req = P::AppToServerCommand.new(update_messaging_consent: command)
       res = @client.send_command(req)
       parse_response(res)
-=======
-      if @number
-        customer_number = P::CustomerNumber.new(number: @number)
-        customer_number.provider = provider_symbol if @provider
-        command = P::GetCustomerStateCommand.new(customer_number: customer_number)
-      elsif @id
-        command = P::GetCustomerStateCommand.new(customer_id: @id)
-      end
-      req = P::AppToServerCommand.new(get_customer_state: command)
-      res = @client.send_command(req)
-      async_response(res, :get_customer_state)
->>>>>>> 877a265... add Customer#get_state
     end
 
     private
