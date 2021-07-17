@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "response_parser"
+require "json"
 
 module Elarian
   P = Com::Elarian::Hera::Proto
@@ -291,11 +292,11 @@ module Elarian
     # @param tags [Array]
     def update_tags(tags)
       raise ArgumentError, "Expected tags to be an Array. Got #{tags.class}" unless tags.is_a?(Array)
-      
+
       command = P::UpdateCustomerTagCommand.new(id_or_number)
-      tags.each do |tag| 
+      tags.each do |tag|
         mapping = P::IndexMapping.new(
-          key: tag[:key], 
+          key: tag[:key],
           value: Google::Protobuf::StringValue.new(value: tag[:value])
         )
         if tag.key?(:expires_at)
@@ -390,8 +391,7 @@ module Elarian
     def update_metadata(data)
       command = P::UpdateCustomerMetadataCommand.new(**id_or_number)
       data.map do |key, val|
-        # TODO: This could either go into string_val or bytes_val, figure out when to use bytes_val
-        command.updates[key] = P::DataMapValue.new(string_val: val)
+        command.updates[key] = P::DataMapValue.new(string_val: JSON.dump(val))
       end
       req = P::AppToServerCommand.new(update_customer_metadata: command)
       res = @client.send_command(req)
@@ -405,6 +405,46 @@ module Elarian
       req = P::AppToServerCommand.new(delete_customer_metadata: command)
       res = @client.send_command(req)
       async_response(res)
+    end
+
+    def update_app_data(data)
+      update = P::DataMapValue.new(string_val: JSON.dump(data))
+      command = P::UpdateCustomerAppDataCommand.new(**id_or_number, update: update)
+
+      req = P::AppToServerCommand.new(update_customer_app_data: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
+    def delete_app_data
+      command = P::DeleteCustomerAppDataCommand.new(**id_or_number)
+      req = P::AppToServerCommand.new(delete_customer_app_data: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
+    def lease_app_data
+      command = P::LeaseCustomerAppDataCommand.new(**id_or_number)
+      req = P::AppToServerCommand.new(lease_customer_app_data: command)
+      res = @client.send_command(req)
+      original_async_response = async_response(res)
+
+      on_next = lambda do |payload|
+        string_val = payload.dig(:value, :string_val)
+        if string_val.empty?
+          value = payload.dig(:value, :bytes_val)
+        else
+          begin
+            value = JSON.parse(string_val)
+          rescue JSON::ParseError
+            value = string_val
+          end
+        end
+        payload[:value] = value
+        payload
+      end
+
+      wrap_async_subject(original_async_response, on_next)
     end
 
     private
