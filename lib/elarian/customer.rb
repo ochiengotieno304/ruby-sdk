@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "response_parser"
+require_relative "utils/utils"
 require "json"
 
 module Elarian
@@ -388,6 +389,17 @@ module Elarian
       async_response(res)
     end
 
+    def get_metadata
+      retrieve_metadata_from_state = lambda do |get_state_resp|
+        metadata = get_state_resp.dig(:data, :identity_state, :metadata)
+        return unless metadata
+
+        Hash[metadata.map { |key, val| [key, Utils.parse_string_or_byte_val(val)] }]
+      end
+
+      wrap_async_subject(get_state, retrieve_metadata_from_state)
+    end
+
     def update_metadata(data)
       command = P::UpdateCustomerMetadataCommand.new(**id_or_number)
       data.map do |key, val|
@@ -430,17 +442,7 @@ module Elarian
       original_async_response = async_response(res)
 
       on_next = lambda do |payload|
-        string_val = payload.dig(:value, :string_val)
-        if string_val.empty?
-          value = payload.dig(:value, :bytes_val)
-        else
-          begin
-            value = JSON.parse(string_val)
-          rescue JSON::ParseError
-            value = string_val
-          end
-        end
-        payload[:value] = value
+        payload[:value] = Utils.parse_string_or_byte_val(payload[:value])
         payload
       end
 
