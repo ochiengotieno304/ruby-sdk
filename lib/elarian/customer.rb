@@ -351,7 +351,7 @@ module Elarian
       command = P::AddCustomerReminderCommand.new(**id_or_number, reminder: customer_reminder)
       req = P::AppToServerCommand.new(add_customer_reminder: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def cancel_reminder(key)
@@ -359,7 +359,7 @@ module Elarian
 
       req = P::AppToServerCommand.new(cancel_customer_reminder: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def update_secondary_ids(secondary_ids)
@@ -373,7 +373,7 @@ module Elarian
       command = P::UpdateCustomerSecondaryIdCommand.new(**id_or_number, updates: updates)
       req = P::AppToServerCommand.new(update_customer_secondary_id: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def delete_secondary_ids(secondary_ids)
@@ -386,18 +386,19 @@ module Elarian
       command = P::DeleteCustomerSecondaryIdCommand.new(**id_or_number, deletions: deletions)
       req = P::AppToServerCommand.new(delete_customer_secondary_id: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def get_metadata
-      retrieve_metadata_from_state = lambda do |get_state_resp|
+      get_state.flat_map do |get_state_resp|
         metadata = get_state_resp.dig(:data, :identity_state, :metadata)
-        return unless metadata
-
-        Hash[metadata.map { |key, val| [key, Utils.parse_string_or_byte_val(val)] }]
+        result = if metadata
+                   Hash[metadata.map { |key, val| [key, Utils.parse_string_or_byte_val(val)] }]
+                 else
+                   metadata
+                 end
+        Rx::Observable.just(result)
       end
-
-      wrap_async_subject(get_state, retrieve_metadata_from_state)
     end
 
     def update_metadata(data)
@@ -407,7 +408,7 @@ module Elarian
       end
       req = P::AppToServerCommand.new(update_customer_metadata: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def delete_metadata(keys)
@@ -416,7 +417,7 @@ module Elarian
       command = P::DeleteCustomerMetadataCommand.new(**id_or_number, deletions: keys)
       req = P::AppToServerCommand.new(delete_customer_metadata: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def update_app_data(data)
@@ -425,28 +426,25 @@ module Elarian
 
       req = P::AppToServerCommand.new(update_customer_app_data: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def delete_app_data
       command = P::DeleteCustomerAppDataCommand.new(**id_or_number)
       req = P::AppToServerCommand.new(delete_customer_app_data: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def lease_app_data
       command = P::LeaseCustomerAppDataCommand.new(**id_or_number)
       req = P::AppToServerCommand.new(lease_customer_app_data: command)
       res = @client.send_command(req)
-      original_async_response = async_response(res)
-
-      on_next = lambda do |payload|
-        payload[:value] = Utils.parse_string_or_byte_val(payload[:value])
-        payload
+      parse_response(res).flat_map do |payload|
+        # TODO: Even if this is a special case, can't we just do in in ResponseParser ?
+        payload[:value] = Utils.parse_string_or_byte_val(payload[:value]) if payload[:value]
+        Rx::Observable.just(payload)
       end
-
-      wrap_async_subject(original_async_response, on_next)
     end
 
     private
