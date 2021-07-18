@@ -289,6 +289,7 @@ module Elarian
     # @param tags [Array]
     def update_tags(tags)
       raise ArgumentError, "Expected tags to be an Array. Got #{tags.class}" unless tags.is_a?(Array)
+      
       command = P::UpdateCustomerTagCommand.new(id_or_number)
       tags.each do |tag| 
         mapping = P::IndexMapping.new(
@@ -305,6 +306,28 @@ module Elarian
       req = P::AppToServerCommand.new(update_customer_tag: command)
       res = @client.send_command(req)
       async_response(res)
+    end
+
+    # @param keys [Array]
+    def delete_tags(keys)
+      raise ArgumentError, "Expected keys to be an Array. Got #{keys.class}" unless keys.is_a?(Array)
+
+      command = P::DeleteCustomerTagCommand.new(**id_or_number, deletions: keys)
+      req = P::AppToServerCommand.new(delete_customer_tag: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
+    def get_tags
+      resp = Rx::AsyncSubject.new
+      get_state.subscribe(Rx::Observer.configure do |obs|
+        obs.on_next do |payload|
+          resp.on_next(payload[:data][:identity_state][:tags])
+        end
+        obs.on_completed { resp.on_completed }
+        obs.on_error { |error| resp.on_error(error) }
+      end)
+      resp
     end
 
     private
