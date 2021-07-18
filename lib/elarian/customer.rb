@@ -286,6 +286,27 @@ module Elarian
       parse_response(res)
     end
 
+    # @param tags [Array]
+    def update_tags(tags)
+      raise ArgumentError, "Expected tags to be an Array. Got #{tags.class}" unless tags.is_a?(Array)
+      command = P::UpdateCustomerTagCommand.new(id_or_number)
+      tags.each do |tag| 
+        mapping = P::IndexMapping.new(
+          key: tag[:key], 
+          value: Google::Protobuf::StringValue.new(value: tag[:value])
+        )
+        expires_at = nil
+        if tag.key?(:expires_at)
+          expires_at = Google::Protobuf::Timestamp.new(seconds: tag[:expires_at])
+        end
+        index = P::CustomerIndex.new(mapping: mapping, expires_at: expires_at)
+        command.updates.push index
+      end
+      req = P::AppToServerCommand.new(update_customer_tag: command)
+      res = @client.send_command(req)
+      async_response(res)
+    end
+
     private
 
     def validate
