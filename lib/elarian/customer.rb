@@ -296,7 +296,6 @@ module Elarian
           key: tag[:key], 
           value: Google::Protobuf::StringValue.new(value: tag[:value])
         )
-        expires_at = nil
         if tag.key?(:expires_at)
           expires_at = Google::Protobuf::Timestamp.new(seconds: tag[:expires_at])
         end
@@ -319,15 +318,9 @@ module Elarian
     end
 
     def get_tags
-      resp = Rx::AsyncSubject.new
-      get_state.subscribe(Rx::Observer.configure do |obs|
-        obs.on_next do |payload|
-          resp.on_next(payload[:data][:identity_state][:tags])
-        end
-        obs.on_completed { resp.on_completed }
-        obs.on_error { |error| resp.on_error(error) }
-      end)
-      resp
+      get_state.map do |get_state_payload|
+        get_state_payload.dig(:data, :identity_state, :tags)
+      end
     end
 
     private
