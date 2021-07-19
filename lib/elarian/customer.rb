@@ -390,14 +390,13 @@ module Elarian
     end
 
     def get_metadata
-      get_state.flat_map do |get_state_resp|
+      get_state.map do |get_state_resp|
         metadata = get_state_resp.dig(:data, :identity_state, :metadata)
-        result = if metadata
-                   Hash[metadata.map { |key, val| [key, Utils.parse_string_or_byte_val(val)] }]
-                 else
-                   metadata
-                 end
-        Rx::Observable.just(result)
+        if metadata
+          Hash[metadata.map { |key, val| [key, Utils.parse_string_or_byte_val(val)] }]
+        else
+          metadata
+        end
       end
     end
 
@@ -440,10 +439,10 @@ module Elarian
       command = P::LeaseCustomerAppDataCommand.new(**id_or_number)
       req = P::AppToServerCommand.new(lease_customer_app_data: command)
       res = @client.send_command(req)
-      parse_response(res).flat_map do |payload|
+      parse_response(res).map do |payload|
         # TODO: Even if this is a special case, can't we just do in in ResponseParser ?
         payload[:value] = Utils.parse_string_or_byte_val(payload[:value]) if payload[:value]
-        Rx::Observable.just(payload)
+        payload
       end
     end
 
