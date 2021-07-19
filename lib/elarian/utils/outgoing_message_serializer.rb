@@ -43,7 +43,7 @@ module Elarian
           entry = if item.key? :text
             {text: item[:text]}
           elsif item.key? :media
-            {media: Utils.get_enum_value(P::MediaType, item[:media].fetch(:type,"UNSPECIFIED"), "MEDIA_TYPE")} 
+            {media: Utils.get_enum_value(P::MediaType, item[:media].fetch(:type,"UNSPECIFIED"), "MEDIA_TYPE")}
           end
           P::PromptMessageMenuItemBody.new(entry || {})
         end
