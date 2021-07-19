@@ -446,6 +446,30 @@ module Elarian
       end
     end
 
+    def update_activity(activity_channel, activity)
+      raise "Customer number not set" unless @number
+
+      Utils.assert_keys_present(activity_channel, %i[number channel], "activity_channel")
+      Utils.assert_keys_present(activity, %i[session_id key], "activity")
+
+      channel = Utils.get_enum_value(
+        P::ActivityChannel, activity_channel.fetch(:channel, "UNSPECIFIED"), "ACTIVITY_CHANNEL"
+      )
+      command = P::CustomerActivityCommand.new(
+        customer_number: customer_number,
+        channel_number: P::ActivityChannelNumber.new(number: activity_channel[:number], channel: channel),
+        key: activity[:key],
+        session_id: activity[:session_id]
+      )
+      # TODO: logic copy-pasted from Python-SDK, confirm that this is what we want.
+      # Would be more logical to set each property one by one.
+      command.properties["property"] = activity[:properties].to_s
+
+      req = P::AppToServerCommand.new(customer_activity: command)
+      res = @client.send_command(req)
+      parse_response(res)
+    end
+
     private
 
     def validate
