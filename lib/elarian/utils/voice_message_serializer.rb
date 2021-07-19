@@ -9,8 +9,10 @@ module Elarian
       class << self
         private :new
 
-        def serialize(voice)
-          voice.map { |action| new(action).serialize }
+        def serialize
+          keys = %i[:say :play :get_digits :get_recording :dial :record_session :enqueue :dequeue :reject :redirect]
+          key = keys.find { |key| @action.key? key }
+          P::VoiceCallAction.new(key => send("serialize_#{key}"))
         end
       end
 
