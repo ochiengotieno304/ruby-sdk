@@ -1,7 +1,4 @@
 # frozen_string_literal: true
-
-require_relative "response_parser"
-require_relative "utils/utils"
 require "json"
 
 module Elarian
@@ -298,17 +295,17 @@ module Elarian
       tags.each do |tag|
         mapping = P::IndexMapping.new(
           key: tag[:key],
-          value: Google::Protobuf::StringValue.new(value: tag[:value])
+          value: GP::StringValue.new(value: tag[:value])
         )
         if tag.key?(:expires_at)
-          expires_at = Google::Protobuf::Timestamp.new(seconds: tag[:expires_at])
+          expires_at = GP::Timestamp.new(seconds: tag[:expires_at])
         end
         index = P::CustomerIndex.new(mapping: mapping, expires_at: expires_at)
         command.updates.push index
       end
       req = P::AppToServerCommand.new(update_customer_tag: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     # @param keys [Array]
@@ -318,7 +315,7 @@ module Elarian
       command = P::DeleteCustomerTagCommand.new(**id_or_number, deletions: keys)
       req = P::AppToServerCommand.new(delete_customer_tag: command)
       res = @client.send_command(req)
-      async_response(res)
+      parse_response(res)
     end
 
     def get_tags
