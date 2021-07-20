@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+
 require "json"
+require_relative "utils/outgoing_message_serializer"
 
 module Elarian
   P = Com::Elarian::Hera::Proto
@@ -463,6 +465,23 @@ module Elarian
       command.properties["property"] = activity[:properties].to_s
 
       req = P::AppToServerCommand.new(customer_activity: command)
+      res = @client.send_command(req)
+      parse_response(res)
+    end
+
+    def send_message(messaging_channel, message)
+      raise "Customer number not set" unless @number
+
+      channel = Utils.get_enum_value(
+        P::MessagingChannel, messaging_channel.fetch(:channel, "UNSPECIFIED"), "MESSAGING_CHANNEL"
+      )
+      command = P::SendMessageCommand.new(
+        customer_number: customer_number,
+        channel_number: P::MessagingChannelNumber.new(number: messaging_channel[:number], channel: channel),
+        message: Utils::OutgoingMessageSerializer.new(message).serialize
+      )
+
+      req = P::AppToServerCommand.new(send_message: command)
       res = @client.send_command(req)
       parse_response(res)
     end
