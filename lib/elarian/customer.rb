@@ -469,23 +469,6 @@ module Elarian
       parse_response(res)
     end
 
-    def send_message(messaging_channel, message)
-      raise "Customer number not set" unless @number
-
-      channel = Utils.get_enum_value(
-        P::MessagingChannel, messaging_channel.fetch(:channel, "UNSPECIFIED"), "MESSAGING_CHANNEL"
-      )
-      command = P::SendMessageCommand.new(
-        customer_number: customer_number,
-        channel_number: P::MessagingChannelNumber.new(number: messaging_channel[:number], channel: channel),
-        message: Utils::OutgoingMessageSerializer.serialize(message)
-      )
-
-      req = P::AppToServerCommand.new(send_message: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
     def reply_to_message(message_id, message)
       raise "customer_id not set" unless @id
 
