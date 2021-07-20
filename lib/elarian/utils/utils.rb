@@ -45,14 +45,17 @@ module Elarian
       end
 
       def get_enum_value(target, key, prefix)
-        begin
-          return target.const_get("#{prefix}_#{key}".upcase, false)
-        rescue NameError
-          raise "Invalid key #{key.inspect}"
-        end
+        target.const_get("#{prefix}_#{key}".upcase, false)
+      rescue NameError
+        raise ArgumentError, "Invalid key #{key.inspect}. Valid keys are #{valid_enum_keys(target, prefix)}"
       end
 
-      def assert_keys_present(hash, required_keys, hash_name='Hash')
+      def valid_enum_keys(target, prefix)
+        target.constants.reject { |c| c == :UNSPECIFIED || c == :UNKNOWN }
+          .map { |c| c.to_s.split("#{prefix}_").last.to_sym }
+      end
+
+      def assert_keys_present(hash, required_keys, hash_name = "Hash")
         assert_type(hash, hash_name, Hash)
         required_keys.each do |key|
           unless hash.key?(key)
