@@ -486,6 +486,21 @@ module Elarian
       parse_response(res)
     end
 
+    def reply_to_message(message_id, message)
+      raise "customer_id not set" unless @id
+
+      command = P::ReplyToMessageCommand.new(
+        customer_id: @id,
+        message_id: message_id,
+        message: Utils::OutgoingMessageSerializer.serialize(message)
+      )
+
+      req = P::AppToServerCommand.new(reply_to_message: command)
+      res = @client.send_command(req)
+      parse_response(res)
+    end
+
+
     private
 
     def validate
