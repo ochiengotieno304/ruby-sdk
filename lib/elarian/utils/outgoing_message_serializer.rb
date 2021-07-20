@@ -30,8 +30,6 @@ module Elarian
         )
       end
 
-      private
-
       def reply_prompt
         return unless @message.key? :reply_prompt
 

@@ -478,7 +478,7 @@ module Elarian
       command = P::SendMessageCommand.new(
         customer_number: customer_number,
         channel_number: P::MessagingChannelNumber.new(number: messaging_channel[:number], channel: channel),
-        message: Utils::OutgoingMessageSerializer.new(message).serialize
+        message: Utils::OutgoingMessageSerializer.serialize(message)
       )
 
       req = P::AppToServerCommand.new(send_message: command)
