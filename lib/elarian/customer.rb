@@ -249,23 +249,20 @@ module Elarian
       res = @client.send_command(req)
       parse_response(res)
     end
-    
+
     # @param messaging_channel [Hash]
     # @param action [String]
     def update_messaging_consent(messaging_channel, action="ALLOW")
       raise ArgumentError, "Expected channel to be a Hash. Got #{messaging_channel.class}" unless messaging_channel.is_a? Hash
-      raise "Missing Customer Number" unless customer_number
+      raise "Missing Customer Number" unless @number
       Utils.assert_keys_present(messaging_channel, %i[number channel], "messaging_channel")
 
-      channel_number = P::MessagingChannelNumber.new(
-        number: messaging_channel[:number],
-        channel: Utils.get_enum_value(
-          P::MessagingChannel, messaging_channel.fetch(:channel, "UNSPECIFIED"), "MESSAGING_CHANNEL"
-        )
+      channel = Utils.get_enum_value(
+        P::MessagingChannel, messaging_channel.fetch(:channel, "UNSPECIFIED"), "MESSAGING_CHANNEL"
       )
       command = P::UpdateMessagingConsentCommand.new(
         customer_number: customer_number,
-        channel_number: channel_number,
+        channel_number: P::MessagingChannelNumber.new(number: messaging_channel[:number], channel: channel),
         update: Utils.get_enum_value(
           P::MessagingConsentUpdate, action, "MESSAGING_CONSENT_UPDATE"
         )
