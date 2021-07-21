@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "json"
-require_relative "utils/outgoing_message_serializer"
-
 module Elarian
   P = Com::Elarian::Hera::Proto
   GP = Google::Protobuf

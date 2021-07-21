@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "./utils/custom_load_paths"
-require "app_socket_pb"
-require "google/protobuf"
-require "rsocket/requester"
-require "eventmachine"
 module Elarian
   class Client
     EXPECTED_EVENTS = %w[pending error connecting connected closed].freeze
