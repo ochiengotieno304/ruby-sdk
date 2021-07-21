@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "json"
-require_relative "utils/outgoing_message_serializer"
-
 module Elarian
   P = Com::Elarian::Hera::Proto
   GP = Google::Protobuf
@@ -252,42 +249,6 @@ module Elarian
 
     # @param messaging_channel [Hash]
     # @param action [String]
-    def update_messaging_consent(messaging_channel, action="ALLOW")
-      raise ArgumentError, "Expected channel to be a Hash. Got #{messaging_channel.class}" unless messaging_channel.is_a? Hash
-      raise "Missing Customer Number" unless @number
-      Utils.assert_keys_present(messaging_channel, %i[number channel], "messaging_channel")
-
-      channel = Utils.get_enum_value(
-        P::MessagingChannel, messaging_channel.fetch(:channel, "UNSPECIFIED"), "MESSAGING_CHANNEL"
-      )
-      command = P::UpdateMessagingConsentCommand.new(
-        customer_number: customer_number,
-        channel_number: P::MessagingChannelNumber.new(number: messaging_channel[:number], channel: channel),
-        update: Utils.get_enum_value(
-          P::MessagingConsentUpdate, action, "MESSAGING_CONSENT_UPDATE"
-        )
-      )
-      req = P::AppToServerCommand.new(update_messaging_consent: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def reply_to_message(message_id, message)
-      raise "customer_id not set" unless @id
-
-      command = P::ReplyToMessageCommand.new(
-        customer_id: @id,
-        message_id: message_id,
-        message: Utils::OutgoingMessageSerializer.serialize(message)
-      )
-
-      req = P::AppToServerCommand.new(reply_to_message: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    # @param messaging_channel [Hash]
-    # @param action [String]
     def update_messaging_consent(messaging_channel, action = "ALLOW")
       unless messaging_channel.is_a? Hash
         raise ArgumentError, "Expected channel to be a Hash. Got #{messaging_channel.class}"
@@ -311,186 +272,6 @@ module Elarian
       parse_response(res)
     end
 
-    # @param tags [Array]
-    def update_tags(tags)
-      raise ArgumentError, "Expected tags to be an Array. Got #{tags.class}" unless tags.is_a?(Array)
-
-      command = P::UpdateCustomerTagCommand.new(id_or_number)
-      tags.each do |tag|
-        mapping = P::IndexMapping.new(
-          key: tag[:key],
-          value: GP::StringValue.new(value: tag[:value])
-        )
-        if tag.key?(:expires_at)
-          expires_at = GP::Timestamp.new(seconds: tag[:expires_at])
-        end
-        index = P::CustomerIndex.new(mapping: mapping, expires_at: expires_at)
-        command.updates.push index
-      end
-      req = P::AppToServerCommand.new(update_customer_tag: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    # @param keys [Array]
-    def delete_tags(keys)
-      raise ArgumentError, "Expected keys to be an Array. Got #{keys.class}" unless keys.is_a?(Array)
-
-      command = P::DeleteCustomerTagCommand.new(**id_or_number, deletions: keys)
-      req = P::AppToServerCommand.new(delete_customer_tag: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def get_tags
-      get_state.map do |get_state_payload|
-        get_state_payload.dig(:data, :identity_state, :tags)
-      end
-    end
-
-    # @param reminder [Hash]
-    def add_reminder(reminder)
-      raise ArgumentError, "Expected reminder to be a Hash. Got #{reminder.class}" unless reminder.is_a? Hash
-
-      valid_keys = %i[key remind_at interval payload]
-      reminder.keys.each do |key|
-        unless valid_keys.include? key
-          raise ArgumentError, "Invalid reminder property #{key}. Valid keys are: #{valid_keys}"
-        end
-      end
-
-      # NOTE: the protobuf interface suggests that "key" and "remind_at" are optional.
-      # But requests fail without these values.. and they fail in such a way that we get back an
-      # RSocket frame that the library does not know how to handle...
-      # So let's force users to provide these for now.
-      if !reminder[:key] || !reminder[:remind_at]
-        raise ArgumentError, "Either :key or :remind_at is missing in reminder"
-      end
-
-      payload = GP::StringValue.new(value: reminder[:payload])
-      customer_reminder = P::CustomerReminder.new(reminder.merge(payload: payload))
-      command = P::AddCustomerReminderCommand.new(**id_or_number, reminder: customer_reminder)
-      req = P::AppToServerCommand.new(add_customer_reminder: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def cancel_reminder(key)
-      command = P::CancelCustomerReminderCommand.new(**id_or_number, key: key)
-
-      req = P::AppToServerCommand.new(cancel_customer_reminder: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def update_secondary_ids(secondary_ids)
-      updates = secondary_ids.map do |id|
-        raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
-
-        mapping = P::IndexMapping.new(key: id[:key], value: GP::StringValue.new(value: id[:value]))
-        P::CustomerIndex.new(mapping: mapping, expires_at: id[:expires_at])
-      end
-
-      command = P::UpdateCustomerSecondaryIdCommand.new(**id_or_number, updates: updates)
-      req = P::AppToServerCommand.new(update_customer_secondary_id: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def delete_secondary_ids(secondary_ids)
-      deletions = secondary_ids.map do |id|
-        raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
-
-        P::IndexMapping.new(key: id[:key], value: GP::StringValue.new(value: id[:value]))
-      end
-
-      command = P::DeleteCustomerSecondaryIdCommand.new(**id_or_number, deletions: deletions)
-      req = P::AppToServerCommand.new(delete_customer_secondary_id: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def get_metadata
-      get_state.map do |get_state_resp|
-        metadata = get_state_resp.dig(:data, :identity_state, :metadata)
-        if metadata
-          Hash[metadata.map { |key, val| [key, Utils.parse_string_or_byte_val(val)] }]
-        else
-          metadata
-        end
-      end
-    end
-
-    def update_metadata(data)
-      command = P::UpdateCustomerMetadataCommand.new(**id_or_number)
-      data.map do |key, val|
-        command.updates[key] = P::DataMapValue.new(string_val: JSON.dump(val))
-      end
-      req = P::AppToServerCommand.new(update_customer_metadata: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def delete_metadata(keys)
-      raise ArgumentError, "Expected keys to be an Array. Got #{keys.class}" unless keys.is_a?(Array)
-
-      command = P::DeleteCustomerMetadataCommand.new(**id_or_number, deletions: keys)
-      req = P::AppToServerCommand.new(delete_customer_metadata: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def update_app_data(data)
-      update = P::DataMapValue.new(string_val: JSON.dump(data))
-      command = P::UpdateCustomerAppDataCommand.new(**id_or_number, update: update)
-
-      req = P::AppToServerCommand.new(update_customer_app_data: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def delete_app_data
-      command = P::DeleteCustomerAppDataCommand.new(**id_or_number)
-      req = P::AppToServerCommand.new(delete_customer_app_data: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    def lease_app_data
-      command = P::LeaseCustomerAppDataCommand.new(**id_or_number)
-      req = P::AppToServerCommand.new(lease_customer_app_data: command)
-      res = @client.send_command(req)
-      parse_response(res).map do |payload|
-        # TODO: Even if this is a special case, can't we just do in in ResponseParser ?
-        payload[:value] = Utils.parse_string_or_byte_val(payload[:value]) if payload[:value]
-        payload
-      end
-    end
-
-    def update_activity(activity_channel, activity)
-      raise "Customer number not set" unless @number
-
-      Utils.assert_keys_present(activity_channel, %i[number channel], "activity_channel")
-      Utils.assert_keys_present(activity, %i[session_id key], "activity")
-
-      channel = Utils.get_enum_value(
-        P::ActivityChannel, activity_channel.fetch(:channel, "UNSPECIFIED"), "ACTIVITY_CHANNEL"
-      )
-      command = P::CustomerActivityCommand.new(
-        customer_number: customer_number,
-        channel_number: P::ActivityChannelNumber.new(number: activity_channel[:number], channel: channel),
-        key: activity[:key],
-        session_id: activity[:session_id]
-      )
-      # TODO: logic copy-pasted from Python-SDK, confirm that this is what we want.
-      # Would be more logical to set each property one by one.
-      command.properties["property"] = activity[:properties].to_s
-
-      req = P::AppToServerCommand.new(customer_activity: command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
     def reply_to_message(message_id, message)
       raise "customer_id not set" unless @id
 
@@ -504,7 +285,6 @@ module Elarian
       res = @client.send_command(req)
       parse_response(res)
     end
-
 
     private
 

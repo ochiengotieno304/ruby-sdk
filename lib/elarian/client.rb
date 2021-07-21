@@ -10,7 +10,6 @@ module Elarian
       @api_key = api_key
       @simplex_mode = simplex_mode
       @options = default_options.merge(options)
-      @simplex_mode = !@options[:allow_notifications]
 
       # TODO: need to figure out how/when Elarian users simulator mode
       @is_simulator = is_simulator

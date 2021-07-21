@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require_relative "service/messaging_model_pb"
-require_relative "voice_message_serializer"
 
 module Elarian
   module Utils

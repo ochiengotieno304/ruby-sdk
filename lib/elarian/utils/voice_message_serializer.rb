@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require_relative "service/messaging_model_pb"
 
 module Elarian
   module Utils
