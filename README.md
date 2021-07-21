@@ -22,7 +22,19 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require "elarian"
+elarian = Elarian::Client.new(api_key: "test_api_key", org_id: "test_org", app_id: "test_app_id")
+customer = Elarian::Customer.new(client: elarian, number: "+254709759881")
+
+elarian.await.connect
+
+# get customer state
+resp = customer.await.get_state
+
+puts(resp)
+```
+
 
 ## Development
 
@@ -32,7 +44,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/ElarianLtd/ruby-sdkK. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/ElarianLtd/ruby-sdk/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/ElarianLtd/ruby-sdk. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/ElarianLtd/ruby-sdk/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 

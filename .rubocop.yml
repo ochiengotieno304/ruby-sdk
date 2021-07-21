@@ -1,5 +1,8 @@
 AllCops:
   TargetRubyVersion: 2.4
+  Exclude:
+    - lib/rsocket-rb/**/*
+    - lib/elarian/utils/**/*
 
 Style/StringLiterals:
   Enabled: true
@@ -11,3 +14,10 @@ Style/StringLiteralsInInterpolation:
 
 Layout/LineLength:
   Max: 120
+
+Metrics/MethodLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
