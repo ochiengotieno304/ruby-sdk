@@ -4,15 +4,16 @@ module Elarian
   class Client
     EXPECTED_EVENTS = %w[pending error connecting connected closed].freeze
 
-    def initialize(org_id:, app_id:, api_key:, options: {})
+    def initialize(org_id:, app_id:, api_key:, is_simulator: false, simplex_mode: false, options: {})
       @org_id = org_id
       @app_id = app_id
       @api_key = api_key
+      @simplex_mode = simplex_mode
       @options = default_options.merge(options)
       @simplex_mode = !@options[:allow_notifications]
 
       # TODO: need to figure out how/when Elarian users simulator mode
-      @is_simulator = false
+      @is_simulator = is_simulator
       @handlers = {}
     end
 
