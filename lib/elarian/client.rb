@@ -94,7 +94,7 @@ module Elarian
     def set_on_error_handler
       handler = @handlers[:error]
       Elarian::Requester.class_eval do
-        define_method(:error_handler) do |error_frame|
+        define_method(:handle_error) do |error_frame|
           err, is_connection_error = super(error_frame)
           if is_connection_error
             raise err if handler.nil?

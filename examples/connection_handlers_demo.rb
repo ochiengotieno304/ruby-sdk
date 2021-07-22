@@ -29,10 +29,15 @@ def closed
   puts "connection closed"
 end
 
+def connection_error(err)
+  puts "Connection Error: #{err}"
+end
+
 client.on("pending", -> { connection_pending })
 client.on("connecting", -> { connecting })
 client.on("connected", -> { connected })
 client.on("closed", -> { closed })
+client.on("error", -> (err){ connection_error(err) } )
 
 EM.run do
   client.connect
