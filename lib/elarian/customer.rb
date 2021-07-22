@@ -28,7 +28,7 @@ module Elarian
       tags.each do |tag|
         mapping = P::IndexMapping.new(
           key: tag[:key],
-          value: GP::StringValue.new(value: tag[:value])
+          value: {value: tag[:value]}
         )
         expires_at = GP::Timestamp.new(seconds: tag[:expires_at]) if tag.key?(:expires_at)
         index = P::CustomerIndex.new(mapping: mapping, expires_at: expires_at)
@@ -74,7 +74,7 @@ module Elarian
         raise ArgumentError, "Either :key or :remind_at is missing in reminder"
       end
 
-      payload = GP::StringValue.new(value: reminder[:payload])
+      payload = {value: reminder[:payload]}
       customer_reminder = P::CustomerReminder.new(reminder.merge(payload: payload))
       command = P::AddCustomerReminderCommand.new(**id_or_number, reminder: customer_reminder)
       req = P::AppToServerCommand.new(add_customer_reminder: command)
@@ -100,7 +100,7 @@ module Elarian
       updates = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
 
-        mapping = P::IndexMapping.new(key: id[:key], value: GP::StringValue.new(value: id[:value]))
+        mapping = P::IndexMapping.new(key: id[:key], value: {value: id[:value]})
         P::CustomerIndex.new(mapping: mapping, expires_at: id[:expires_at])
       end
 
@@ -114,7 +114,7 @@ module Elarian
       deletions = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
 
-        P::IndexMapping.new(key: id[:key], value: GP::StringValue.new(value: id[:value]))
+        P::IndexMapping.new(key: id[:key], value: {value: id[:value]})
       end
 
       command = P::DeleteCustomerSecondaryIdCommand.new(**id_or_number, deletions: deletions)
