@@ -18,5 +18,7 @@ require "elarian/utils/voice_message_serializer"
 require "elarian/utils/outgoing_message_serializer"
 
 module Elarian
+  P = Com::Elarian::Hera::Proto
+
   class Error < StandardError; end
 end

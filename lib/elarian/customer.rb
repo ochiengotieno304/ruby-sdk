@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Elarian
-  P = Com::Elarian::Hera::Proto
   GP = Google::Protobuf
 
   class Customer
