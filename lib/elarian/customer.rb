@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module Elarian
-  GP = Google::Protobuf
-
   class Customer
     def initialize(client:, id: nil, number: nil, provider: nil)
       @client = client
@@ -24,16 +22,11 @@ module Elarian
     def update_tags(tags)
       raise ArgumentError, "Expected tags to be an Array. Got #{tags.class}" unless tags.is_a?(Array)
 
-      command = P::UpdateCustomerTagCommand.new(id_or_number)
-      tags.each do |tag|
-        mapping = P::IndexMapping.new(
-          key: tag[:key],
-          value: {value: tag[:value]}
-        )
-        expires_at = GP::Timestamp.new(seconds: tag[:expires_at]) if tag.key?(:expires_at)
-        index = P::CustomerIndex.new(mapping: mapping, expires_at: expires_at)
-        command.updates.push index
+      updates = tags.map do |tag|
+        mapping = P::IndexMapping.new(key: tag[:key], value: {value: tag[:value]})
+        P::CustomerIndex.new(mapping: mapping, expires_at: tag[:expires_at])
       end
+      command = P::UpdateCustomerTagCommand.new(**id_or_number, updates: updates)
       req = P::AppToServerCommand.new(update_customer_tag: command)
       res = @client.send_command(req)
       parse_response(res)
