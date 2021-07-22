@@ -19,7 +19,7 @@ module Elarian
     def connect
       set_on_connected_handler
       set_on_closed_handler
-      # TODO: Need to set on_error handler. How/Where/When do we sense that a connection error has occured?
+      set_on_error_handler
       EM.defer { @handlers[:pending].call } if @handlers[:pending]
       @socket = Elarian.connect(
         "#{ENV["URL"]}:#{ENV["PORT"]}",
@@ -87,6 +87,19 @@ module Elarian
           super()
           @connected = true
           EM.defer { handler.call } if handler
+        end
+      end
+    end
+
+    def set_on_error_handler
+      handler = @handlers[:error]
+      Elarian::Requester.class_eval do
+        define_method(:error_handler) do |error_frame|
+          err, is_connection_error = super(error_frame)
+          if is_connection_error
+            raise err if handler.nil?
+            EM.defer { handler.call(err) }
+          end
         end
       end
     end
