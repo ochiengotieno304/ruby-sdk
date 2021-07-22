@@ -54,7 +54,7 @@ module Elarian
       Com::Elarian::Hera::Proto::AppConnectionMetadata.new(
         org_id: @org_id,
         app_id: @app_id,
-        api_key: Google::Protobuf::StringValue.new(value: @api_key),
+        api_key: {value: @api_key},
         simplex_mode: @simplex_mode,
         simulator_mode: @is_simulator
       )

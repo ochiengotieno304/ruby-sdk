@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 module Elarian
-  P = Com::Elarian::Hera::Proto
-  GP = Google::Protobuf
-
   class Customer
     def initialize(client:, id: nil, number: nil, provider: nil)
       @client = client
@@ -23,18 +20,13 @@ module Elarian
 
     # @param tags [Array]
     def update_tags(tags)
-      raise ArgumentError, "Expected tags to be an Array. Got #{tags.class}" unless tags.is_a?(Array)
+      Utils.assert_type(tags, "tags", Array)
 
-      command = P::UpdateCustomerTagCommand.new(id_or_number)
-      tags.each do |tag|
-        mapping = P::IndexMapping.new(
-          key: tag[:key],
-          value: GP::StringValue.new(value: tag[:value])
-        )
-        expires_at = GP::Timestamp.new(seconds: tag[:expires_at]) if tag.key?(:expires_at)
-        index = P::CustomerIndex.new(mapping: mapping, expires_at: expires_at)
-        command.updates.push index
+      updates = tags.map do |tag|
+        mapping = P::IndexMapping.new(key: tag[:key], value: {value: tag[:value]})
+        P::CustomerIndex.new(mapping: mapping, expires_at: tag[:expires_at])
       end
+      command = P::UpdateCustomerTagCommand.new(**id_or_number, updates: updates)
       req = P::AppToServerCommand.new(update_customer_tag: command)
       res = @client.send_command(req)
       parse_response(res)
@@ -42,7 +34,7 @@ module Elarian
 
     # @param keys [Array]
     def delete_tags(keys)
-      raise ArgumentError, "Expected keys to be an Array. Got #{keys.class}" unless keys.is_a?(Array)
+      Utils.assert_type(keys, "keys", Array)
 
       command = P::DeleteCustomerTagCommand.new(**id_or_number, deletions: keys)
       req = P::AppToServerCommand.new(delete_customer_tag: command)
@@ -58,7 +50,7 @@ module Elarian
 
     # @param reminder [Hash]
     def add_reminder(reminder)
-      raise ArgumentError, "Expected reminder to be a Hash. Got #{reminder.class}" unless reminder.is_a? Hash
+      Utils.assert_type(reminder, "reminder", Hash)
 
       valid_keys = %i[key remind_at interval payload]
       reminder.keys.each do |key|
@@ -75,7 +67,7 @@ module Elarian
         raise ArgumentError, "Either :key or :remind_at is missing in reminder"
       end
 
-      payload = GP::StringValue.new(value: reminder[:payload])
+      payload = {value: reminder[:payload]}
       customer_reminder = P::CustomerReminder.new(reminder.merge(payload: payload))
       command = P::AddCustomerReminderCommand.new(**id_or_number, reminder: customer_reminder)
       req = P::AppToServerCommand.new(add_customer_reminder: command)
@@ -101,7 +93,7 @@ module Elarian
       updates = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
 
-        mapping = P::IndexMapping.new(key: id[:key], value: GP::StringValue.new(value: id[:value]))
+        mapping = P::IndexMapping.new(key: id[:key], value: {value: id[:value]})
         P::CustomerIndex.new(mapping: mapping, expires_at: id[:expires_at])
       end
 
@@ -115,7 +107,7 @@ module Elarian
       deletions = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
 
-        P::IndexMapping.new(key: id[:key], value: GP::StringValue.new(value: id[:value]))
+        P::IndexMapping.new(key: id[:key], value: {value: id[:value]})
       end
 
       command = P::DeleteCustomerSecondaryIdCommand.new(**id_or_number, deletions: deletions)
@@ -146,7 +138,7 @@ module Elarian
     end
 
     def delete_metadata(keys)
-      raise ArgumentError, "Expected keys to be an Array. Got #{keys.class}" unless keys.is_a?(Array)
+      Utils.assert_type(keys, "keys", Array)
 
       command = P::DeleteCustomerMetadataCommand.new(**id_or_number, deletions: keys)
       req = P::AppToServerCommand.new(delete_customer_metadata: command)
@@ -224,9 +216,7 @@ module Elarian
 
     # @param other_customer [Hash]
     def adopt_state(other_customer)
-      unless other_customer.is_a? Hash
-        raise ArgumentError, "Expected other customer to be a Hash. Got #{other_customer.class}"
-      end
+      Utils.assert_type(other_customer, "other_customer", Hash)
       raise "Customer id not set" unless @id
 
       command = P::AdoptCustomerStateCommand.new(customer_id: @id)
@@ -250,9 +240,7 @@ module Elarian
     # @param messaging_channel [Hash]
     # @param action [String]
     def update_messaging_consent(messaging_channel, action = "ALLOW")
-      unless messaging_channel.is_a? Hash
-        raise ArgumentError, "Expected channel to be a Hash. Got #{messaging_channel.class}"
-      end
+      Utils.assert_type(messaging_channel, "messaging_channel", Hash)
       raise "Missing Customer Number" unless @number
 
       Utils.assert_keys_present(messaging_channel, %i[number channel], "messaging_channel")

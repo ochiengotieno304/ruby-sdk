@@ -2,8 +2,6 @@
 
 module Elarian
   module Utils
-    P = Com::Elarian::Hera::Proto
-
     class OutgoingMessageSerializer
       class << self
         private :new
