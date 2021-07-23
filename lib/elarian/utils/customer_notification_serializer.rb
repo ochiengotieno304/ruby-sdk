@@ -19,7 +19,7 @@ module Elarian
       def serialize
         serialize_customer_number
         send("serialize_#{@event}") if known_events.include? @event
-        @data
+        [@event, @data]
       end
 
       private
@@ -86,7 +86,7 @@ module Elarian
         @data[:parts] = @data[:parts].map { |part| ReceivedMessagePartsSerializer.serialize(part) }
 
         channel, _ = serialize_channel_number(P::MessagingChannel, "MESSAGING_CHANNEL")
-
+        switch_to_more_specific_event(channel)
         case channel.downcase
         when "ussd"
           @data[:input] = @data[:parts].find{ |part| part[:ussd] }[:ussd]
@@ -100,6 +100,20 @@ module Elarian
           @data[:email] = @data[:parts].find{ |part| part[:email] }[:email]
         end
         @data.delete :parts
+      end
+
+      # receive_message events can be made more specific based on channel type for that event
+      def switch_to_more_specific_event(channel)
+        return unless @event == :received_message
+
+        case channel.to_sym
+        when :voice
+          @event = :voice_call
+        when :ussd
+          @event = :ussd_session
+        when :sms, :fb_messenger, :telegram, :whatsapp, :email
+          @event = "received_#{channel}".to_sym
+        end
       end
 
       def serialize_sent_message_reaction
