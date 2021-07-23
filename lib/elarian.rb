@@ -1,13 +1,21 @@
 # frozen_string_literal: true
 
-require_relative "elarian/ruby/version"
+require "elarian/ruby/version"
 require "rubygems"
+require "json"
 require "google/protobuf"
-require_relative "elarian/utils/custom_load_paths"
+require "elarian/utils/custom_load_paths"
 require "app_socket_pb"
+require "messaging_model_pb"
 require "rsocket/requester"
 require "eventmachine"
-require_relative "elarian/client"
+require "elarian/requester"
+require "elarian/client"
+require "elarian/customer"
+require "elarian/response_parser"
+require "elarian/utils/utils"
+require "elarian/utils/voice_message_serializer"
+require "elarian/utils/outgoing_message_serializer"
 
 module Elarian
   class Error < StandardError; end
