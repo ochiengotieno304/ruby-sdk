@@ -2,8 +2,6 @@
 
 module Elarian
   module Utils
-    GP = Google::Protobuf
-
     class CustomerNotificationSerializer
       class << self
         private :new
@@ -66,8 +64,8 @@ module Elarian
 
       def serialize_messaging_session_ended
         @data[:session_id] = @data.dig(:session_id, :value)
-        @data[:expires_at] = pb_to_time(@data[:expires_at]) if @data[:expires_at]
-        @data[:duration] = pb_duration_seconds(@data[:duration]) if @data[:duration]
+        @data[:expires_at] = Utils.pb_to_time(@data[:expires_at]) if @data[:expires_at]
+        @data[:duration] = Utils.pb_duration_seconds(@data[:duration]) if @data[:duration]
         if @data[:reason]
           @data[:reason] = Utils.get_enum_string(
             P::MessagingSessionEndReason, @data[:reason], "MESSAGING_SESSION_END_REASON"
@@ -85,14 +83,21 @@ module Elarian
       def serialize_received_message
         @data[:session_id] = @data.dig(:session_id, :value)
         @data[:in_reply_to] = @data.dig(:in_reply_to, :value)
+        @data[:parts] = @data[:parts].map { |part| ReceivedMessagePartsSerializer.serialize(part) }
 
-        number, channel = @data[:channel_number].values_at(:number, :channel)
-        channel = Utils.get_enum_string(P::MessagingChannel, channel, "MESSAGING_CHANNEL")
-        @data[:channel_number] = { number: number, channel: channel }
+        channel, _ = serialize_channel_number(P::MessagingChannel, "MESSAGING_CHANNEL")
 
-        known_channels = %i[ussd voice sms whatsapp telegram fb_messenger email]
-        if known_channels.include? channel
-          @data[:input] = @data[:parts].find{ |part| part[channel] }[channel]
+        case channel.downcase
+        when "ussd"
+          @data[:input] = @data[:parts].find{ |part| part[:ussd] }[:ussd]
+        when "voice"
+          @data[:voice] = @data[:parts].find{ |part| part[:voice] }[:voice]
+        when "sms", "whatsapp", "telegram", "fb_messenger"
+          @data[:text] = @data[:parts].find{ |part| part[:text] }[:text]
+          @data[:media] = @data[:parts].find{ |part| part[:media] }[:media]
+          @data[:location] = @data[:parts].find{ |part| part[:location] }[:location]
+        when "email"
+          @data[:email] = @data[:parts].find{ |part| part[:email] }[:email]
         end
         @data.delete :parts
       end
@@ -115,7 +120,7 @@ module Elarian
       def serialize_reminder
         r = @data[:reminder]
         r[:payload] = r.dig(:payload, :value)
-        r[:remind_at] = pb_to_time(r[:remind_at]) if r[:remind_at]
+        r[:remind_at] = Utils.pb_to_time(r[:remind_at]) if r[:remind_at]
         r[:interval] = GP::Duration.new(r[:interval]).to_f if r[:interval]
 
         @data[:reminder].merge!(r)
@@ -146,6 +151,7 @@ module Elarian
         number, channel = @data[:channel_number].values_at(:number, :channel)
         channel = Utils.get_enum_string(enum_class, channel, enum_prefix)
         @data[:channel_number] = { number: number, channel: channel}
+        [channel, number]
       end
 
       def serialize_customer_number
@@ -157,15 +163,78 @@ module Elarian
 
         @data[:customer_number] = { number: number, provider: provider, partition: partition }
       end
+    end
+  end
 
-      # @param pb_timestamp [Hash] the <seconds, nanoseconds> tuple representing the protobuf timestamp
-      def pb_to_time(pb_timestamp)
-        GP::Timestamp.new(pb_timestamp).to_time.utc
-      end
+  class ReceivedMessagePartsSerializer
+    class << self
+      private :new
 
-      def pb_duration_seconds(pb_duration)
-        GP::Duration.new(pb_duration).to_f
+      def serialize(part)
+        new(part).serialize
       end
+    end
+
+    def initialize(part)
+      @part = part
+    end
+
+    def serialize
+      part_type = known_part_types.find { |type| !!@part[type] }
+      return unless part_type
+
+      send("serialize_#{part_type}")
+    end
+
+    private
+
+    def known_part_types
+      %i[ussd location media voice email text]
+    end
+
+    def serialize_ussd
+      ussd = @part[:ussd]
+      {
+        ussd: {
+          text: ussd.dig(:text, :value),
+          status: Utils.get_enum_string(P::UssdSessionStatus, ussd[:status], "USSD_SESSION_STATUS")
+        }
+      }
+    end
+
+    def serialize_location
+      location = @part[:location]
+      label, address = location.values_at(:label, :address).map { |val| val&.dig(:value) }
+      { location: location.merge({label: label, address: address}) }
+    end
+
+    def serialize_media
+      media = @part[:media]
+      media[:type] = Utils.get_enum_string(P::MediaType, media[:media], "MEDIA_TYPE")
+      { media: media }
+    end
+
+    def serialize_voice
+      voice = @part[:voice]
+      serialized = {
+        dtmf_digits: voice[:dtmf_digits]&.dig(:value),
+        startedAt: (Utils.pb_to_time(voice[:started_at]) if voice[:started_at]),
+        recording_url: voice[:recording_url]&.dig(:value),
+        status: Utils.get_enum_string(P::VoiceCallStatus, voice[:status], "VOICE_CALL_STATUS"),
+        direction: Utils.get_enum_string(P::CustomerEventDirection, voice[:direction], "CUSTOMER_EVENT_DIRECTION"),
+        hangup_cause: Utils.get_enum_string(P::VoiceCallHangupCause, voice[:hangup_cause],"VOICE_CALL_HANGUP_CAUSE")
+      }
+
+      { voice: voice.merge(serialized) }
+    end
+
+    def serialize_email
+      { email: @part[:email]}
+    end
+
+    def serialize_text
+      { text: @part[:text] }
     end
   end
 end
+

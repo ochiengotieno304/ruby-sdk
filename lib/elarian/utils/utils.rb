@@ -2,6 +2,8 @@
 
 module Elarian
   module Utils
+    GP = Google::Protobuf
+
     class << self
       def parse_string_or_byte_val(value)
         string_val = value[:string_val]
@@ -59,6 +61,15 @@ module Elarian
         return if object.is_a? expected_type
 
         raise ArgumentError, "Invalid #{object_name} type. Expected #{expected_type} got #{object.class}"
+      end
+
+      # @param pb_timestamp [Hash] the <seconds, nanoseconds> tuple representing the protobuf timestamp
+      def pb_to_time(pb_timestamp)
+        GP::Timestamp.new(pb_timestamp).to_time.utc
+      end
+
+      def pb_duration_seconds(pb_duration)
+        GP::Duration.new(pb_duration).to_f
       end
     end
   end
