@@ -22,6 +22,16 @@ module Elarian
         raise ArgumentError, "Invalid key #{key.inspect}. Valid keys are #{valid_enum_keys(target, prefix)}"
       end
 
+      def get_enum_string(target, value, prefix)
+        begin
+          target.const_get(value, false)
+        rescue NameError
+          raise "invalid enum value #{value} for #{target}"
+        end
+
+        value.to_s.gsub("#{prefix}_", "")
+      end
+
       def valid_enum_keys(target, prefix)
         target.constants
               .map { |c| c.to_s.split("#{prefix}_").last.to_sym }
