@@ -54,7 +54,7 @@ module Elarian
       Com::Elarian::Hera::Proto::AppConnectionMetadata.new(
         org_id: @org_id,
         app_id: @app_id,
-        api_key: {value: @api_key},
+        api_key: { value: @api_key },
         simplex_mode: @simplex_mode,
         simulator_mode: @is_simulator
       )
@@ -98,6 +98,7 @@ module Elarian
           err, is_connection_error = super(error_frame)
           if is_connection_error
             raise err if handler.nil?
+
             EM.defer { handler.call(err) }
           end
         end
