@@ -23,8 +23,9 @@ module Elarian
       end
 
       def valid_enum_keys(target, prefix)
-        target.constants.reject { |c| c == :UNSPECIFIED || c == :UNKNOWN }
+        target.constants
               .map { |c| c.to_s.split("#{prefix}_").last.to_sym }
+              .reject { |c| %i[UNSPECIFIED UNKNOWN].include?(c) }
       end
 
       def assert_keys_present(hash, required_keys, hash_name = "Hash")
@@ -37,9 +38,9 @@ module Elarian
       end
 
       def assert_type(object, object_name, expected_type)
-        unless object.is_a? expected_type
-          raise ArgumentError, "Invalid #{object_name} type. Expected #{expected_type} got #{object.class}"
-        end
+        return if object.is_a? expected_type
+
+        raise ArgumentError, "Invalid #{object_name} type. Expected #{expected_type} got #{object.class}"
       end
     end
   end

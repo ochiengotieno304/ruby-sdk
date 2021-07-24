@@ -37,7 +37,9 @@ module Elarian
           entry = if item.key? :text
                     { text: item[:text] }
                   elsif item.key? :media
-                    { media: Utils.get_enum_value(P::MediaType, item[:media].fetch(:type, "UNSPECIFIED"), "MEDIA_TYPE") }
+                    {
+                      media: Utils.get_enum_value(P::MediaType, item[:media].fetch(:type, "UNSPECIFIED"), "MEDIA_TYPE")
+                    }
                   end
           P::PromptMessageMenuItemBody.new(entry || {})
         end
@@ -45,7 +47,7 @@ module Elarian
       end
 
       def serialize_body
-        key = %i[text url ussd media location template email voice].find { |key| @body.key? key }
+        key = %i[text url ussd media location template email voice].find { |k| @body.key? k }
         return unless key
 
         P::OutboundMessageBody.new(key => send("serialize_#{key}"))
@@ -60,7 +62,7 @@ module Elarian
       end
 
       def serialize_ussd
-        ussd = @body[:ussd].select { |key, _| key == :text || key == :is_terminal }
+        ussd = @body[:ussd].select { |key, _| %i[text is_terminal].include?(key) }
         P::UssdMenuMessageBody.new(ussd)
       end
 

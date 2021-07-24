@@ -17,7 +17,7 @@ module Elarian
 
       def serialize
         keys = %i[say play get_digits get_recording dial record_session enqueue dequeue reject redirect]
-        key = keys.find { |key| @action.key? key }
+        key = keys.find { |k| @action.key? k }
         return unless key
 
         P::VoiceCallAction.new(key => send("serialize_#{key}"))
