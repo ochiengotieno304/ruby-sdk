@@ -3,6 +3,7 @@ AllCops:
   Exclude:
     - 'lib/rsocket-rb/**/*'
     - 'lib/elarian/utils/service/*' # generated protobuf code
+    - 'vendor/**/*'
   NewCops: enable
 
 Style/StringLiterals:
