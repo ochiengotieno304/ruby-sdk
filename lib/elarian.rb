@@ -14,8 +14,10 @@ require "elarian/client"
 require "elarian/customer"
 require "elarian/response_parser"
 require "elarian/utils/utils"
-require "elarian/utils/voice_message_serializer"
-require "elarian/utils/outgoing_message_serializer"
+require "elarian/utils/serializers/voice_message_serializer"
+require "elarian/utils/serializers/outgoing_message_serializer"
+require "elarian/utils/serializers/customer_notification_serializer"
+require "elarian/request_handler"
 
 module Elarian
   P = Com::Elarian::Hera::Proto
