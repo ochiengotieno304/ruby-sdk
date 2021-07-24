@@ -19,6 +19,7 @@ module Elarian
         keys = %i[say play get_digits get_recording dial record_session enqueue dequeue reject redirect]
         key = keys.find { |key| @action.key? key }
         return unless key
+
         P::VoiceCallAction.new(key => send("serialize_#{key}"))
       end
 
@@ -44,15 +45,15 @@ module Elarian
         get_digits = @action[:get_digits]
 
         prompt = if get_digits.key? :say
-          {say: serialize_say_payload(get_digits[:say])}
-        elsif get_digits.key? :play
-          {play: P::PlayCallAction.new(url: get_digits[:play][:url])}
-        end
+                   { say: serialize_say_payload(get_digits[:say]) }
+                 elsif get_digits.key? :play
+                   { play: P::PlayCallAction.new(url: get_digits[:play][:url]) }
+                 end
 
         P::GetDigitsCallAction.new(
-          num_digits: {value: get_digits[:num_digits]},
+          num_digits: { value: get_digits[:num_digits] },
           timeout: get_digits.fetch(:timeout, 0),
-          finish_on_key: {value: get_digits.fetch(:finish_on_key, "#")},
+          finish_on_key: { value: get_digits.fetch(:finish_on_key, "#") },
           **(prompt || {})
         )
       end
@@ -63,15 +64,15 @@ module Elarian
         get_recording = @action[:get_recording]
 
         prompt = if get_recording.key? :say
-          {say: serialize_say_payload(get_recording[:say])}
-        elsif get_recording.key? :play
-          {play: P::PlayCallAction.new(url: get_recording[:play][:url])}
-        end
+                   { say: serialize_say_payload(get_recording[:say]) }
+                 elsif get_recording.key? :play
+                   { play: P::PlayCallAction.new(url: get_recording[:play][:url]) }
+                 end
 
         P::GetRecordingCallAction.new(
           timeout: get_recording.fetch(:timeout, 0),
           max_length: get_recording.fetch(:max_length, 3600),
-          finish_on_key: {value: get_recording.fetch(:finish_on_key, "#")},
+          finish_on_key: { value: get_recording.fetch(:finish_on_key, "#") },
           play_beep: get_recording.fetch(:play_beep, false),
           trim_silence: get_recording.fetch(:trim_silence, true),
           **(prompt || {})
@@ -84,23 +85,23 @@ module Elarian
           provider = num.fetch(:provider, "UNSPECIFIED")
           P::CustomerNumber.new(
             number: num[:number],
-            provider: Utils.get_enum_value(P::CustomerNumberProvider, provider,"CUSTOMER_NUMBER_PROVIDER"),
+            provider: Utils.get_enum_value(P::CustomerNumberProvider, provider, "CUSTOMER_NUMBER_PROVIDER"),
             partition: num[:partition]
           )
         end
         P::DialCallAction.new(
           record: dial.fetch(:record, false),
           sequential: dial.fetch(:sequential, true),
-          ringback_tone: {value: dial[:ringback_tone]},
-          caller_id: {value: dial[:caller_id]},
-          max_duration: {value: dial.fetch(:max_duration, 3600)},
+          ringback_tone: { value: dial[:ringback_tone] },
+          caller_id: { value: dial[:caller_id] },
+          max_duration: { value: dial.fetch(:max_duration, 3600) },
           customer_numbers: customer_numbers
         )
       end
 
       def serialize_enqueue
         enqueue = @action[:enqueue]
-        hm, qn = enqueue.values_at(:hold_music, :queue_name).map { |value| {value: value} }
+        hm, qn = enqueue.values_at(:hold_music, :queue_name).map { |value| { value: value } }
         P::EnqueueCallAction.new(hold_music: hm, queue_name: qn)
       end
 
@@ -113,7 +114,7 @@ module Elarian
         )
         P::DequeueCallAction.new(
           record: dequeue.fetch(:record, false),
-          queue_name: {value: dequeue[:queue_name]},
+          queue_name: { value: dequeue[:queue_name] },
           channel_number: channel_number
         )
       end
