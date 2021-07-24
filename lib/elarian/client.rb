@@ -4,7 +4,7 @@ module Elarian
   class Client
     EXPECTED_EVENTS = %w[pending error connecting connected closed].freeze
 
-    def initialize(org_id:, app_id:, api_key:, is_simulator: false, simplex_mode: false, options: {})
+    def initialize(org_id:, app_id:, api_key:, is_simulator: false, simplex_mode: false, options: {}) # rubocop:disable Metrics/ParameterLists
       @org_id = org_id
       @app_id = app_id
       @api_key = api_key
@@ -17,9 +17,7 @@ module Elarian
     end
 
     def connect
-      set_on_connected_handler
-      set_on_closed_handler
-      set_on_error_handler
+      set_handlers
       EM.defer { @handlers[:pending].call } if @handlers[:pending]
       @socket = Elarian.connect(
         "#{ENV["URL"]}:#{ENV["PORT"]}",
@@ -66,6 +64,12 @@ module Elarian
 
     def connected?
       @socket&.connected
+    end
+
+    def set_handlers
+      set_on_connected_handler
+      set_on_closed_handler
+      set_on_error_handler
     end
 
     def set_on_closed_handler
