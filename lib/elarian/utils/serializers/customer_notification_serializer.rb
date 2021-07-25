@@ -85,19 +85,19 @@ module Elarian
         @data[:in_reply_to] = @data.dig(:in_reply_to, :value)
         @data[:parts] = @data[:parts].map { |part| ReceivedMessagePartsSerializer.serialize(part) }
 
-        channel, _ = serialize_channel_number(P::MessagingChannel, "MESSAGING_CHANNEL")
+        channel, = serialize_channel_number(P::MessagingChannel, "MESSAGING_CHANNEL")
         switch_to_more_specific_event(channel)
         case channel.downcase
         when "ussd"
-          @data[:input] = @data[:parts].find{ |part| part[:ussd] }[:ussd]
+          @data[:input] = @data[:parts].find { |part| part[:ussd] }[:ussd]
         when "voice"
-          @data[:voice] = @data[:parts].find{ |part| part[:voice] }[:voice]
+          @data[:voice] = @data[:parts].find { |part| part[:voice] }[:voice]
         when "sms", "whatsapp", "telegram", "fb_messenger"
-          @data[:text] = @data[:parts].find{ |part| part[:text] }[:text]
-          @data[:media] = @data[:parts].find{ |part| part[:media] }[:media]
-          @data[:location] = @data[:parts].find{ |part| part[:location] }[:location]
+          @data[:text] = @data[:parts].find { |part| part[:text] }[:text]
+          @data[:media] = @data[:parts].find { |part| part[:media] }[:media]
+          @data[:location] = @data[:parts].find { |part| part[:location] }[:location]
         when "email"
-          @data[:email] = @data[:parts].find{ |part| part[:email] }[:email]
+          @data[:email] = @data[:parts].find { |part| part[:email] }[:email]
         end
         @data.delete :parts
       end
@@ -117,14 +117,14 @@ module Elarian
       end
 
       def serialize_sent_message_reaction
-        @data[:reaction] = Utils.get_enum_string(P::MessageReaction, @data[:reaction],"MESSAGE_REACTION" )
+        @data[:reaction] = Utils.get_enum_string(P::MessageReaction, @data[:reaction], "MESSAGE_REACTION")
         serialize_channel_number(P::MessagingChannel, "MESSAGING_CHANNEL")
       end
 
       def serialize_payment_status
         @data[:status] = Utils.get_enum_string(P::PaymentStatus, @data[:status], "PAYMENT_STATUS")
       end
-      alias_method :serialize_wallet_payment_status, :serialize_payment_status
+      alias serialize_wallet_payment_status serialize_payment_status
 
       def serialize_received_payment
         @data[:status] = Utils.get_enum_string(P::PaymentStatus, @data[:status], "PAYMENT_STATUS")
@@ -149,22 +149,22 @@ module Elarian
         serialize_channel_number(P::MessagingChannel, "MESSAGING_CHANNEL")
         @data[:session_id] = @data.dig(:session_id, :value)
       end
-      alias_method :serialize_make_voice_call, :serialize_send_message
+      alias serialize_make_voice_call serialize_send_message
 
       def serialize_checkout_payment
         serialize_channel_number(P::MessagingChannel, "PAYMENT_CHANNEL")
 
         @data[:account] = @data.dig(:account, :value)
       end
-      alias_method :serialize_send_channel_payment, :serialize_checkout_payment
-      alias_method :serialize_send_customer_payment, :serialize_checkout_payment
+      alias serialize_send_channel_payment serialize_checkout_payment
+      alias serialize_send_customer_payment serialize_checkout_payment
 
       def serialize_channel_number(enum_class, enum_prefix)
         return unless @data[:channel_number]
 
         number, channel = @data[:channel_number].values_at(:number, :channel)
         channel = Utils.get_enum_string(enum_class, channel, enum_prefix)
-        @data[:channel_number] = { number: number, channel: channel}
+        @data[:channel_number] = { number: number, channel: channel }
         [channel, number]
       end
 
@@ -219,7 +219,7 @@ module Elarian
     def serialize_location
       location = @part[:location]
       label, address = location.values_at(:label, :address).map { |val| val&.dig(:value) }
-      { location: location.merge({label: label, address: address}) }
+      { location: location.merge({ label: label, address: address }) }
     end
 
     def serialize_media
@@ -236,14 +236,14 @@ module Elarian
         recording_url: voice[:recording_url]&.dig(:value),
         status: Utils.get_enum_string(P::VoiceCallStatus, voice[:status], "VOICE_CALL_STATUS"),
         direction: Utils.get_enum_string(P::CustomerEventDirection, voice[:direction], "CUSTOMER_EVENT_DIRECTION"),
-        hangup_cause: Utils.get_enum_string(P::VoiceCallHangupCause, voice[:hangup_cause],"VOICE_CALL_HANGUP_CAUSE")
+        hangup_cause: Utils.get_enum_string(P::VoiceCallHangupCause, voice[:hangup_cause], "VOICE_CALL_HANGUP_CAUSE")
       }
 
       { voice: voice.merge(serialized) }
     end
 
     def serialize_email
-      { email: @part[:email]}
+      { email: @part[:email] }
     end
 
     def serialize_text
@@ -251,4 +251,3 @@ module Elarian
     end
   end
 end
-
