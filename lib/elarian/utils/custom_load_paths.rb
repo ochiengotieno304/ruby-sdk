@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 custom_paths = [
   # rsocket
   File.expand_path("../../rsocket-rb/lib", __dir__),
