@@ -16,6 +16,8 @@ module Elarian
       @connection_events = %i[pending error connecting connected closed].freeze
       @events = events
 
+      validate
+
       RequestHandler.instance.client = self
     end
 
@@ -54,6 +56,12 @@ module Elarian
     end
 
     private
+
+    def validate
+      { app_id: @app_id, org_id: @org_id, api_key: @api_key }.each do |param_name, value|
+        Utils.assert_type(value, param_name, String)
+      end
+    end
 
     def app_connection_metadata
       Com::Elarian::Hera::Proto::AppConnectionMetadata.new(
