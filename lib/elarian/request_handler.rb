@@ -5,7 +5,7 @@ require "singleton"
 module Elarian
   class RequestHandler < RSocket::EmptyAbstractHandler
     include Singleton
-    attr_reader :handlers
+    attr_reader :handlers, :client
 
     def initialize
       super
@@ -25,8 +25,8 @@ module Elarian
       IndividualRequestHandler.handle(payload)
     end
 
-    def add_handler(event, handler)
-      @handlers[event] = handler
+    def register_handler(event, handler)
+      @handlers[event.to_sym] = handler
     end
 
     def simulator?
@@ -50,19 +50,19 @@ module Elarian
       @event, @notification = Utils::CustomerNotificationSerializer.serialize(raw_event, raw_notification.to_h)
 
       customer_number = @notification[:customer_number] || {}
-      @customer = Customer.new(client: @client, id: customer_or_purse.customer_id, **customer_number)
+      @customer = Customer.new(client: client, id: customer_or_purse.customer_id, **customer_number)
     end
 
     def handle
       handler = RequestHandler.instance.handlers[@event] || default_handler
 
       EM.defer do
-        handler.call(@event, @notification, @customer, @incoming_app_data, &callback)
+        handler.call(@notification, @customer, @incoming_app_data, &callback)
       end
 
       callback_timeout
 
-      @async_subject
+      @async_subject.as_observable
     end
 
     private
@@ -71,8 +71,12 @@ module Elarian
       RequestHandler.instance.simulator?
     end
 
+    def client
+      RequestHandler.instance.client
+    end
+
     def default_handler
-      ->(notification, customer, app_data, callback) { callback.call(app_data) } # rubocop:disable Lint/UnusedBlockArgument
+      ->(notification, customer, app_data) { callback.call(app_data) } # rubocop:disable Lint/UnusedBlockArgument
     end
 
     # returns a lambda that is invoked when the user-specified handler yields
@@ -105,7 +109,7 @@ module Elarian
     end
 
     def respond(response)
-      @async_subject.on_next(RSocket::Payload.new(response.to_proto, nil))
+      @async_subject.on_next(RSocket::Payload.new(response.to_proto.unpack("C*"), nil))
       @async_subject.on_completed
     end
 
