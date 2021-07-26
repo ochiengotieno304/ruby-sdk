@@ -23,7 +23,9 @@ module Elarian
       customer_activity
     ].freeze
 
-    def initialize(org_id:, app_id:, api_key:, is_simulator: nil, simplex_mode: nil, options: nil) # rubocop:disable Metrics/ParameterLists
+    attr_reader :client
+
+    def initialize(org_id:, app_id:, api_key:, is_simulator: nil, simplex_mode: nil, options: {}) # rubocop:disable Metrics/ParameterLists
       @client = Client.new(
         org_id: org_id,
         api_key: api_key,

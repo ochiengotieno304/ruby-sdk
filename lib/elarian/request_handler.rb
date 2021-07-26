@@ -50,7 +50,7 @@ module Elarian
       @event, @notification = Utils::CustomerNotificationSerializer.serialize(raw_event, raw_notification.to_h)
 
       customer_number = @notification[:customer_number] || {}
-      @customer = Customer.new(client: @client, id: id, **customer_number)
+      @customer = Customer.new(client: @client, id: customer_or_purse.customer_id, **customer_number)
     end
 
     def handle
@@ -112,6 +112,14 @@ module Elarian
     def decode(payload)
       data = payload.data.pack("C*")
       notification_class.decode(data)
+    end
+
+    # Given a Protobuf message that has a one_of field, determine which on the options have been set
+    # And return an array containing the option name and value
+    def retrieve_one_of_field(pb_message, one_of_field)
+      which_field = pb_message.send(one_of_field)
+
+      [which_field, pb_message.send(which_field)]
     end
 
     def notification_class
