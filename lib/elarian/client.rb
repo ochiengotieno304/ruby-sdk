@@ -2,7 +2,9 @@
 
 module Elarian
   class Client
-    EXPECTED_EVENTS = %w[pending error connecting connected closed].freeze
+    EXPECTED_EVENTS = %i[pending error connecting connected closed].freeze
+
+    attr_reader :is_simulator
 
     def initialize(org_id:, app_id:, api_key:, is_simulator: false, simplex_mode: false, options: {}) # rubocop:disable Metrics/ParameterLists
       @org_id = org_id
@@ -14,6 +16,7 @@ module Elarian
       # TODO: need to figure out how/when Elarian users simulator mode
       @is_simulator = is_simulator
       @handlers = {}
+      RequestHandler.instance.client = self
     end
 
     def connect
@@ -30,7 +33,7 @@ module Elarian
     end
 
     def on(event, handler)
-      raise ArgumentError, "Unrecognized event (#{event})" unless EXPECTED_EVENTS.include?(event&.to_s)
+      raise ArgumentError, "Unrecognized event (#{event})" unless EXPECTED_EVENTS.include?(event&.to_sym)
       raise ArgumentError, "Invalid handler provided. Handler must be callable." unless handler.respond_to?(:call)
 
       @handlers[event.to_sym] = handler
