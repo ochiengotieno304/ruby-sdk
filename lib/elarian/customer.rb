@@ -83,9 +83,7 @@ module Elarian
     end
 
     def delete_secondary_ids(secondary_ids)
-      deletio
-      
-      ns = secondary_ids.map do |id|
+      deletions = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
 
         P::IndexMapping.new(key: id[:key], value: { value: id[:value] })
