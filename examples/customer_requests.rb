@@ -225,7 +225,7 @@ def reply_to_message
   cust.reply_to_message("111", message)
 end
 
-def do_3(*actions)
+def do_3(*actions) # rubocop:disable Metrics/AbcSize
   raise "Expected 3 got #{actions.length}" unless actions.length == 3
 
   a, b, c = actions

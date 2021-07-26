@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Elarian
-  class Customer # rubocop:disable Metrics/ClassLength
+  class Customer
     def initialize(client:, id: nil, number: nil, provider: nil)
       @client = client
       @id = id
