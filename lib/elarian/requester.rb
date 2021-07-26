@@ -7,6 +7,7 @@ module Elarian
     def initialize(metadata_encoding, data_encoding, setup_payload, resp_handler_block)
       super
       @connected = false
+      @responder_handler = RequestHandler.instance
     end
   end
 
