@@ -2,7 +2,7 @@
 
 module Elarian
   module Utils
-    class CustomerNotificationSerializer
+    class CustomerNotificationSerializer # rubocop:disable Metrics/ClassLength
       class << self
         private :new
 
@@ -80,7 +80,7 @@ module Elarian
         @data[:status] = Utils.get_enum_string(P::MessageDeliveryStatus, @data[:status], "MESSAGE_DELIVERY_STATUS")
       end
 
-      def serialize_received_message
+      def serialize_received_message # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
         @data[:session_id] = @data.dig(:session_id, :value)
         @data[:in_reply_to] = @data.dig(:in_reply_to, :value)
         @data[:parts] = @data[:parts].map { |part| ReceivedMessagePartsSerializer.serialize(part) }
@@ -194,7 +194,7 @@ module Elarian
     end
 
     def serialize
-      part_type = known_part_types.find { |type| !!@part[type] }
+      part_type = known_part_types.find { |type| @part[type] }
       return unless part_type
 
       send("serialize_#{part_type}")

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Elarian
-  class Client
+  class Client # rubocop:disable Metrics/ClassLength
     attr_reader :is_simulator
 
     def initialize(org_id:, app_id:, api_key:, events: [], options: {})
