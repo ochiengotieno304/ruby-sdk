@@ -2,7 +2,7 @@
 
 module Elarian
   module Utils
-    class CustomerNotificationSerializer # rubocop:disable Metrics/ClassLength
+    class CustomerNotificationSerializer
       class << self
         private :new
 
