@@ -55,6 +55,10 @@ module Elarian
       @socket&.close_connection
     end
 
+    def connected?
+      @socket&.connected
+    end
+
     private
 
     def validate
@@ -78,10 +82,6 @@ module Elarian
         allow_notifications: true,
         is_simulator: false
       }
-    end
-
-    def connected?
-      @socket&.connected
     end
 
     def set_handlers
