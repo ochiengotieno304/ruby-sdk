@@ -98,12 +98,5 @@ module Elarian
       )
       send_command(:initiate_payment, command)
     end
-
-    private
-
-    # Used by some helper methods included in this class
-    def client
-      self
-    end
   end
 end
