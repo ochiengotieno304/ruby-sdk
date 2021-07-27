@@ -47,7 +47,7 @@ module Elarian
       payload = { value: reminder[:payload] }
       customer_reminder = P::CustomerReminder.new(reminder.merge(payload: payload))
       command = P::AddCustomerReminderTagCommand.new(
-        tag: { key: tag[:name], value: { value: tag[:value] } },
+        tag: { key: tag[:key], value: { value: tag[:value] } },
         reminder: customer_reminder
       )
       send_command(:add_customer_reminder_tag, command)
