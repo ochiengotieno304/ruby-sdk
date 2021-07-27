@@ -33,6 +33,26 @@ module Elarian
       send_command(:generate_auth_token, command)
     end
 
+    # @param tag [Hash]
+    # @param reminder [Hash]
+    def add_customer_reminder_by_tag(tag, reminder)
+      Utils.assert_type(reminder, "reminder", Hash)
+      Utils.assert_type(tag, "tag", Hash)
+      Utils.assert_only_valid_keys_present(reminder, "reminder", %i[key remind_at interval payload])
+
+      if !reminder[:key] || !reminder[:remind_at]
+        raise ArgumentError, "Either :key or :remind_at is missing in reminder"
+      end
+
+      payload = { value: reminder[:payload] }
+      customer_reminder = P::CustomerReminder.new(reminder.merge(payload: payload))
+      command = P::AddCustomerReminderTagCommand.new(
+        tag: { key: tag[:name], value: { value: tag[:value] } },
+        reminder: customer_reminder
+      )
+      send_command(:add_customer_reminder_tag, command)
+    end    
+
     def cancel_customer_reminder_by_tag(key, tag)
       Utils.assert_type(key, "key", String)
       Utils.assert_type(tag, "tag", Hash)
