@@ -63,13 +63,14 @@ module Elarian
         raise ArgumentError, "Invalid #{object_name} type. Expected #{expected_type} got #{object.class}"
       end
 
-      # @param pb_timestamp [Hash] the <seconds, nanoseconds> tuple representing the protobuf timestamp
+      # @param pb_timestamp [Hash] the <seconds, nanos> tuple representing the protobuf timestamp
       def pb_to_time(pb_timestamp)
-        GP::Timestamp.new(pb_timestamp).to_time.utc
+        micros = pb_timestamp[:nanos] / 1e3
+        Time.at(pb_timestamp[:seconds], micros)
       end
 
       def pb_duration_seconds(pb_duration)
-        GP::Duration.new(pb_duration).to_f
+        pb_duration[:seconds] + pb_duration[:nanos] / 1e9
       end
     end
   end
