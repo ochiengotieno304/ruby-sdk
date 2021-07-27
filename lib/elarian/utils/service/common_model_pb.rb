@@ -7,10 +7,6 @@ require 'google/protobuf/wrappers_pb'
 require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("common_model.proto", :syntax => :proto3) do
-    add_message "com.elarian.hera.proto.Memory" do
-      optional :unit, :enum, 1, "com.elarian.hera.proto.MemoryUnit"
-      optional :value, :double, 2
-    end
     add_message "com.elarian.hera.proto.DataMapValue" do
       oneof :value do
         optional :string_val, :string, 2
@@ -78,13 +74,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :CUSTOMER_REQUEST_ORIGIN_API_REQUEST, 1
       value :CUSTOMER_REQUEST_ORIGIN_CUSTOMER_TAG, 2
     end
-    add_enum "com.elarian.hera.proto.MemoryUnit" do
-      value :MEMORY_UNIT_UNSPECIFIED, 0
-      value :MEMORY_UNIT_BYTES, 1
-      value :MEMORY_UNIT_KILOBYTES, 2
-      value :MEMORY_UNIT_MEGABYTES, 3
-      value :MEMORY_UNIT_GIGABYTES, 4
-    end
   end
 end
 
@@ -92,7 +81,6 @@ module Com
   module Elarian
     module Hera
       module Proto
-        Memory = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.Memory").msgclass
         DataMapValue = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.DataMapValue").msgclass
         Cash = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.Cash").msgclass
         IndexMapping = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.IndexMapping").msgclass
@@ -104,7 +92,6 @@ module Com
         MediaType = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.MediaType").enummodule
         CustomerEventDirection = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CustomerEventDirection").enummodule
         CustomerRequestOrigin = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CustomerRequestOrigin").enummodule
-        MemoryUnit = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.MemoryUnit").enummodule
       end
     end
   end

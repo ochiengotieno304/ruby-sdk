@@ -11,27 +11,31 @@ require 'messaging_model_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("messaging_state.proto", :syntax => :proto3) do
     add_message "com.elarian.hera.proto.ReceivedMessage" do
-      optional :message_id, :string, 1
-      optional :created_at, :message, 2, "google.protobuf.Timestamp"
-      optional :session_id, :message, 3, "google.protobuf.StringValue"
-      optional :in_reply_to, :message, 4, "google.protobuf.StringValue"
-      optional :provider, :enum, 5, "com.elarian.hera.proto.ChannelNumberProvider"
-      optional :app_id, :message, 6, "google.protobuf.StringValue"
-      repeated :parts, :message, 7, "com.elarian.hera.proto.InboundMessageBody"
-      optional :cost, :message, 8, "com.elarian.hera.proto.Cash"
+      optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
+      optional :channel_number, :message, 2, "com.elarian.hera.proto.MessagingChannelNumber"
+      optional :message_id, :string, 3
+      optional :created_at, :message, 4, "google.protobuf.Timestamp"
+      optional :session_id, :message, 5, "google.protobuf.StringValue"
+      optional :in_reply_to, :message, 6, "google.protobuf.StringValue"
+      optional :provider, :enum, 7, "com.elarian.hera.proto.ChannelNumberProvider"
+      optional :app_id, :message, 8, "google.protobuf.StringValue"
+      repeated :parts, :message, 9, "com.elarian.hera.proto.InboundMessageBody"
+      optional :cost, :message, 10, "com.elarian.hera.proto.Cash"
     end
     add_message "com.elarian.hera.proto.SentMessage" do
-      optional :message_id, :string, 1
-      optional :created_at, :message, 2, "google.protobuf.Timestamp"
-      optional :session_id, :message, 3, "google.protobuf.StringValue"
-      optional :in_reply_to, :message, 4, "google.protobuf.StringValue"
-      optional :provider, :enum, 5, "com.elarian.hera.proto.ChannelNumberProvider"
-      optional :app_id, :message, 6, "google.protobuf.StringValue"
-      optional :updated_at, :message, 7, "google.protobuf.Timestamp"
-      optional :status, :enum, 8, "com.elarian.hera.proto.MessageDeliveryStatus"
-      repeated :reactions, :message, 9, "com.elarian.hera.proto.MessageReactionState"
-      optional :message, :message, 10, "com.elarian.hera.proto.OutboundMessage"
-      optional :cost, :message, 11, "com.elarian.hera.proto.Cash"
+      optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
+      optional :channel_number, :message, 2, "com.elarian.hera.proto.MessagingChannelNumber"
+      optional :message_id, :string, 3
+      optional :created_at, :message, 4, "google.protobuf.Timestamp"
+      optional :session_id, :message, 5, "google.protobuf.StringValue"
+      optional :in_reply_to, :message, 6, "google.protobuf.StringValue"
+      optional :provider, :enum, 7, "com.elarian.hera.proto.ChannelNumberProvider"
+      optional :app_id, :message, 8, "google.protobuf.StringValue"
+      optional :updated_at, :message, 9, "google.protobuf.Timestamp"
+      optional :status, :enum, 10, "com.elarian.hera.proto.MessageDeliveryStatus"
+      repeated :reactions, :message, 11, "com.elarian.hera.proto.MessageReactionState"
+      optional :message, :message, 12, "com.elarian.hera.proto.OutboundMessage"
+      optional :cost, :message, 13, "com.elarian.hera.proto.Cash"
     end
     add_message "com.elarian.hera.proto.MessageReactionState" do
       optional :created_at, :message, 1, "google.protobuf.Timestamp"
@@ -48,40 +52,36 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       end
     end
     add_message "com.elarian.hera.proto.CompleteMessagingSession" do
-      optional :session_id, :string, 1
-      optional :started_at, :message, 2, "google.protobuf.Timestamp"
-      optional :duration, :message, 3, "google.protobuf.Duration"
-      repeated :app_ids, :string, 4
-      optional :end_reason, :enum, 5, "com.elarian.hera.proto.MessagingSessionEndReason"
-      optional :cost, :message, 6, "com.elarian.hera.proto.Cash"
+      optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
+      optional :channel_number, :message, 2, "com.elarian.hera.proto.MessagingChannelNumber"
+      optional :session_id, :string, 3
+      optional :started_at, :message, 4, "google.protobuf.Timestamp"
+      optional :duration, :message, 5, "google.protobuf.Duration"
+      repeated :app_ids, :string, 6
+      optional :end_reason, :enum, 7, "com.elarian.hera.proto.MessagingSessionEndReason"
+      optional :cost, :message, 8, "com.elarian.hera.proto.Cash"
     end
     add_message "com.elarian.hera.proto.BlockedMessagingChannelState" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
       optional :channel_number, :message, 2, "com.elarian.hera.proto.MessagingChannelNumber"
-      repeated :messages, :message, 3, "com.elarian.hera.proto.ChannelMessage"
-      optional :reply_token, :message, 4, "com.elarian.hera.proto.MessageReplyToken"
-      repeated :sessions, :message, 5, "com.elarian.hera.proto.CompleteMessagingSession"
-      optional :blocked_at, :message, 6, "google.protobuf.Timestamp"
+      optional :reply_token, :message, 3, "com.elarian.hera.proto.MessageReplyToken"
+      optional :blocked_at, :message, 4, "google.protobuf.Timestamp"
     end
     add_message "com.elarian.hera.proto.ActiveMessagingChannelState" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
       optional :channel_number, :message, 2, "com.elarian.hera.proto.MessagingChannelNumber"
-      repeated :messages, :message, 3, "com.elarian.hera.proto.ChannelMessage"
-      optional :reply_token, :message, 4, "com.elarian.hera.proto.MessageReplyToken"
-      repeated :sessions, :message, 5, "com.elarian.hera.proto.CompleteMessagingSession"
-      optional :allowed_at, :message, 6, "google.protobuf.Timestamp"
+      optional :reply_token, :message, 3, "com.elarian.hera.proto.MessageReplyToken"
+      optional :allowed_at, :message, 4, "google.protobuf.Timestamp"
     end
     add_message "com.elarian.hera.proto.InSessionMessagingChannelState" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
       optional :channel_number, :message, 2, "com.elarian.hera.proto.MessagingChannelNumber"
-      repeated :messages, :message, 3, "com.elarian.hera.proto.ChannelMessage"
-      optional :reply_token, :message, 4, "com.elarian.hera.proto.MessageReplyToken"
-      repeated :sessions, :message, 5, "com.elarian.hera.proto.CompleteMessagingSession"
-      optional :allowed_at, :message, 6, "google.protobuf.Timestamp"
-      optional :session_id, :string, 7
-      optional :started_at, :message, 8, "google.protobuf.Timestamp"
-      optional :expires_at, :message, 9, "google.protobuf.Timestamp"
-      repeated :app_ids, :string, 10
+      optional :reply_token, :message, 3, "com.elarian.hera.proto.MessageReplyToken"
+      optional :allowed_at, :message, 4, "google.protobuf.Timestamp"
+      optional :session_id, :string, 5
+      optional :started_at, :message, 6, "google.protobuf.Timestamp"
+      optional :expires_at, :message, 7, "google.protobuf.Timestamp"
+      repeated :app_ids, :string, 8
     end
     add_message "com.elarian.hera.proto.MessagingChannelState" do
       oneof :state do
@@ -92,6 +92,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "com.elarian.hera.proto.MessagingState" do
       repeated :channels, :message, 1, "com.elarian.hera.proto.MessagingChannelState"
+      repeated :messages, :message, 2, "com.elarian.hera.proto.ChannelMessage"
+      repeated :sessions, :message, 3, "com.elarian.hera.proto.CompleteMessagingSession"
     end
   end
 end
