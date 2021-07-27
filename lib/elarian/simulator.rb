@@ -48,11 +48,5 @@ module Elarian
 
       send_command(:update_payment_status, command)
     end
-
-    private
-
-    def client
-      self
-    end
   end
 end
