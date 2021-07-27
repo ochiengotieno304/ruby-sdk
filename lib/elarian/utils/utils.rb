@@ -50,6 +50,7 @@ module Elarian
       end
 
       def assert_only_valid_keys_present(hash, hash_name, valid_keys)
+        assert_type(hash, hash_name, Hash)
         hash.each_key do |key|
           unless valid_keys.include? key
             raise ArgumentError, "Invalid #{hash_name} property #{key}. Valid keys are: #{valid_keys}"
