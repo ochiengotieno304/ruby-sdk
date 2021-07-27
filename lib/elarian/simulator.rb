@@ -10,7 +10,7 @@ module Elarian
     end
 
     def receive_message(phone_number:, messaging_channel:, session_id:, message_parts:, cost: nil)
-      Utils.assert_only_valid_keys_present(cost, "cost", %i[currency_code amount]) unless cost.nil?
+      Utils.assert_keys_present(cost, "cost", %i[currency_code amount], strict: true) unless cost.nil?
 
       cost ||= { currency_code: "KES", amount: 0 }
       channel_enum = Utils.get_enum_value(P::MessagingChannel, messaging_channel[:channel], "MESSAGING_CHANNEL")
@@ -23,6 +23,30 @@ module Elarian
       )
 
       send_command(:receive_message, command)
+    end
+
+    def receive_payment(phone_number:, payment_channel:, transaction_id:, value:, status:)
+      Utils.assert_keys_present(value, "value", %i[currency_code amount], strict: true)
+      Utils.assert_keys_present(payment_channel, "payment_channel", %i[number channel], strict: true)
+
+      number, channel = payment_channel.values_at(:number, channel)
+      channel = Utils.get_enum_value(P::PaymentChannel, channel, "PAYMENT_CHANNEL")
+
+      command = P::ReceivePaymentSimulatorCommand.new(
+        transaction_id: transaction_id,
+        customer_number: phone_number,
+        status: Utils.get_enum_value(P::PaymentStatus, status, "PAYMENT_STATUS"),
+        value: value,
+        channel_number: { number: number, channel: channel }
+      )
+      send_command(:receive_message, command)
+    end
+
+    def update_payment_status(transaction_id, status)
+      status_val = Utils.get_enum_value(P::PaymentStatus, status, "PAYMENT_STATUS")
+      command =  P::UpdatePaymentStatusSimulatorCommand.new(transaction_id: transaction_id, status: status_val)
+
+      send_command(:update_payment_status, command)
     end
 
     private

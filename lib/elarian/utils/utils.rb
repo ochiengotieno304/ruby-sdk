@@ -40,13 +40,16 @@ module Elarian
               .reject { |c| %i[UNSPECIFIED UNKNOWN].include?(c) }
       end
 
-      def assert_keys_present(hash, required_keys, hash_name = "Hash")
+      def assert_keys_present(hash, required_keys, hash_name = "Hash", strict: false)
         assert_type(hash, hash_name, Hash)
+
         required_keys.each do |key|
           unless hash.key?(key)
             raise ArgumentError, "#{hash_name} missing one or more required keys. Required keys are: #{required_keys}"
           end
         end
+
+        assert_only_valid_keys_present(hash, hash_name, required_keys) if strict
       end
 
       def assert_only_valid_keys_present(hash, hash_name, valid_keys)
