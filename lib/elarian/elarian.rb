@@ -81,6 +81,28 @@ module Elarian
       send_command(:send_message_tag, command)
     end
 
+    # @param debit_party[Hash] The debit party
+    # @param credit_party[Hash]
+    # @param value[Hash]
+    def initiate_payment(debit_party, credit_party, value)
+      Utils.assert_type(debit_party, "debit_party", Hash)
+      Utils.assert_type(credit_party, "credit_party", Hash)
+      Utils.assert_type(value, "value", Hash)
+      Utils.assert_keys_present(value, %i[amount currency_code], "value")
+
+      value = P::Cash.new(
+        amount: value[:amount],
+        currency_code: value[:currency_code]
+      )
+
+      command = P::InitiatePaymentCommand.new(
+        value: value,
+        debit_party: Utils.map_payment_party(debit_party),
+        credit_party: Utils.map_payment_party(credit_party)
+      )
+      send_command(:initiate_payment, command)
+    end
+
     private
 
     # Used by some helper methods included in this class
