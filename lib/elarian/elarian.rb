@@ -2,7 +2,7 @@
 
 module Elarian
   class Elarian < Client
-    include ::Elarian::AppToServerCommandsHelper
+    include Utils::AppToServerCommandsHelper
 
     def initialize(org_id:, app_id:, api_key:, options: {})
       events = %i[

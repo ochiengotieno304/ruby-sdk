@@ -2,7 +2,7 @@
 
 module Elarian
   class Customer
-    include ::Elarian::AppToServerCommandsHelper
+    include Utils::AppToServerCommandsHelper
 
     attr_reader :client
 
