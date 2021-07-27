@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Elarian
-  module Utils
+  module Utils # rubocop:disable Metrics/ModuleLength
     GP = Google::Protobuf
 
     class << self
@@ -78,24 +78,18 @@ module Elarian
       end
 
       def map_customer_counter_party(customer)
-        customer_counter_party = P::PaymentCustomerCounterParty.new(
-          customer_number: P::CustomerNumber.new(
-            number: customer[:customer_number][:number],
-            provider: get_enum_value(
-              P::CustomerNumberProvider, customer[:customer_number][:provider], "CUSTOMER_NUMBER_PROVIDER"
-            )
-          ),
-          channel_number: P::PaymentChannelNumber.new(
-            number: customer[:channel_number][:number],
-            channel: get_enum_value(
-              P::PaymentChannel, customer[:channel_number][:channel], "PAYMENT_CHANNEL"
-            )
-          )
+        partition, number, provider = customer[:customer_number].values_at(:partition, :number, :provider)
+        partition = { value: partition } unless partition.nil?
+        customer_number = P::CustomerNumber.new(
+          number: number,
+          provider: get_enum_value(P::CustomerNumberProvider, provider, "CUSTOMER_NUMBER_PROVIDER"),
+          partition: partition
         )
-        if customer[:customer_number].key?(:partition)
-          customer_counter_party.customer.customer_number.partition = customer[:customer_number][:partition]
-        end
-        customer_counter_party
+        channel_number = P::PaymentChannelNumber.new(
+          number: customer[:channel_number][:number],
+          channel: get_enum_value(P::PaymentChannel, customer[:channel_number][:channel], "PAYMENT_CHANNEL")
+        )
+        P::PaymentCustomerCounterParty.new(customer_number: customer_number, channel_number: channel_number)
       end
 
       def map_wallet_counter_party(wallet)
@@ -106,13 +100,12 @@ module Elarian
       end
 
       def map_channel_counter_party(channel)
+        channel_number = P::PaymentChannelNumber.new(
+          number: channel[:channel_number][:number],
+          channel: get_enum_value(P::PaymentChannel, channel[:channel_number][:channel], "PAYMENT_CHANNEL")
+        )
         P::PaymentChannelCounterParty.new(
-          channel_number: P::PaymentChannelNumber.new(
-            number: channel[:channel_number][:number],
-            channel: get_enum_value(
-              P::PaymentChannel, channel[:channel_number][:channel], "PAYMENT_CHANNEL"
-            )
-          ),
+          channel_number: channel_number,
           channel_code: channel[:network_code],
           account: { value: channel[:account] }
         )
