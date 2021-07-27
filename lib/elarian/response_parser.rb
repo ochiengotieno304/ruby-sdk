@@ -24,7 +24,7 @@ module Elarian
     end
 
     def error?
-      !@data[:status]
+      @data.key?(:status) && !@data[:status]
     end
 
     def error_message
