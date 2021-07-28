@@ -106,7 +106,8 @@ module Elarian
       def switch_to_more_specific_event(channel)
         return unless @event == :received_message
 
-        case channel.to_sym
+        channel = channel.downcase.to_sym
+        case channel
         when :voice
           @event = :voice_call
         when :ussd
