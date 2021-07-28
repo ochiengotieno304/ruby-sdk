@@ -94,8 +94,7 @@ module Elarian
 
       def map_wallet_counter_party(wallet)
         P::PaymentWalletCounterParty.new(
-          wallet_id: wallet[:wallet_id],
-          customer_id: wallet[:customer_id]
+          wallet_id: wallet[:wallet_id], customer_id: wallet[:customer_id]
         )
       end
 
@@ -111,7 +110,7 @@ module Elarian
         )
       end
 
-      def map_payment_party(party)
+      def map_payment_counter_party(party)
         purse = map_purse_counter_party(party[:purse]) if party.key?(:purse)
         customer = map_customer_counter_party(party[:customer]) if party.key?(:customer)
         wallet = map_wallet_counter_party(party[:wallet]) if party.key?(:wallet)
