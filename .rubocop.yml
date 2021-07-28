@@ -1,8 +1,10 @@
 AllCops:
   TargetRubyVersion: 2.4
   Exclude:
-    - lib/rsocket-rb/**/*
-    - lib/elarian/utils/**/*
+    - 'lib/rsocket-rb/**/*'
+    - 'lib/elarian/utils/service/*' # generated protobuf code
+    - 'vendor/**/*'
+  NewCops: enable
 
 Style/StringLiterals:
   Enabled: true
@@ -21,6 +23,8 @@ Metrics/MethodLength:
 Style/Documentation:
   Enabled: false
 
-Style/AccessorMethodName:
+Naming/AccessorMethodName:
   Enabled: false
 
+Metrics/ClassLength:
+  Enabled: false

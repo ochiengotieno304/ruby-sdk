@@ -2,8 +2,6 @@
 
 module Elarian
   module Utils
-    P = Com::Elarian::Hera::Proto
-
     class OutgoingMessageSerializer
       class << self
         private :new
@@ -21,8 +19,8 @@ module Elarian
       def serialize
         P::OutboundMessage.new(
           labels: @message.fetch(:labels, []),
-          provider_tag: {value: @message.fetch(:provider_tag, "")},
-          reply_token: {value: @message.fetch(:reply_token, "")},
+          provider_tag: { value: @message.fetch(:provider_tag, "") },
+          reply_token: { value: @message.fetch(:reply_token, "") },
           reply_prompt: reply_prompt,
           body: serialize_body
         )
@@ -37,18 +35,21 @@ module Elarian
         )
         menu = prompt.fetch(:menu, []).map do |item|
           entry = if item.key? :text
-            {text: item[:text]}
-          elsif item.key? :media
-            {media: Utils.get_enum_value(P::MediaType, item[:media].fetch(:type,"UNSPECIFIED"), "MEDIA_TYPE")}
-          end
+                    { text: item[:text] }
+                  elsif item.key? :media
+                    {
+                      media: Utils.get_enum_value(P::MediaType, item[:media].fetch(:type, "UNSPECIFIED"), "MEDIA_TYPE")
+                    }
+                  end
           P::PromptMessageMenuItemBody.new(entry || {})
         end
         P::OutboundMessageReplyPrompt.new(action: action, menu: menu)
       end
 
       def serialize_body
-        key = %i[text url ussd media location template email voice].find { |key| @body.key? key }
+        key = %i[text url ussd media location template email voice].find { |k| @body.key? k }
         return unless key
+
         P::OutboundMessageBody.new(key => send("serialize_#{key}"))
       end
 
@@ -61,7 +62,7 @@ module Elarian
       end
 
       def serialize_ussd
-        ussd = @body[:ussd].select { |key, _| key == :text || key == :is_terminal }
+        ussd = @body[:ussd].select { |key, _| %i[text is_terminal].include?(key) }
         P::UssdMenuMessageBody.new(ussd)
       end
 
@@ -73,7 +74,7 @@ module Elarian
 
       def serialize_location
         lat, long, label, address = @body[:location].values_at(:latitude, :longitude, :label, :address)
-        label, address = [label, address].map { |value| {value: value} }
+        label, address = [label, address].map { |value| { value: value } }
         Utils.assert_type(lat, "latitude", Numeric)
         Utils.assert_type(long, "longitude", Numeric)
         P::LocationMessageBody.new(latitude: lat, longitude: long, label: label, address: address)
