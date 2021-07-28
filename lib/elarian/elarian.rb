@@ -51,7 +51,7 @@ module Elarian
         reminder: customer_reminder
       )
       send_command(:add_customer_reminder_tag, command)
-    end    
+    end
 
     def cancel_customer_reminder_by_tag(key, tag)
       Utils.assert_type(key, "key", String)
