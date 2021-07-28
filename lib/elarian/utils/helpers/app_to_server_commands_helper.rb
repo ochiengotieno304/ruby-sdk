@@ -15,10 +15,10 @@ module Elarian
       # @return [Rx::Observable] an observable which yields the server's parsed reply data or error message
       def parse_response(response_subject)
         response_subject.map do |payload|
-          reply = ResponseParser.parse(payload)
+          reply = response_parser.parse(payload)
           raise reply.error_message if reply.error?
 
-          reply.data
+          reply.data&.to_h
         end
       end
 
@@ -26,6 +26,12 @@ module Elarian
         return P::SimulatorToServerCommand if client.is_simulator
 
         P::AppToServerCommand
+      end
+
+      def response_parser
+        return SimulatorResponseParser if client.is_simulator
+
+        ResponseParser
       end
     end
   end
