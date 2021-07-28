@@ -17,13 +17,13 @@ module Elarian
     end
 
     def error?
-      !data.status
+      !@data.status
     end
 
     def error_message
       return unless error?
 
-      @data[:description]
+      @data.description
     end
 
     private
@@ -36,16 +36,6 @@ module Elarian
   end
 
   class SimulatorResponseParser < ResponseParser
-    def error?
-      !@data.status
-    end
-
-    def error_message
-      return unless error?
-
-      @data.description
-    end
-
     private
 
     def decode(payload)
