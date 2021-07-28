@@ -2,6 +2,10 @@
 
 module Elarian
   class Customer
+    include ::Elarian::AppToServerCommandsHelper
+
+    attr_reader :client
+
     def initialize(client:, id: nil, number: nil, provider: nil)
       @client = client
       @id = id
@@ -229,7 +233,7 @@ module Elarian
     private
 
     def validate
-      raise ArgumentError, "Invalid client" unless @client.is_a? Elarian::Client
+      raise ArgumentError, "Invalid client" unless @client.is_a? Client
       raise ArgumentError, "id or number must be provided" unless @id || @number
       return if valid_provider?
 
@@ -259,25 +263,6 @@ module Elarian
 
     def customer_number
       @customer_number ||= P::CustomerNumber.new(number: @number, provider: provider_symbol)
-    end
-
-    def send_command(command_name, command)
-      req = P::AppToServerCommand.new(command_name => command)
-      res = @client.send_command(req)
-      parse_response(res)
-    end
-
-    # Wraps the provided response subject, and returns a new response subject that emits a parsed response message
-    #
-    # @param response_subject [Rx::AsyncSubject] the original async response
-    # @return [Rx::Observable] an observable which yields the server's parsed reply data or error message
-    def parse_response(response_subject)
-      response_subject.map do |payload|
-        reply = ResponseParser.parse(payload)
-        raise reply.error_message if reply.error?
-
-        reply.data
-      end
     end
   end
 end
