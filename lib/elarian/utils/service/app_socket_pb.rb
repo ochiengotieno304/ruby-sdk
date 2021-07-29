@@ -244,6 +244,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :debit_party, :message, 1, "com.elarian.hera.proto.PaymentCounterParty"
       optional :credit_party, :message, 2, "com.elarian.hera.proto.PaymentCounterParty"
       optional :value, :message, 3, "com.elarian.hera.proto.Cash"
+      optional :mode, :enum, 4, "com.elarian.hera.proto.PaymentMode"
     end
     add_message "com.elarian.hera.proto.InitiatePaymentReply" do
       optional :status, :enum, 1, "com.elarian.hera.proto.PaymentStatus"
