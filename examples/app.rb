@@ -62,18 +62,14 @@ def handle_payment(notification, customer, _app_data, _callback)
             new_balance = balance - amount
             customer.update_metadata({ "name": name, "balance": new_balance })
                     .flat_map do
-                      puts "Inside Update Metadata"
                       if new_balance.negative?
-                        puts "Delete and send message"
                         text = "Thank you for your payment #{name}, your loan has been fully repaid!!"
                         customer.cancel_reminder("moni")
                                 .flat_map { customer.delete_metadata(%w[name strike balance screen]) }
-                                .flat_map { customer.send_message(@sms_channel, { body: { text: text } }) }
                       else
-                        puts "Send message only"
                         text = "Hey #{name}!\nThank you for your payment, but you still owe me KES #{new_balance}"
-                        customer.send_message(@sms_channel, { body: { text: text } })
                       end
+                      customer.send_message(@sms_channel, { body: { text: text } })
                     end
           end
           .subscribe(
@@ -191,6 +187,7 @@ end
 @client.on("received_payment", ->(*args, &blk) { handle_payment(*args, blk) })
 @client.on("received_sms", ->(*args, &blk) { handle_sms(*args, blk) })
 @client.on("reminder", ->(*args, &blk) { handle_reminder(*args, blk) })
+@client.on("ussd_session", ->(*args, &blk) { handle_ussd(*args, blk) })
 
 at_exit do
   @client.disconnect
