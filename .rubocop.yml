@@ -29,3 +29,7 @@ Naming/AccessorMethodName:
 
 Metrics/ClassLength:
   Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/*' # some context blocks can be huge, that's OK
