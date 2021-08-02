@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-require "socket"
-
 RSpec.describe Elarian::Client do
-  before(:example) { Singleton.__init__(Elarian::RequestHandler) }
+  before { Singleton.__init__(Elarian::RequestHandler) }
 
   describe "#new" do
     it "validates that all credentials passed are strings" do

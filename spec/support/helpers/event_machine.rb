@@ -23,17 +23,18 @@ module Helpers
       end
 
       def disconnect_and_stop_loop
+        @connected_clients.each_value { |client| disconnect(client) }
+
         return unless EM.reactor_running?
 
-        puts "Stopping event loop"
         until EM.defers_finished?; end
-        return EM.stop unless @connected_clients.values.any?(&:connected?)
 
-        @connected_clients.each_value { |client| disconnect(client) }
+        puts "Stopping event loop"
+        EM.stop
       end
 
       def disconnect(client)
-        return unless EM.reactor_running? && client.connected?
+        return unless client.connected?
 
         client.disconnect
 
