@@ -41,15 +41,17 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :channel_number, :message, 2, "com.elarian.hera.proto.PaymentChannelNumber"
     end
     add_message "com.elarian.hera.proto.PaymentChannelCounterParty" do
-      optional :channel_number, :message, 1, "com.elarian.hera.proto.PaymentChannelNumber"
+      optional :channel, :enum, 1, "com.elarian.hera.proto.PaymentChannel"
       optional :channel_code, :int32, 2
-      optional :account, :message, 3, "google.protobuf.StringValue"
+      optional :source, :string, 3
+      optional :destination, :string, 4
+      optional :account, :message, 5, "google.protobuf.StringValue"
     end
     add_message "com.elarian.hera.proto.PaymentCounterParty" do
       oneof :party do
-        optional :customer, :message, 1, "com.elarian.hera.proto.PaymentCustomerCounterParty"
-        optional :purse, :message, 2, "com.elarian.hera.proto.PaymentPurseCounterParty"
-        optional :wallet, :message, 3, "com.elarian.hera.proto.PaymentWalletCounterParty"
+        optional :purse, :message, 1, "com.elarian.hera.proto.PaymentPurseCounterParty"
+        optional :wallet, :message, 2, "com.elarian.hera.proto.PaymentWalletCounterParty"
+        optional :customer, :message, 3, "com.elarian.hera.proto.PaymentCustomerCounterParty"
         optional :channel, :message, 4, "com.elarian.hera.proto.PaymentChannelCounterParty"
       end
     end
@@ -90,7 +92,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :PAYMENT_STATUS_INVALID_WALLET, 207
       value :PAYMENT_STATUS_DECOMMISSIONED_CUSTOMER_ID, 299
       value :PAYMENT_STATUS_SUCCESS, 300
-      value :PAYMENT_STATUS_PASS_THROUGH, 301
       value :PAYMENT_STATUS_FAILED, 400
       value :PAYMENT_STATUS_THROTTLED, 401
       value :PAYMENT_STATUS_EXPIRED, 402

@@ -30,7 +30,8 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :channel_number, :message, 2, "com.elarian.hera.proto.PaymentChannelNumber"
       optional :customer_number, :string, 3
       optional :value, :message, 4, "com.elarian.hera.proto.Cash"
-      optional :status, :enum, 5, "com.elarian.hera.proto.PaymentStatus"
+      optional :mode, :enum, 5, "com.elarian.hera.proto.PaymentMode"
+      optional :status, :enum, 6, "com.elarian.hera.proto.PaymentStatus"
     end
     add_message "com.elarian.hera.proto.UpdatePaymentStatusSimulatorCommand" do
       optional :transaction_id, :string, 1
@@ -84,9 +85,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :org_id, :string, 1
       optional :app_id, :string, 2
       optional :transaction_id, :string, 5
-      optional :channel_number, :message, 6, "com.elarian.hera.proto.PaymentChannelNumber"
-      optional :account, :message, 7, "google.protobuf.StringValue"
-      optional :value, :message, 8, "com.elarian.hera.proto.Cash"
+      optional :channel, :enum, 6, "com.elarian.hera.proto.PaymentChannel"
+      optional :source, :string, 7
+      optional :destination, :string, 8
+      optional :account, :message, 9, "google.protobuf.StringValue"
+      optional :value, :message, 10, "com.elarian.hera.proto.Cash"
       oneof :debit_party do
         optional :wallet, :message, 3, "com.elarian.hera.proto.PaymentWalletCounterParty"
         optional :purse, :message, 4, "com.elarian.hera.proto.PaymentPurseCounterParty"
