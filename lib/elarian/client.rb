@@ -31,14 +31,14 @@ module Elarian
     # Connects to Elarian
     def connect
       set_handlers
-      EM.defer { @handlers[:pending].call } if @handlers[:pending]
+      EM.defer(@handlers[:pending]) if @handlers[:pending]
       @socket = ::Elarian.connect(
         "#{ENV["URL"]}:#{ENV["PORT"]}",
         metadata_encoding: "application/octet-stream",
         data_encoding: "application/octet-stream",
         setup_payload: payload_of(app_connection_metadata.to_proto, nil)
       )
-      EM.defer { @handlers[:connecting].call } if @handlers[:connecting]
+      EM.defer(@handlers[:connecting]) if @handlers[:connecting]
       @socket
     end
 
@@ -114,7 +114,7 @@ module Elarian
         define_method(:unbind) do
           super()
           @connected = false
-          EM.defer { handler.call } if handler
+          EM.defer(handler) if handler
         end
       end
     end
@@ -126,7 +126,7 @@ module Elarian
         define_method(:connection_completed) do
           super()
           @connected = true
-          EM.defer { handler.call } if handler
+          EM.defer(handler) if handler
         end
       end
     end
@@ -139,7 +139,7 @@ module Elarian
           if is_connection_error
             raise err if handler.nil?
 
-            EM.defer { handler.call(err) }
+            EM.defer(-> { handler.call(err) })
           end
         end
       end

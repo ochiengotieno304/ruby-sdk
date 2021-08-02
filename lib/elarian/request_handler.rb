@@ -61,9 +61,7 @@ module Elarian
     def handle
       handler = RequestHandler.instance.handlers[@event] || default_handler
 
-      EM.defer do
-        handler.call(@notification, @customer, @incoming_app_data, &callback)
-      end
+      EM.defer(-> { handler.call(@notification, @customer, @incoming_app_data, &callback) })
 
       callback_timeout
 
