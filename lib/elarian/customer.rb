@@ -15,6 +15,12 @@ module Elarian
       validate
     end
 
+    def number
+      as_hash = customer_number.to_h
+      provider = Utils.get_enum_string(P::CustomerNumberProvider, as_hash[:provider], "CUSTOMER_NUMBER_PROVIDER")
+      as_hash.merge(provider: provider)
+    end
+
     def get_state
       command = P::GetCustomerStateCommand.new(id_or_number)
       send_command(:get_customer_state, command)
