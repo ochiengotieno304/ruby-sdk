@@ -20,41 +20,40 @@ require "elarian"
 )
 
 def approve_loan(customer, amount)
-  puts "Approving loan for #{cusomer.customer_number[:number]}"
+  puts "Approving loan for #{customer.number[:number]}"
   customer.get_metadata
           .flat_map do |meta|
+            meta = meta.to_h
             name = meta.fetch("name", "Unknown Customer")
             repayment_date = Time.now + 60
 
-            init_payment = @client.iniate_payment(
-              debit_party: { purse: { purse_id: @purse_id } },
-              credit_party: { customer: { channel_number: @mpesa_channel, customer_number: customer.customer_number } },
-              value: { amount: amount, currency_code: "KES" }
+            init_payment = @client.initiate_payment(
+              { purse: { purse_id: @purse_id } },
+              { customer: { channel_number: @mpesa_channel, customer_number: customer.number } },
+              { amount: amount, currency_code: "KES" }
             )
-            confirmation = init_payment.flat_map do |res|
-              raise "Failed to make loan payment: #{res}" unless %i[SUCCESS PENDING_CONFIRMATION].include?(res[:status])
+            init_payment.flat_map do |res|
+              raise "Failed to make loan payment: #{res}" unless %w[SUCCESS PENDING_CONFIRMATION].include?(res[:status])
+
+              message = "Congratulations #{name}!\nYour loan of KES #{amount} has been approved!
+                        \nYou are expected to pay it back by #{repayment_date}"
+              customer.update_metadata({ name: name, balance: amount })
+                      .flat_map { customer.send_message(@sms_channel, { body: { text: message } }) }
+                      .flat_map { customer.add_reminder({ key: "moni", remind_at: repayment_date, payload: "" }) }
             end
-            confirmation.flat_map { customer.update_metadata({ name: name, balance: amount }) }
-                        .flat_map do
-                          message = "Congratulations #{name}!\nYour loan of KES #{amount}
-                                    has been approved!\nYou are expected to pay it back by
-                                    #{repayment_date}"
-                          customer.send_message(@sms_channel, { body: { text: message } })
-                        end
-            confirmation.flat_map { customer.add_reminder({ key: "moni", remind_at: repayment_date, payload: "" }) }
           end
           .subscribe(
-            ->(_res) { puts "Successfully Approved loan for #{customer.customer_number}" },
+            ->(_res) { puts "Successfully Approved loan for #{customer.number[:number]}" },
             ->(err) { puts "Failed to approve loan: #{err}" },
             -> {}
           )
 end
 
-def handle_payment(notification, customer, _app_data, _callback)
+def handle_payment(notification, customer, _app_data)
   puts "Processing payment from #{notification[:customer_number][:number]}"
   customer.get_metadata
           .flat_map do |meta|
-            meta = {} if meta.nil?
+            meta = meta.to_h
             amount = notification[:value][:amount]
             name = meta.fetch("name", "Unknown Customer")
             balance = meta.fetch("balance", 0).to_f
@@ -79,13 +78,14 @@ def handle_payment(notification, customer, _app_data, _callback)
           )
 end
 
-def handle_ussd(notification, customer, _app_data, _callback)
+def handle_ussd(notification, customer, app_data)
   puts "Processing ussd from #{notification[:customer_number][:number]}"
   ussd_input = notification[:input][:text]
   screen = app_data.fetch(:screen, "home")
 
   customer.get_metadata
           .flat_map do |meta|
+            meta = meta.to_h
             name = meta["name"]
             balance = meta.fetch("balance", 0)
             menu = { text: nil, is_terminal: false }
@@ -139,7 +139,7 @@ def handle_ussd(notification, customer, _app_data, _callback)
               yield({ body: { ussd: menu } }, { screen: next_screen })
             end
 
-            customer.update_metadata({ name: name, balance: amount })
+            customer.update_metadata({ name: name, balance: balance })
           end
           .subscribe(
             ->(_res) { puts "Successfully Processed ussd request from #{notification[:customer_number][:number]}" },
@@ -148,13 +148,14 @@ def handle_ussd(notification, customer, _app_data, _callback)
           )
 end
 
-def handle_reminder(_notification, customer, _app_data, _callback)
+def handle_reminder(_notification, customer, _app_data)
   puts "Processing Reminder"
   customer.get_metadata
           .flat_map do |meta|
-            name = meta.fetch(:name, "Unknown Customer")
-            balance = meta.fetch(:balance, 0).to_f
-            strike = meta.fetch(:strike, 1)
+            meta = meta.to_h
+            name = meta.fetch("name", "Unknown Customer")
+            balance = meta.fetch("balance", 0).to_f
+            strike = meta.fetch("strike", 1)
 
             channel = @sms_channel
             message = {
@@ -184,15 +185,10 @@ end
 
 @client.on("connected", -> { puts "App is connected, waiting for customers on #{ENV["USSD_CODE"]}" })
 @client.on("closed", -> { puts "Connection Closed" })
-@client.on("received_payment", ->(*args, &blk) { handle_payment(*args, blk) })
-@client.on("received_sms", ->(*args, &blk) { handle_sms(*args, blk) })
-@client.on("reminder", ->(*args, &blk) { handle_reminder(*args, blk) })
-@client.on("ussd_session", ->(*args, &blk) { handle_ussd(*args, blk) })
-
-at_exit do
-  @client.disconnect
-  EventMachine.stop
-end
+@client.on("received_payment", ->(*args, &blk) { handle_payment(*args, &blk) })
+@client.on("received_sms", ->(*args, &blk) { handle_sms(*args, &blk) })
+@client.on("reminder", ->(*args, &blk) { handle_reminder(*args, &blk) })
+@client.on("ussd_session", ->(*args, &blk) { handle_ussd(*args, &blk) })
 
 EventMachine.run do
   @client.connect
