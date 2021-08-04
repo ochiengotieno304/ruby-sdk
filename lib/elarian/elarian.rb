@@ -96,7 +96,9 @@ module Elarian
         debit_party: Utils.map_payment_counter_party(debit_party),
         credit_party: Utils.map_payment_counter_party(credit_party)
       )
-      send_command(:initiate_payment, command)
+      send_command(:initiate_payment, command).map do |res|
+        res.merge(status: Utils.get_enum_string(P::PaymentStatus, res[:status], "PAYMENT_STATUS"))
+      end
     end
   end
 end
