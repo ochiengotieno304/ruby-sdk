@@ -27,7 +27,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :hosted, :message, 2, "com.elarian.hera.proto.LedgerBalance"
       optional :virtual, :message, 3, "com.elarian.hera.proto.LedgerBalance"
       map :pending, :string, :message, 4, "com.elarian.hera.proto.PendingPaymentTransaction"
-      optional :sequence_nr, :uint64, 5
+      optional :sequence_nr, :int64, 5
     end
     add_message "com.elarian.hera.proto.PaymentPurseCounterParty" do
       optional :purse_id, :string, 1
