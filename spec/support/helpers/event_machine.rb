@@ -7,6 +7,8 @@ module Helpers
     @connected_clients = {}
 
     class << self
+      include ::Helpers::Elarian
+
       def start_em_loop
         return if EM.reactor_running?
 
@@ -49,6 +51,14 @@ module Helpers
 
         until client.connected? && EM.defers_finished?; end
         @connected_clients[client.object_id] = client # rubocop:disable Lint/HashCompareByIdentity
+      end
+
+      # returns a connected client used for testing
+      def get_client
+        @default_client ||= ::Elarian::Client.new(connection_credentials)
+        @default_client.on(:error, ->(error) { raise error })
+        connect(@default_client)
+        @default_client
       end
     end
   end
