@@ -42,7 +42,8 @@ module Elarian
     def update_tags(tags)
       Utils.assert_type(tags, "tags", Array)
 
-      updates = tags.map do |tag|
+      updates = tags.map.with_index do |tag, idx|
+        Utils.assert_keys_present(tag, %i[key value], "tags[#{idx}]")
         mapping = P::IndexMapping.new(key: tag[:key], value: { value: tag[:value] })
         P::CustomerIndex.new(mapping: mapping, expires_at: tag[:expires_at])
       end
@@ -55,6 +56,7 @@ module Elarian
     # @return [Rx::Observable] The observable response
     def delete_tags(keys)
       Utils.assert_type(keys, "keys", Array)
+      keys.each.with_index { |key, idx| Utils.assert_type(key, "keys[#{idx}]", String) }
 
       command = P::DeleteCustomerTagCommand.new(**id_or_number, deletions: keys)
       send_command(:delete_customer_tag, command)
