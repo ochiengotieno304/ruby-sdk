@@ -5,6 +5,7 @@ require "elarian"
 require_relative "support/helpers/elarian"
 require_relative "support/helpers/event_machine"
 require_relative "support/helpers/callable"
+require_relative "support/helpers/rx"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -22,4 +23,5 @@ RSpec.configure do |config|
 
   config.include Helpers::Elarian
   config.include Helpers::EventHandler
+  config.include Helpers::Rx
 end
