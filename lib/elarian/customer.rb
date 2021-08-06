@@ -93,6 +93,7 @@ module Elarian
     # @param key [String] Reminder key
     # @return [Rx::Observable] The observable response
     def cancel_reminder(key)
+      Utils.assert_type(key, "key", String)
       command = P::CancelCustomerReminderCommand.new(**id_or_number, key: key)
       send_command(:cancel_customer_reminder, command)
     end
@@ -109,7 +110,9 @@ module Elarian
     # @param secondary_ids [Array]  Array of secondary ids being updated
     # @return [Rx::Observable] The observable response
     def update_secondary_ids(secondary_ids)
-      updates = secondary_ids.map do |id|
+      Utils.assert_type(secondary_ids, "secondary_ids", Array)
+      updates = secondary_ids.map.with_index do |id, index|
+        Utils.assert_keys_present(id, %i[key value], "secondary_ids[#{index}]")
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
 
         mapping = P::IndexMapping.new(key: id[:key], value: { value: id[:value] })
@@ -124,8 +127,9 @@ module Elarian
     # @param secondary_ids [Array] Array of secondary ids being deleted
     # @return [Rx::Observable] The observable response
     def delete_secondary_ids(secondary_ids)
-      deletions = secondary_ids.map do |id|
-        raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
+      Utils.assert_type(secondary_ids, "secondary_ids", Array)
+      deletions = secondary_ids.map.with_index do |id, index|
+        Utils.assert_keys_present(id, %i[key value], "secondary_ids[#{index}]")
 
         P::IndexMapping.new(key: id[:key], value: { value: id[:value] })
       end
@@ -151,6 +155,7 @@ module Elarian
     # @param data [Hash] Hash containing the metadata being updated
     # @return [Rx::Observable] The observable response
     def update_metadata(data)
+      Utils.assert_type(data, "data", Hash)
       command = P::UpdateCustomerMetadataCommand.new(**id_or_number)
       data.map do |key, val|
         command.updates[key] = P::DataMapValue.new(string_val: JSON.dump(val))
@@ -172,6 +177,7 @@ module Elarian
     # @param data [Hash] Hash containing the data being updated
     # @return [Rx::Observable] The observable response
     def update_app_data(data)
+      Utils.assert_type(data, "data", Hash)
       update = P::DataMapValue.new(string_val: JSON.dump(data))
       command = P::UpdateCustomerAppDataCommand.new(**id_or_number, update: update)
       send_command(:update_customer_app_data, command)
