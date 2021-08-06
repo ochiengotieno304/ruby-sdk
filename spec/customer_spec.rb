@@ -12,6 +12,7 @@ RSpec.describe Elarian::Customer do
     end
 
     it "requires at least ID or Number to be provided" do
+      Singleton.__init__(Elarian::RequestHandler)
       c = Elarian::Client.new(api_key: "", app_id: "", org_id: "")
 
       expect { described_class.new(client: c, id: "some_id") }.not_to raise_error
