@@ -24,6 +24,7 @@ module Helpers
 
       def disconnect_and_stop_loop
         @connected_clients.each_value { |client| disconnect(client) }
+        puts "all clients disconnected"
 
         return unless EM.reactor_running?
 
@@ -56,7 +57,11 @@ module Helpers
       # returns a connected client used for testing
       def get_client
         @default_client ||= ::Elarian::Client.new(connection_credentials)
-        @default_client.on(:error, ->(error) { raise error })
+        on_error = lambda do |error|
+          puts "Error occurred #{error}"
+          disconnect_and_stop_loop
+        end
+        @default_client.on(:error, on_error)
         connect(@default_client)
         @default_client
       end
