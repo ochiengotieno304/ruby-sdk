@@ -251,21 +251,19 @@ module Elarian
     # @return [Rx::Observable] The observable response
     def adopt_state(other_customer)
       Utils.assert_type(other_customer, "other_customer", Hash)
-      raise "Customer id not set" unless @id
 
-      command = P::AdoptCustomerStateCommand.new(customer_id: @id)
-      if other_customer.key?(:customer_id)
-        command.other_customer_id = other_customer[:customer_id]
-      elsif other_customer.key?(:number)
-        provider = Utils.get_enum_value(
-          P::CustomerNumberProvider, other_customer.fetch(:provider, "CELLULAR"), "CUSTOMER_NUMBER_PROVIDER"
-        )
-        other_cust_no = P::CustomerNumber.new(number: other_customer[:number], provider: provider)
-        command.other_customer_number = other_cust_no
-      else
-        raise "Missing Other Customer id or number"
+      res = Rx::AsyncSubject.new
+      retrieve_id.subscribe_on_completed do
+        _adopt_state(other_customer)
+          .as_observable
+          .subscribe(
+            ->(payload) { res.on_next(payload) },
+            ->(err) { res.on_error(err) },
+            -> { res.on_completed }
+          )
       end
-      send_command(:adopt_customer_state, command)
+
+      res
     end
 
     # Updates a customer's engagement consent on this channel
@@ -322,6 +320,22 @@ module Elarian
       send_command(:reply_to_message, command).map do |res|
         res.merge(status: Utils.get_enum_string(P::MessageDeliveryStatus, res[:status], "MESSAGE_DELIVERY_STATUS"))
       end
+    end
+
+    def _adopt_state(other_customer)
+      command = P::AdoptCustomerStateCommand.new(customer_id: @id)
+      if other_customer.key?(:customer_id)
+        command.other_customer_id = other_customer[:customer_id]
+      elsif other_customer.key?(:number)
+        provider = Utils.get_enum_value(
+          P::CustomerNumberProvider, other_customer.fetch(:provider, "CELLULAR"), "CUSTOMER_NUMBER_PROVIDER"
+        )
+        other_cust_no = P::CustomerNumber.new(number: other_customer[:number], provider: provider)
+        command.other_customer_number = other_cust_no
+      else
+        raise "Missing Other Customer id or number"
+      end
+      send_command(:adopt_customer_state, command)
     end
 
     def validate
