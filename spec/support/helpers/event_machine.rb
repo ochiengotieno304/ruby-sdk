@@ -27,7 +27,7 @@ module Helpers
 
         return unless EM.reactor_running?
 
-        until EM.defers_finished?; end
+        until EM.defers_finished? || !EM.reactor_thread.status; end
 
         puts "Stopping event loop"
         EM.stop
@@ -39,6 +39,7 @@ module Helpers
         client.disconnect
 
         while client.connected? && !EM.defers_finished?; end
+        puts "successfully disconnected client #{client.object_id}"
         @connected_clients.delete(client.object_id)
       end
 
@@ -48,6 +49,7 @@ module Helpers
         client.connect
 
         until client.connected? && EM.defers_finished?; end
+        puts "successfully connected client #{client.object_id}"
         @connected_clients[client.object_id] = client # rubocop:disable Lint/HashCompareByIdentity
       end
 
