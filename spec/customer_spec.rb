@@ -32,7 +32,7 @@ RSpec.describe Elarian::Customer do
 
   describe "#get_state" do
     it "retrieves the customer's state" do
-      state = await_done(customer.get_state)
+      state = await(customer.get_state)
       data = state[:data]
 
       expect(data).to include(:customer_id, :identity_state, :messaging_state, :payment_state, :activity_state)
@@ -48,7 +48,7 @@ RSpec.describe Elarian::Customer do
 
     it "works" do
       tags = [{ key: "consumer_group", value: "heavy_consumer" }]
-      res = await_done(customer.update_tags(tags))
+      res = await(customer.update_tags(tags))
 
       expect(res).to include(:status, :description, :customer_id)
     end
@@ -61,7 +61,7 @@ RSpec.describe Elarian::Customer do
     end
 
     it "works" do
-      res = await_done(customer.delete_tags(%w[test consumer_group]))
+      res = await(customer.delete_tags(%w[test consumer_group]))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -70,9 +70,9 @@ RSpec.describe Elarian::Customer do
   describe "#get_tags" do
     it do
       update_tag = { key: "consumer_group", value: "heavy_consumer" }
-      await_done(customer.update_tags([update_tag]))
+      await(customer.update_tags([update_tag]))
 
-      res = await_done(customer.get_tags)
+      res = await(customer.get_tags)
       expect(res).to be_an Array
 
       tag = res.find { |el| el.dig(:mapping, :key) == "consumer_group" }
@@ -98,7 +98,7 @@ RSpec.describe Elarian::Customer do
     end
 
     it "works" do
-      res = await_done(customer.add_reminder(reminder))
+      res = await(customer.add_reminder(reminder))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -110,7 +110,7 @@ RSpec.describe Elarian::Customer do
     end
 
     it "works" do
-      res = await_done(customer.cancel_reminder("test"))
+      res = await(customer.cancel_reminder("test"))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -118,7 +118,7 @@ RSpec.describe Elarian::Customer do
 
   describe "#get_secondary_ids" do
     it do
-      res = await_done(customer.get_secondary_ids)
+      res = await(customer.get_secondary_ids)
       expect(res).to be_an(Array)
     end
   end
@@ -141,7 +141,7 @@ RSpec.describe Elarian::Customer do
 
     it "works" do
       secondary_ids = [{ key: "work_email", value: "john.doe@foo.bar" }]
-      res = await_done(customer.update_secondary_ids(secondary_ids))
+      res = await(customer.update_secondary_ids(secondary_ids))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -163,7 +163,7 @@ RSpec.describe Elarian::Customer do
 
     it "works" do
       secondary_ids = [{ key: "work_email", value: "john.doe@foo.bar" }]
-      res = await_done(customer.delete_secondary_ids(secondary_ids))
+      res = await(customer.delete_secondary_ids(secondary_ids))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -176,7 +176,7 @@ RSpec.describe Elarian::Customer do
 
     it do
       meta = { name: "John Doe", role: "admin" }
-      res = await_done(customer.update_metadata(meta))
+      res = await(customer.update_metadata(meta))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -184,9 +184,9 @@ RSpec.describe Elarian::Customer do
 
   describe "#get_metadata" do
     it do
-      await_done(customer.update_metadata({ name: "No name" }))
+      await(customer.update_metadata({ name: "No name" }))
 
-      res = await_done(customer.get_metadata)
+      res = await(customer.get_metadata)
       expect(res).to be_a Hash
       expect(res["name"]).to eql "No name" # TODO: make Customer#get_metadata to return a Hash with *indifferent access*
     end
@@ -198,7 +198,7 @@ RSpec.describe Elarian::Customer do
     end
 
     it "works" do
-      res = await_done(customer.delete_metadata([:name]))
+      res = await(customer.delete_metadata([:name]))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -211,7 +211,7 @@ RSpec.describe Elarian::Customer do
 
     it "works" do
       app_data = { last_sign_in_ip: "10.10.10.10", last_sign_in_time: Time.now - 100 }
-      res = await_done(customer.update_app_data(app_data))
+      res = await(customer.update_app_data(app_data))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -220,9 +220,9 @@ RSpec.describe Elarian::Customer do
   describe "#lease_app_data" do
     it do
       app_data = { loan_details: { balance: 150, repayment_date: Time.now + 86_400 } }
-      await_done(customer.update_app_data(app_data))
+      await(customer.update_app_data(app_data))
 
-      res = await_done(customer.lease_app_data)
+      res = await(customer.lease_app_data)
       expect(res).to be_a Hash
       expect(res.dig(:value, "loan_details")).to include("balance", "repayment_date") # TODO: HashWithIndifferentAccess
     end
@@ -230,7 +230,7 @@ RSpec.describe Elarian::Customer do
 
   describe "#delete_app_data" do
     it do
-      res = await_done(customer.delete_app_data)
+      res = await(customer.delete_app_data)
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end
@@ -251,7 +251,7 @@ RSpec.describe Elarian::Customer do
     end
 
     it "works" do
-      res = await_done(customer.update_activity(activity_channel, activity))
+      res = await(customer.update_activity(activity_channel, activity))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
     end

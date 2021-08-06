@@ -2,7 +2,7 @@
 
 module Helpers
   module Rx
-    def await_done(async_subject)
+    def await(async_subject)
       done = false
       res = nil
 
