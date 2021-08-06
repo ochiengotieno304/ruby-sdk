@@ -296,8 +296,24 @@ module Elarian
     # @param message [String] Message being sent back
     # @return [Rx::Observable] The observable response
     def reply_to_message(message_id, message)
-      raise "customer_id not set" unless @id
+      res = Rx::AsyncSubject.new
 
+      retrieve_id.subscribe_on_completed do
+        _reply_to_message(message_id, message)
+          .as_observable
+          .subscribe(
+            ->(payload) { res.on_next(payload) },
+            ->(err) { res.on_error(err) },
+            -> { res.on_completed }
+          )
+      end
+
+      res
+    end
+
+    private
+
+    def _reply_to_message(message_id, message)
       command = P::ReplyToMessageCommand.new(
         customer_id: @id,
         message_id: message_id,
@@ -307,8 +323,6 @@ module Elarian
         res.merge(status: Utils.get_enum_string(P::MessageDeliveryStatus, res[:status], "MESSAGE_DELIVERY_STATUS"))
       end
     end
-
-    private
 
     def validate
       raise ArgumentError, "Invalid client" unless @client.is_a? Client
@@ -341,6 +355,12 @@ module Elarian
 
     def customer_number
       @customer_number ||= P::CustomerNumber.new(number: @number, provider: provider_symbol)
+    end
+
+    def retrieve_id
+      return Rx::Observable.just(@id) if @id
+
+      get_state.map { |state| @id = state.dig(:data, :customer_id) }.as_observable
     end
   end
 end
