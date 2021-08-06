@@ -256,4 +256,38 @@ RSpec.describe Elarian::Customer do
       expect(res[:status]).to be true
     end
   end
+
+  describe "#send_message" do
+    it do
+      messaging_channel = { number: "RSDK_SENDER", channel: "sms" }
+      message = { body: { text: "hello world!" } }
+
+      res = await(customer.send_message(messaging_channel, message))
+      expect(res).to include(:status, :description, :message_id, :session_id, :customer_id)
+      expect(res[:status]).to eql "SENT"
+    end
+  end
+
+  describe "#reply_to_message" do
+    it do
+      reply = { body: { text: "Replying to your message" } }
+      res = await(customer.reply_to_message("some_message_id", reply))
+
+      expect(res).to include(:status, :description, :message_id, :session_id, :customer_id)
+    end
+  end
+
+  describe "#adopt_state" do
+    it "needs a Hash" do
+      expect { customer.adopt_state(1) }
+        .to raise_error("Invalid other_customer type. Expected Hash got Integer")
+    end
+
+    it "works" do
+      other_state = { number: "0712345432", provider: "CELLULAR" }
+      res = await(customer.adopt_state(other_state))
+      expect(res).to include(:status, :description, :customer_id)
+      expect(res[:status]).to be true
+    end
+  end
 end
