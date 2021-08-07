@@ -264,7 +264,6 @@ RSpec.describe Elarian::Customer do
 
       res = await(customer.send_message(messaging_channel, message))
       expect(res).to include(:status, :description, :message_id, :session_id, :customer_id)
-      expect(res[:status]).to eql "SENT"
     end
   end
 
