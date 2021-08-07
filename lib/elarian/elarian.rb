@@ -45,13 +45,9 @@ module Elarian
     # @param reminder [Hash] The Reminder to be added
     # @return [Rx::Observable] The observable response
     def add_customer_reminder_by_tag(tag, reminder)
-      Utils.assert_type(reminder, "reminder", Hash)
-      Utils.assert_type(tag, "tag", Hash)
+      Utils.assert_keys_present(tag, %i[value key], "tag", strict: true)
       Utils.assert_only_valid_keys_present(reminder, "reminder", %i[key remind_at interval payload])
-
-      if !reminder[:key] || !reminder[:remind_at]
-        raise ArgumentError, "Either :key or :remind_at is missing in reminder"
-      end
+      Utils.assert_keys_present(reminder, %i[key remind_at], "reminder")
 
       payload = { value: reminder[:payload] }
       customer_reminder = P::CustomerReminder.new(reminder.merge(payload: payload))
@@ -83,9 +79,9 @@ module Elarian
     # @param message [Hash] The message to be sent
     # @return [Rx::Observable] The observable response
     def send_message_by_tag(tag, messaging_channel, message)
-      { tag: tag, messaging_channel: messaging_channel, message: message }.each do |name, value|
-        Utils.assert_type(value, name, Hash)
-      end
+      Utils.assert_type(tag, "tag", Hash)
+      Utils.assert_keys_present(messaging_channel, %i[channel number], "messaging_channel")
+      Utils.assert_keys_present(message, [:body], "message")
 
       channel = Utils.get_enum_value(
         P::MessagingChannel, messaging_channel.fetch(:channel, "UNSPECIFIED"), "MESSAGING_CHANNEL"
