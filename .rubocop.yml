@@ -4,6 +4,7 @@ AllCops:
     - 'lib/rsocket-rb/**/*'
     - 'lib/elarian/utils/service/*' # generated protobuf code
     - 'vendor/**/*'
+    - 'examples/app.rb'
   NewCops: enable
 
 Style/StringLiterals:
