@@ -177,8 +177,6 @@ def handle_reminder(_notification, customer, _app_data)
           )
 end
 
-@cust = Elarian::Customer.new(client: @client, number: "0710005123")
-
 @client.on("connected", -> { puts "App is connected, waiting for customers on #{ENV["USSD_CODE"]}" })
 @client.on("closed", -> { puts "Connection Closed" })
 @client.on("received_payment", method(:handle_payment))
