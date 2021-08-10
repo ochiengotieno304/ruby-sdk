@@ -6,8 +6,8 @@ name: CI/CD
 on: [push,pull_request]
 
 jobs:
-  check:
-    name: Lint and Test
+  rubocop:
+    name: Rubocop
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +25,3 @@ jobs:
 
       - name: Run rubocop checks
         run: bundle exec rubocop -D -c .rubocop.yml
-
-      - name: Run tests
-        run: bundle exec rspec
