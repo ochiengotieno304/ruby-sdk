@@ -24,8 +24,9 @@ module Elarian
     # @param cost [Hash] Details of the message cost amount and currency
     # @return [Rx::Observable] The observable response
     def receive_message(phone_number:, messaging_channel:, session_id:, message_parts:, cost: nil)
-      Utils.assert_keys_present(cost, "cost", %i[currency_code amount], strict: true) unless cost.nil?
+      Utils.assert_keys_present(cost, %i[currency_code amount], "cost", strict: true) unless cost.nil?
       Utils.assert_keys_present(messaging_channel, %i[channel number], "messaging_channel", strict: true)
+      Utils.assert_type(message_parts, "message_parts", Array)
 
       cost ||= { currency_code: "KES", amount: 0 }
       channel_enum = Utils.get_enum_value(P::MessagingChannel, messaging_channel[:channel], "MESSAGING_CHANNEL")
