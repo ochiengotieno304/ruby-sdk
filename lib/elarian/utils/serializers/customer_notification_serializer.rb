@@ -93,9 +93,9 @@ module Elarian
         when "voice"
           @data[:voice] = @data[:parts].find { |part| part[:voice] }[:voice]
         when "sms", "whatsapp", "telegram", "fb_messenger"
-          @data[:text] = @data[:parts].find { |part| part[:text] }[:text]
-          @data[:media] = @data[:parts].find { |part| part[:media] }[:media]
-          @data[:location] = @data[:parts].find { |part| part[:location] }[:location]
+          @data[:text] = @data[:parts].find { |part| part[:text] }&.dig(:text)
+          @data[:media] = @data[:parts].find { |part| part[:media] }&.dig(:media)
+          @data[:location] = @data[:parts].find { |part| part[:location] }&.dig(:location)
         when "email"
           @data[:email] = @data[:parts].find { |part| part[:email] }[:email]
         end
@@ -106,7 +106,8 @@ module Elarian
       def switch_to_more_specific_event(channel)
         return unless @event == :received_message
 
-        case channel.to_sym
+        channel = channel.downcase.to_sym
+        case channel
         when :voice
           @event = :voice_call
         when :ussd

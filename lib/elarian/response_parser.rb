@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module Elarian
-  Proto = Com::Elarian::Hera::Proto
-
   class ResponseParser
     class << self
       private :new
@@ -15,22 +13,33 @@ module Elarian
     attr_reader :data
 
     def initialize(payload)
-      @payload = payload
-      decoded = Proto::AppToServerCommandReply.decode(payload.data_utf8).to_h
-
-      # only one key in AppToServerCommandReply can have it's value being non-nil
-      key = decoded.keys.find { |k| !decoded[k].nil? }
-      @data = decoded[key]
+      @data = decode(payload)
     end
 
     def error?
-      @data.key?(:status) && !@data[:status]
+      !@data.status
     end
 
     def error_message
       return unless error?
 
-      @data[:description]
+      @data.description
+    end
+
+    private
+
+    def decode(payload)
+      decoded = P::AppToServerCommandReply.decode(payload.data_utf8)
+      field = decoded.send(:entry)
+      decoded.send(field)
+    end
+  end
+
+  class SimulatorResponseParser < ResponseParser
+    private
+
+    def decode(payload)
+      P::SimulatorToServerCommandReply.decode(payload.data_utf8)
     end
   end
 end

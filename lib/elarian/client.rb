@@ -61,6 +61,10 @@ module Elarian
 
     private
 
+    def client
+      self
+    end
+
     def validate
       { app_id: @app_id, org_id: @org_id, api_key: @api_key }.each do |param_name, value|
         Utils.assert_type(value, param_name, String)

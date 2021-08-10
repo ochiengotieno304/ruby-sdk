@@ -50,7 +50,12 @@ module Elarian
       @event, @notification = Utils::CustomerNotificationSerializer.serialize(raw_event, raw_notification.to_h)
 
       customer_number = @notification[:customer_number] || {}
-      @customer = Customer.new(client: client, id: customer_or_purse.customer_id, **customer_number)
+      @customer = Customer.new(
+        client: client,
+        id: customer_or_purse.customer_id,
+        number: customer_number[:number],
+        provider: customer_number[:provider]
+      )
     end
 
     def handle
