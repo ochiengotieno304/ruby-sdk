@@ -84,10 +84,9 @@ module Elarian
     # @param debit_party[Hash] The debit party
     # @param credit_party[Hash]
     # @param value[Hash]
-    def initiate_payment(debit_party, credit_party, value)
+    def initiate_payment(debit_party:, credit_party:, value:)
       Utils.assert_type(debit_party, "debit_party", Hash)
       Utils.assert_type(credit_party, "credit_party", Hash)
-      Utils.assert_type(value, "value", Hash)
       Utils.assert_keys_present(value, %i[amount currency_code], "value")
 
       value = P::Cash.new(amount: value[:amount], currency_code: value[:currency_code])
