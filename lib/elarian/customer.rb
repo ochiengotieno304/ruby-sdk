@@ -15,6 +15,12 @@ module Elarian
       validate
     end
 
+    def number
+      as_hash = customer_number.to_h
+      provider = Utils.get_enum_string(P::CustomerNumberProvider, as_hash[:provider], "CUSTOMER_NUMBER_PROVIDER")
+      as_hash.merge(provider: provider)
+    end
+
     def get_state
       command = P::GetCustomerStateCommand.new(id_or_number)
       send_command(:get_customer_state, command)
@@ -175,7 +181,9 @@ module Elarian
         channel_number: P::MessagingChannelNumber.new(number: messaging_channel[:number], channel: channel),
         message: Utils::OutgoingMessageSerializer.serialize(message)
       )
-      send_command(:send_message, command)
+      send_command(:send_message, command).map do |res|
+        res.merge(status: Utils.get_enum_string(P::MessageDeliveryStatus, res[:status], "MESSAGE_DELIVERY_STATUS"))
+      end
     end
 
     # @param other_customer [Hash]
@@ -227,7 +235,9 @@ module Elarian
         message_id: message_id,
         message: Utils::OutgoingMessageSerializer.serialize(message)
       )
-      send_command(:reply_to_message, command)
+      send_command(:reply_to_message, command).map do |res|
+        res.merge(status: Utils.get_enum_string(P::MessageDeliveryStatus, res[:status], "MESSAGE_DELIVERY_STATUS"))
+      end
     end
 
     private
