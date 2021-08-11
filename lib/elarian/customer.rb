@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
 module Elarian
+  # Customer class that handles a single customer instance, must have one of customer_id or customer_number
   class Customer
     include Utils::AppToServerCommandsHelper
 
+    # The connected Elarian client
     attr_reader :client
 
+    # @param client The connected Elarian client
+    # @param id The Elarian generated customer id
+    # @param number The customer phone number
+    # @param provider The customer phone number provider
     def initialize(client:, id: nil, number: nil, provider: nil)
       @client = client
       @id = id
@@ -15,18 +21,22 @@ module Elarian
       validate
     end
 
+    # Returns a customer phone number
+    # @returns phonenumber A customer's phone number and provider
     def number
       as_hash = customer_number.to_h
       provider = Utils.get_enum_string(P::CustomerNumberProvider, as_hash[:provider], "CUSTOMER_NUMBER_PROVIDER")
       as_hash.merge(provider: provider)
     end
 
+    # Gets a customer's current state
     def get_state
       command = P::GetCustomerStateCommand.new(id_or_number)
       send_command(:get_customer_state, command)
     end
 
-    # @param tags [Array]
+    # Updates a customer's tags
+    # @param tags [Array] Array of tags being updated
     def update_tags(tags)
       Utils.assert_type(tags, "tags", Array)
 
@@ -38,7 +48,8 @@ module Elarian
       send_command(:update_customer_tag, command)
     end
 
-    # @param keys [Array]
+    # Deletes a customer's tags
+    # @param keys [Array] Array of tags being deleted
     def delete_tags(keys)
       Utils.assert_type(keys, "keys", Array)
 
@@ -46,13 +57,15 @@ module Elarian
       send_command(:delete_customer_tag, command)
     end
 
+    # Gets a customer's tags
     def get_tags
       get_state.map do |get_state_payload|
         get_state_payload.dig(:data, :identity_state, :tags)
       end
     end
 
-    # @param reminder [Hash]
+    # Adds a reminder
+    # @param reminder [Hash] Hash containing the details of the reminder
     def add_reminder(reminder)
       Utils.assert_type(reminder, "reminder", Hash)
       Utils.assert_only_valid_keys_present(reminder, "reminder", %i[key remind_at interval payload])
@@ -69,17 +82,22 @@ module Elarian
       send_command(:add_customer_reminder, command)
     end
 
+    # Cancels a reminder based on a key
+    # @param key [String] Reminder key
     def cancel_reminder(key)
       command = P::CancelCustomerReminderCommand.new(**id_or_number, key: key)
       send_command(:cancel_customer_reminder, command)
     end
 
+    # Gets the secondary ids of a customer
     def get_secondary_ids
       get_state.map do |get_state_resp|
         get_state_resp.dig(:data, :identity_state, :secondary_ids)
       end
     end
 
+    # Updates a customer's secondary ids
+    # @param secondary_ids [Array]  Array of secondary ids being updated
     def update_secondary_ids(secondary_ids)
       updates = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
@@ -92,6 +110,8 @@ module Elarian
       send_command(:update_customer_secondary_id, command)
     end
 
+    # Deletes a customer's secondary ids
+    # @param secondary_ids [Array] Array of secondary ids being deleted
     def delete_secondary_ids(secondary_ids)
       deletions = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
@@ -103,6 +123,7 @@ module Elarian
       send_command(:delete_customer_secondary_id, command)
     end
 
+    # Gets the metadata of a customer
     def get_metadata
       get_state.map do |get_state_resp|
         metadata = get_state_resp.dig(:data, :identity_state, :metadata)
@@ -114,6 +135,8 @@ module Elarian
       end
     end
 
+    # Updates a customer's metadata
+    # @param data [Hash] Hash containing the metadata being updated
     def update_metadata(data)
       command = P::UpdateCustomerMetadataCommand.new(**id_or_number)
       data.map do |key, val|
@@ -122,6 +145,8 @@ module Elarian
       send_command(:update_customer_metadata, command)
     end
 
+    # Deletes a customer's metadata
+    # @param data [Array] Array of metadata keys being deleted
     def delete_metadata(keys)
       Utils.assert_type(keys, "keys", Array)
 
@@ -129,17 +154,21 @@ module Elarian
       send_command(:delete_customer_metadata, command)
     end
 
+    # Updates a customer's app data
+    # @param data [Hash] Hash containing the data being updated
     def update_app_data(data)
       update = P::DataMapValue.new(string_val: JSON.dump(data))
       command = P::UpdateCustomerAppDataCommand.new(**id_or_number, update: update)
       send_command(:update_customer_app_data, command)
     end
 
+    # Deletes a customer's app data
     def delete_app_data
       command = P::DeleteCustomerAppDataCommand.new(**id_or_number)
       send_command(:delete_customer_app_data, command)
     end
 
+    # Leases customer's app data
     def lease_app_data
       command = P::LeaseCustomerAppDataCommand.new(**id_or_number)
       send_command(:lease_customer_app_data, command).map do |payload|
@@ -149,6 +178,9 @@ module Elarian
       end
     end
 
+    # Updates a customer's activity
+    # @param activity_channel [Hash] Hash containing the activity channels
+    # @param activity [Hash] Hash containing the activities
     def update_activity(activity_channel, activity)
       raise "Customer number not set" unless @number
 
@@ -186,7 +218,8 @@ module Elarian
       end
     end
 
-    # @param other_customer [Hash]
+    # Adopts another customer's state
+    # @param other_customer [Hash] Hash containing the other customer's details
     def adopt_state(other_customer)
       Utils.assert_type(other_customer, "other_customer", Hash)
       raise "Customer id not set" unless @id
@@ -206,8 +239,9 @@ module Elarian
       send_command(:adopt_customer_state, command)
     end
 
-    # @param messaging_channel [Hash]
-    # @param action [String]
+    # Updates a customer's engagement consent on this channel
+    # @param messaging_channel [Hash] Hash containing the messaging channels
+    # @param action [String] Choice of messaging constent. Default vallue: ALLOW
     def update_messaging_consent(messaging_channel, action = "ALLOW")
       Utils.assert_type(messaging_channel, "messaging_channel", Hash)
       raise "Missing Customer Number" unless @number
@@ -227,6 +261,9 @@ module Elarian
       send_command(:update_messaging_consent, command)
     end
 
+    # Replies to a message from a customer
+    # @param message_id [String] Specific message id being replied to
+    # @param message [String] Message being sent back
     def reply_to_message(message_id, message)
       raise "customer_id not set" unless @id
 

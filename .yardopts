@@ -1,3 +1,5 @@
+--protected
+--no-private
 --exclude lib/elarian/utils
 lib/elarian/client.rb
 lib/elarian/customer.rb

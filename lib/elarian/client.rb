@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
 module Elarian
+  # Client class that handles connections to Elarian backend
   class Client
+    # @return [Boolean] Indicates if client is a simulator or not
     attr_reader :is_simulator
 
+    # @param org_id The Organization id
+    # @param api_key The generated API key from the dashboard
+    # @param app_id The app id generated from the dashboard
+    # @param events The expected events
+    # @param options Extra options passed to the client
     def initialize(org_id:, app_id:, api_key:, events: [], options: {})
       @org_id = org_id
       @app_id = app_id
@@ -21,6 +28,7 @@ module Elarian
       RequestHandler.instance.client = self
     end
 
+    # Connects to Elarian
     def connect
       set_handlers
       EM.defer { @handlers[:pending].call } if @handlers[:pending]
@@ -34,6 +42,9 @@ module Elarian
       @socket
     end
 
+    # Sets handlers for events
+    # @param event [String] The event to be registered
+    # @param handler The handler function
     def on(event, handler)
       raise ArgumentError, "Unrecognized event (#{event})" unless (@connection_events + @events).include?(event&.to_sym)
       raise ArgumentError, "Invalid handler provided. Handler must be callable." unless handler.respond_to?(:call)
@@ -45,16 +56,19 @@ module Elarian
       end
     end
 
+    # Sends request to Elarian
     def send_request(data)
       raise "Client is not connected" unless connected?
 
       @socket.request_response(payload_of(data.to_proto, nil))
     end
 
+    # Disconnects client from Elarian
     def disconnect
       @socket&.close_connection
     end
 
+    # Checks if client if connected
     def connected?
       @socket&.connected
     end

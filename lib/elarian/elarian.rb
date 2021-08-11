@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
 module Elarian
+  # Elarian class that allows setting of handlers and reacting to various events
   class Elarian < Client
     include Utils::AppToServerCommandsHelper
 
+    # @param org_id The Organization id
+    # @param app_id The app id generated from the dashboard
+    # @param api_key The generated API key from the dashboard
+    # @param options Extra options passed to the Elarian client
     def initialize(org_id:, app_id:, api_key:, options: {})
       events = %i[
         reminder
@@ -28,13 +33,15 @@ module Elarian
       super(org_id: org_id, app_id: app_id, api_key: api_key, options: options, events: events)
     end
 
+    # Generate an auth token to use in place of API keys
     def generate_auth_token
       command = P::GenerateAuthTokenCommand.new
       send_command(:generate_auth_token, command)
     end
 
-    # @param tag [Hash]
-    # @param reminder [Hash]
+    # Set a reminder to be triggered at the specified time for customers with a particular tag
+    # @param tag [Hash] A particular Tag associated with the customer
+    # @param reminder [Hash] The Reminder to be added
     def add_customer_reminder_by_tag(tag, reminder)
       Utils.assert_type(reminder, "reminder", Hash)
       Utils.assert_type(tag, "tag", Hash)
@@ -53,6 +60,9 @@ module Elarian
       send_command(:add_customer_reminder_tag, command)
     end
 
+    # Cancels a a previously set reminder using a tag and key
+    # @param tag [Hash] A particular Tag associated with the customer
+    # @param key [Hash] The key of a reminder to be cancelled
     def cancel_customer_reminder_by_tag(key, tag)
       Utils.assert_type(key, "key", String)
       Utils.assert_type(tag, "tag", Hash)
@@ -64,6 +74,10 @@ module Elarian
       send_command(:cancel_customer_reminder_tag, command)
     end
 
+    # Send a message to customers with a specific tag
+    # @param tag [Hash] A particular Tag associated with the customer
+    # @param messaging_channel [Hash] The messaging channel to be used
+    # @param message [Hash] The message to be sent
     def send_message_by_tag(tag, messaging_channel, message)
       { tag: tag, messaging_channel: messaging_channel, message: message }.each do |name, value|
         Utils.assert_type(value, name, Hash)
@@ -81,9 +95,10 @@ module Elarian
       send_command(:send_message_tag, command)
     end
 
-    # @param debit_party[Hash] The debit party
-    # @param credit_party[Hash]
-    # @param value[Hash]
+    # Initiate a payment transaction.
+    # @param debit_party[Hash] Details of the customer the money is coming from
+    # @param credit_party[Hash] Details of the customer the money is going to
+    # @param value[Hash] Details of the Amount and Currency being sent
     def initiate_payment(debit_party:, credit_party:, value:)
       Utils.assert_type(debit_party, "debit_party", Hash)
       Utils.assert_type(credit_party, "credit_party", Hash)
