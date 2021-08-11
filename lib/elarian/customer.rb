@@ -22,7 +22,7 @@ module Elarian
     end
 
     # Returns a customer phone number
-    # @returns phonenumber A customer's phone number and provider
+    # @return [Hash] A customer's phone number and provider
     def number
       as_hash = customer_number.to_h
       provider = Utils.get_enum_string(P::CustomerNumberProvider, as_hash[:provider], "CUSTOMER_NUMBER_PROVIDER")
@@ -146,7 +146,7 @@ module Elarian
     end
 
     # Deletes a customer's metadata
-    # @param data [Array] Array of metadata keys being deleted
+    # @param keys [Array] Metadata keys being deleted
     def delete_metadata(keys)
       Utils.assert_type(keys, "keys", Array)
 
@@ -241,7 +241,7 @@ module Elarian
 
     # Updates a customer's engagement consent on this channel
     # @param messaging_channel [Hash] Hash containing the messaging channels
-    # @param action [String] Choice of messaging constent. Default vallue: ALLOW
+    # @param action [String] Choice of messaging consent.
     def update_messaging_consent(messaging_channel, action = "ALLOW")
       Utils.assert_type(messaging_channel, "messaging_channel", Hash)
       raise "Missing Customer Number" unless @number
