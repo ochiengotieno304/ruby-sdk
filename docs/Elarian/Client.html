@@ -429,6 +429,8 @@
       <pre class="lines">
 
 
+14
+15
 16
 17
 18
@@ -442,12 +444,10 @@
 26
 27
 28
-29
-30
-31</pre>
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>org_id:</span><span class='comma'>,</span> <span class='label'>app_id:</span><span class='comma'>,</span> <span class='label'>api_key:</span><span class='comma'>,</span> <span class='label'>events:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>options:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@org_id</span> <span class='op'>=</span> <span class='id identifier rubyid_org_id'>org_id</span>
@@ -521,12 +521,12 @@
       <pre class="lines">
 
 
-9
-10
-11</pre>
+7
+8
+9</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 9</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 7</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_is_simulator'>is_simulator</span>
   <span class='ivar'>@is_simulator</span>
@@ -569,6 +569,8 @@
       <pre class="lines">
 
 
+32
+33
 34
 35
 36
@@ -578,12 +580,10 @@
 40
 41
 42
-43
-44
-45</pre>
+43</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 32</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_connect'>connect</span>
   <span class='id identifier rubyid_set_handlers'>set_handlers</span>
@@ -641,12 +641,12 @@
       <pre class="lines">
 
 
-74
-75
-76</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_connected?'>connected?</span>
   <span class='ivar'>@socket</span><span class='op'>&amp;.</span><span class='id identifier rubyid_connected'>connected</span>
@@ -682,12 +682,12 @@
       <pre class="lines">
 
 
-69
-70
-71</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 67</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_disconnect'>disconnect</span>
   <span class='ivar'>@socket</span><span class='op'>&amp;.</span><span class='id identifier rubyid_close_connection'>close_connection</span>
@@ -772,6 +772,8 @@
       <pre class="lines">
 
 
+48
+49
 50
 51
 52
@@ -779,12 +781,10 @@
 54
 55
 56
-57
-58
-59</pre>
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_on'>on</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='comma'>,</span> <span class='id identifier rubyid_handler'>handler</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Unrecognized event (</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_event'>event</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='lparen'>(</span><span class='ivar'>@connection_events</span> <span class='op'>+</span> <span class='ivar'>@events</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_event'>event</span><span class='op'>&amp;.</span><span class='id identifier rubyid_to_sym'>to_sym</span><span class='rparen'>)</span>
@@ -827,14 +827,14 @@
       <pre class="lines">
 
 
+60
+61
 62
 63
-64
-65
-66</pre>
+64</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 62</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/client.rb', line 60</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send_request'>send_request</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Client is not connected</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_connected?'>connected?</span>
@@ -851,7 +851,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 12 00:33:48 2021 by
+  Generated on Thu Aug 12 01:49:57 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.26 (ruby-2.7.0).
 </div>
