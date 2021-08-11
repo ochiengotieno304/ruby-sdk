@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Elarian::Customer
+  
+    &mdash; Documentation by YARD 0.9.26
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "Elarian::Customer";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Elarian.html" title="Elarian (module)">Elarian</a></span></span>
+     &raquo; 
+    <span class="title">Customer</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Elarian::Customer
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Elarian::Customer</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd>Utils::AppToServerCommandsHelper</dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/elarian/customer.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#client-instance_method" title="#client (instance method)">#<strong>client</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute client.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_reminder-instance_method" title="#add_reminder (instance method)">#<strong>add_reminder</strong>(reminder)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#adopt_state-instance_method" title="#adopt_state (instance method)">#<strong>adopt_state</strong>(other_customer)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cancel_reminder-instance_method" title="#cancel_reminder (instance method)">#<strong>cancel_reminder</strong>(key)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_app_data-instance_method" title="#delete_app_data (instance method)">#<strong>delete_app_data</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_metadata-instance_method" title="#delete_metadata (instance method)">#<strong>delete_metadata</strong>(keys)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_secondary_ids-instance_method" title="#delete_secondary_ids (instance method)">#<strong>delete_secondary_ids</strong>(secondary_ids)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_tags-instance_method" title="#delete_tags (instance method)">#<strong>delete_tags</strong>(keys)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_metadata-instance_method" title="#get_metadata (instance method)">#<strong>get_metadata</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_secondary_ids-instance_method" title="#get_secondary_ids (instance method)">#<strong>get_secondary_ids</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_state-instance_method" title="#get_state (instance method)">#<strong>get_state</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_tags-instance_method" title="#get_tags (instance method)">#<strong>get_tags</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(client:, id: nil, number: nil, provider: nil)  &#x21d2; Customer </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Customer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lease_app_data-instance_method" title="#lease_app_data (instance method)">#<strong>lease_app_data</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#number-instance_method" title="#number (instance method)">#<strong>number</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reply_to_message-instance_method" title="#reply_to_message (instance method)">#<strong>reply_to_message</strong>(message_id, message)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_message-instance_method" title="#send_message (instance method)">#<strong>send_message</strong>(messaging_channel, message)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_activity-instance_method" title="#update_activity (instance method)">#<strong>update_activity</strong>(activity_channel, activity)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_app_data-instance_method" title="#update_app_data (instance method)">#<strong>update_app_data</strong>(data)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_messaging_consent-instance_method" title="#update_messaging_consent (instance method)">#<strong>update_messaging_consent</strong>(messaging_channel, action = &quot;ALLOW&quot;)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_metadata-instance_method" title="#update_metadata (instance method)">#<strong>update_metadata</strong>(data)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_secondary_ids-instance_method" title="#update_secondary_ids (instance method)">#<strong>update_secondary_ids</strong>(secondary_ids)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_tags-instance_method" title="#update_tags (instance method)">#<strong>update_tags</strong>(tags)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    #<strong>initialize</strong>(client:, id: nil, number: nil, provider: nil)  &#x21d2; <tt><span class='object_link'><a href="" title="Elarian::Customer (class)">Customer</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Customer.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12
+13
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='label'>client:</span><span class='comma'>,</span> <span class='label'>id:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>number:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>provider:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='ivar'>@client</span> <span class='op'>=</span> <span class='id identifier rubyid_client'>client</span>
+  <span class='ivar'>@id</span> <span class='op'>=</span> <span class='id identifier rubyid_id'>id</span>
+  <span class='ivar'>@number</span> <span class='op'>=</span> <span class='id identifier rubyid_number'>number</span>
+  <span class='ivar'>@provider</span> <span class='op'>=</span> <span class='id identifier rubyid_provider'>provider</span>
+
+  <span class='id identifier rubyid_validate'>validate</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="client-instance_method">
+  
+    #<strong>client</strong>  &#x21d2; <tt>Object</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute client.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 7</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_client'>client</span>
+  <span class='ivar'>@client</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="add_reminder-instance_method">
+  
+    #<strong>add_reminder</strong>(reminder)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>reminder</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 56</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_add_reminder'>add_reminder</span><span class='lparen'>(</span><span class='id identifier rubyid_reminder'>reminder</span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_reminder'>reminder</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>reminder</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Hash</span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_only_valid_keys_present'>assert_only_valid_keys_present</span><span class='lparen'>(</span><span class='id identifier rubyid_reminder'>reminder</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>reminder</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>key</span><span class='words_sep'> </span><span class='tstring_content'>remind_at</span><span class='words_sep'> </span><span class='tstring_content'>interval</span><span class='words_sep'> </span><span class='tstring_content'>payload</span><span class='tstring_end'>]</span></span><span class='rparen'>)</span>
+
+  <span class='comment'># NOTE: the protobuf interface suggests that &quot;key&quot; and &quot;remind_at&quot; are optional.
+</span>  <span class='comment'># But requests fail without these values. So let&#39;s force users to provide them.
+</span>  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_reminder'>reminder</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='op'>!</span><span class='id identifier rubyid_reminder'>reminder</span><span class='lbracket'>[</span><span class='symbol'>:remind_at</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Either :key or :remind_at is missing in reminder</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_payload'>payload</span> <span class='op'>=</span> <span class='lbrace'>{</span> <span class='label'>value:</span> <span class='id identifier rubyid_reminder'>reminder</span><span class='lbracket'>[</span><span class='symbol'>:payload</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_customer_reminder'>customer_reminder</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>CustomerReminder</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_reminder'>reminder</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>payload:</span> <span class='id identifier rubyid_payload'>payload</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>AddCustomerReminderCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='comma'>,</span> <span class='label'>reminder:</span> <span class='id identifier rubyid_customer_reminder'>customer_reminder</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:add_customer_reminder</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="adopt_state-instance_method">
+  
+    #<strong>adopt_state</strong>(other_customer)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other_customer</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 190</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_adopt_state'>adopt_state</span><span class='lparen'>(</span><span class='id identifier rubyid_other_customer'>other_customer</span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_other_customer'>other_customer</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>other_customer</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Customer id not set</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@id</span>
+
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>AdoptCustomerStateCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>customer_id:</span> <span class='ivar'>@id</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_other_customer'>other_customer</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:customer_id</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_other_customer_id'>other_customer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_other_customer'>other_customer</span><span class='lbracket'>[</span><span class='symbol'>:customer_id</span><span class='rbracket'>]</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_other_customer'>other_customer</span><span class='period'>.</span><span class='id identifier rubyid_key?'>key?</span><span class='lparen'>(</span><span class='symbol'>:number</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_provider'>provider</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_value'>get_enum_value</span><span class='lparen'>(</span>
+      <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>CustomerNumberProvider</span><span class='comma'>,</span> <span class='id identifier rubyid_other_customer'>other_customer</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:provider</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CELLULAR</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CUSTOMER_NUMBER_PROVIDER</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rparen'>)</span>
+    <span class='id identifier rubyid_other_cust_no'>other_cust_no</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>CustomerNumber</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>number:</span> <span class='id identifier rubyid_other_customer'>other_customer</span><span class='lbracket'>[</span><span class='symbol'>:number</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>provider:</span> <span class='id identifier rubyid_provider'>provider</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_other_customer_number'>other_customer_number</span> <span class='op'>=</span> <span class='id identifier rubyid_other_cust_no'>other_cust_no</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Missing Other Customer id or number</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:adopt_customer_state</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="cancel_reminder-instance_method">
+  
+    #<strong>cancel_reminder</strong>(key)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_cancel_reminder'>cancel_reminder</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>CancelCustomerReminderCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='comma'>,</span> <span class='label'>key:</span> <span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:cancel_customer_reminder</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_app_data-instance_method">
+  
+    #<strong>delete_app_data</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140
+141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 138</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_app_data'>delete_app_data</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>DeleteCustomerAppDataCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:delete_customer_app_data</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_metadata-instance_method">
+  
+    #<strong>delete_metadata</strong>(keys)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126
+127
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 125</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_metadata'>delete_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_keys'>keys</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>keys</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Array</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>DeleteCustomerMetadataCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='comma'>,</span> <span class='label'>deletions:</span> <span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:delete_customer_metadata</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_secondary_ids-instance_method">
+  
+    #<strong>delete_secondary_ids</strong>(secondary_ids)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_secondary_ids'>delete_secondary_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_secondary_ids'>secondary_ids</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_deletions'>deletions</span> <span class='op'>=</span> <span class='id identifier rubyid_secondary_ids'>secondary_ids</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid secondary id </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Missing :key and/or :value</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
+
+    <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>IndexMapping</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>key:</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>value:</span> <span class='lbrace'>{</span> <span class='label'>value:</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>DeleteCustomerSecondaryIdCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='comma'>,</span> <span class='label'>deletions:</span> <span class='id identifier rubyid_deletions'>deletions</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:delete_customer_secondary_id</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="delete_tags-instance_method">
+  
+    #<strong>delete_tags</strong>(keys)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>keys</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_delete_tags'>delete_tags</span><span class='lparen'>(</span><span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_keys'>keys</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>keys</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Array</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>DeleteCustomerTagCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='comma'>,</span> <span class='label'>deletions:</span> <span class='id identifier rubyid_keys'>keys</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:delete_customer_tag</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_metadata-instance_method">
+  
+    #<strong>get_metadata</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 106</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_metadata'>get_metadata</span>
+  <span class='id identifier rubyid_get_state'>get_state</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_get_state_resp'>get_state_resp</span><span class='op'>|</span>
+    <span class='id identifier rubyid_metadata'>metadata</span> <span class='op'>=</span> <span class='id identifier rubyid_get_state_resp'>get_state_resp</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:data</span><span class='comma'>,</span> <span class='symbol'>:identity_state</span><span class='comma'>,</span> <span class='symbol'>:metadata</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_metadata'>metadata</span>
+      <span class='id identifier rubyid_metadata'>metadata</span><span class='period'>.</span><span class='id identifier rubyid_transform_values'>transform_values</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_val'>val</span><span class='op'>|</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_parse_string_or_byte_val'>parse_string_or_byte_val</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_metadata'>metadata</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_secondary_ids-instance_method">
+  
+    #<strong>get_secondary_ids</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+77
+78
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 77</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_secondary_ids'>get_secondary_ids</span>
+  <span class='id identifier rubyid_get_state'>get_state</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_get_state_resp'>get_state_resp</span><span class='op'>|</span>
+    <span class='id identifier rubyid_get_state_resp'>get_state_resp</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:data</span><span class='comma'>,</span> <span class='symbol'>:identity_state</span><span class='comma'>,</span> <span class='symbol'>:secondary_ids</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_state-instance_method">
+  
+    #<strong>get_state</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26
+27</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_state'>get_state</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>GetCustomerStateCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:get_customer_state</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="get_tags-instance_method">
+  
+    #<strong>get_tags</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_get_tags'>get_tags</span>
+  <span class='id identifier rubyid_get_state'>get_state</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_get_state_payload'>get_state_payload</span><span class='op'>|</span>
+    <span class='id identifier rubyid_get_state_payload'>get_state_payload</span><span class='period'>.</span><span class='id identifier rubyid_dig'>dig</span><span class='lparen'>(</span><span class='symbol'>:data</span><span class='comma'>,</span> <span class='symbol'>:identity_state</span><span class='comma'>,</span> <span class='symbol'>:tags</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="lease_app_data-instance_method">
+  
+    #<strong>lease_app_data</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+143
+144
+145
+146
+147
+148
+149
+150</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 143</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_lease_app_data'>lease_app_data</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>LeaseCustomerAppDataCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:lease_customer_app_data</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_payload'>payload</span><span class='op'>|</span>
+    <span class='comment'># TODO: Even if this is a special case, can&#39;t we just do in in ResponseParser ?
+</span>    <span class='id identifier rubyid_payload'>payload</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_parse_string_or_byte_val'>parse_string_or_byte_val</span><span class='lparen'>(</span><span class='id identifier rubyid_payload'>payload</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_payload'>payload</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_payload'>payload</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="number-instance_method">
+  
+    #<strong>number</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 18</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_number'>number</span>
+  <span class='id identifier rubyid_as_hash'>as_hash</span> <span class='op'>=</span> <span class='id identifier rubyid_customer_number'>customer_number</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
+  <span class='id identifier rubyid_provider'>provider</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_string'>get_enum_string</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>CustomerNumberProvider</span><span class='comma'>,</span> <span class='id identifier rubyid_as_hash'>as_hash</span><span class='lbracket'>[</span><span class='symbol'>:provider</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>CUSTOMER_NUMBER_PROVIDER</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_as_hash'>as_hash</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>provider:</span> <span class='id identifier rubyid_provider'>provider</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reply_to_message-instance_method">
+  
+    #<strong>reply_to_message</strong>(message_id, message)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 230</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reply_to_message'>reply_to_message</span><span class='lparen'>(</span><span class='id identifier rubyid_message_id'>message_id</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>customer_id not set</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@id</span>
+
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>ReplyToMessageCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='label'>customer_id:</span> <span class='ivar'>@id</span><span class='comma'>,</span>
+    <span class='label'>message_id:</span> <span class='id identifier rubyid_message_id'>message_id</span><span class='comma'>,</span>
+    <span class='label'>message:</span> <span class='const'>Utils</span><span class='op'>::</span><span class='const'>OutgoingMessageSerializer</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:reply_to_message</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_res'>res</span><span class='op'>|</span>
+    <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>status:</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_string'>get_enum_string</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>MessageDeliveryStatus</span><span class='comma'>,</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MESSAGE_DELIVERY_STATUS</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_message-instance_method">
+  
+    #<strong>send_message</strong>(messaging_channel, message)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 173</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_message'>send_message</span><span class='lparen'>(</span><span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Customer number not set</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@number</span>
+
+  <span class='id identifier rubyid_channel'>channel</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_value'>get_enum_value</span><span class='lparen'>(</span>
+    <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>MessagingChannel</span><span class='comma'>,</span> <span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:channel</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>UNSPECIFIED</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MESSAGING_CHANNEL</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>SendMessageCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='label'>customer_number:</span> <span class='id identifier rubyid_customer_number'>customer_number</span><span class='comma'>,</span>
+    <span class='label'>channel_number:</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>MessagingChannelNumber</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>number:</span> <span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='lbracket'>[</span><span class='symbol'>:number</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>channel:</span> <span class='id identifier rubyid_channel'>channel</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>message:</span> <span class='const'>Utils</span><span class='op'>::</span><span class='const'>OutgoingMessageSerializer</span><span class='period'>.</span><span class='id identifier rubyid_serialize'>serialize</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:send_message</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_res'>res</span><span class='op'>|</span>
+    <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='label'>status:</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_string'>get_enum_string</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>MessageDeliveryStatus</span><span class='comma'>,</span> <span class='id identifier rubyid_res'>res</span><span class='lbracket'>[</span><span class='symbol'>:status</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MESSAGE_DELIVERY_STATUS</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_activity-instance_method">
+  
+    #<strong>update_activity</strong>(activity_channel, activity)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 152</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_activity'>update_activity</span><span class='lparen'>(</span><span class='id identifier rubyid_activity_channel'>activity_channel</span><span class='comma'>,</span> <span class='id identifier rubyid_activity'>activity</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Customer number not set</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@number</span>
+
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_keys_present'>assert_keys_present</span><span class='lparen'>(</span><span class='id identifier rubyid_activity_channel'>activity_channel</span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>number</span><span class='words_sep'> </span><span class='tstring_content'>channel</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>activity_channel</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_keys_present'>assert_keys_present</span><span class='lparen'>(</span><span class='id identifier rubyid_activity'>activity</span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>session_id</span><span class='words_sep'> </span><span class='tstring_content'>key</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>activity</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_channel'>channel</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_value'>get_enum_value</span><span class='lparen'>(</span>
+    <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>ActivityChannel</span><span class='comma'>,</span> <span class='id identifier rubyid_activity_channel'>activity_channel</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:channel</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>UNSPECIFIED</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ACTIVITY_CHANNEL</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>CustomerActivityCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='label'>customer_number:</span> <span class='id identifier rubyid_customer_number'>customer_number</span><span class='comma'>,</span>
+    <span class='label'>channel_number:</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>ActivityChannelNumber</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>number:</span> <span class='id identifier rubyid_activity_channel'>activity_channel</span><span class='lbracket'>[</span><span class='symbol'>:number</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>channel:</span> <span class='id identifier rubyid_channel'>channel</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>key:</span> <span class='id identifier rubyid_activity'>activity</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='label'>session_id:</span> <span class='id identifier rubyid_activity'>activity</span><span class='lbracket'>[</span><span class='symbol'>:session_id</span><span class='rbracket'>]</span>
+  <span class='rparen'>)</span>
+  <span class='comment'># TODO: logic copy-pasted from Python-SDK, confirm that this is what we want.
+</span>  <span class='comment'># Would be more logical to set each property one by one.
+</span>  <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_properties'>properties</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>property</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_activity'>activity</span><span class='lbracket'>[</span><span class='symbol'>:properties</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:customer_activity</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_app_data-instance_method">
+  
+    #<strong>update_app_data</strong>(data)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+132
+133
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 132</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_app_data'>update_app_data</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_update'>update</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>DataMapValue</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>string_val:</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>UpdateCustomerAppDataCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='comma'>,</span> <span class='label'>update:</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:update_customer_app_data</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_messaging_consent-instance_method">
+  
+    #<strong>update_messaging_consent</strong>(messaging_channel, action = &quot;ALLOW&quot;)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>messaging_channel</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>action</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>&quot;ALLOW&quot;</tt>)</em>
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 211</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_messaging_consent'>update_messaging_consent</span><span class='lparen'>(</span><span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ALLOW</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>messaging_channel</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Missing Customer Number</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='ivar'>@number</span>
+
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_keys_present'>assert_keys_present</span><span class='lparen'>(</span><span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>number</span><span class='words_sep'> </span><span class='tstring_content'>channel</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>messaging_channel</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_channel'>channel</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_value'>get_enum_value</span><span class='lparen'>(</span>
+    <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>MessagingChannel</span><span class='comma'>,</span> <span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:channel</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>UNSPECIFIED</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MESSAGING_CHANNEL</span><span class='tstring_end'>&quot;</span></span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>UpdateMessagingConsentCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span>
+    <span class='label'>customer_number:</span> <span class='id identifier rubyid_customer_number'>customer_number</span><span class='comma'>,</span>
+    <span class='label'>channel_number:</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>MessagingChannelNumber</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>number:</span> <span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='lbracket'>[</span><span class='symbol'>:number</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>channel:</span> <span class='id identifier rubyid_channel'>channel</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='label'>update:</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_value'>get_enum_value</span><span class='lparen'>(</span>
+      <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>MessagingConsentUpdate</span><span class='comma'>,</span> <span class='id identifier rubyid_action'>action</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MESSAGING_CONSENT_UPDATE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rparen'>)</span>
+  <span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:update_messaging_consent</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_metadata-instance_method">
+  
+    #<strong>update_metadata</strong>(data)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+117
+118
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 117</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_metadata'>update_metadata</span><span class='lparen'>(</span><span class='id identifier rubyid_data'>data</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>UpdateCustomerMetadataCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_data'>data</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_val'>val</span><span class='op'>|</span>
+    <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_updates'>updates</span><span class='lbracket'>[</span><span class='id identifier rubyid_key'>key</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>DataMapValue</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>string_val:</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_dump'>dump</span><span class='lparen'>(</span><span class='id identifier rubyid_val'>val</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:update_customer_metadata</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_secondary_ids-instance_method">
+  
+    #<strong>update_secondary_ids</strong>(secondary_ids)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_secondary_ids'>update_secondary_ids</span><span class='lparen'>(</span><span class='id identifier rubyid_secondary_ids'>secondary_ids</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_updates'>updates</span> <span class='op'>=</span> <span class='id identifier rubyid_secondary_ids'>secondary_ids</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_id'>id</span><span class='op'>|</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid secondary id </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_id'>id</span><span class='embexpr_end'>}</span><span class='tstring_content'>. Missing :key and/or :value</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span>
+
+    <span class='id identifier rubyid_mapping'>mapping</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>IndexMapping</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>key:</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>value:</span> <span class='lbrace'>{</span> <span class='label'>value:</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>CustomerIndex</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>mapping:</span> <span class='id identifier rubyid_mapping'>mapping</span><span class='comma'>,</span> <span class='label'>expires_at:</span> <span class='id identifier rubyid_id'>id</span><span class='lbracket'>[</span><span class='symbol'>:expires_at</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>UpdateCustomerSecondaryIdCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='comma'>,</span> <span class='label'>updates:</span> <span class='id identifier rubyid_updates'>updates</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:update_customer_secondary_id</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_tags-instance_method">
+  
+    #<strong>update_tags</strong>(tags)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>tags</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/elarian/customer.rb', line 30</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_tags'>update_tags</span><span class='lparen'>(</span><span class='id identifier rubyid_tags'>tags</span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_tags'>tags</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tags</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Array</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_updates'>updates</span> <span class='op'>=</span> <span class='id identifier rubyid_tags'>tags</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_tag'>tag</span><span class='op'>|</span>
+    <span class='id identifier rubyid_mapping'>mapping</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>IndexMapping</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>key:</span> <span class='id identifier rubyid_tag'>tag</span><span class='lbracket'>[</span><span class='symbol'>:key</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>value:</span> <span class='lbrace'>{</span> <span class='label'>value:</span> <span class='id identifier rubyid_tag'>tag</span><span class='lbracket'>[</span><span class='symbol'>:value</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>CustomerIndex</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>mapping:</span> <span class='id identifier rubyid_mapping'>mapping</span><span class='comma'>,</span> <span class='label'>expires_at:</span> <span class='id identifier rubyid_tag'>tag</span><span class='lbracket'>[</span><span class='symbol'>:expires_at</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>UpdateCustomerTagCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_id_or_number'>id_or_number</span><span class='comma'>,</span> <span class='label'>updates:</span> <span class='id identifier rubyid_updates'>updates</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_send_command'>send_command</span><span class='lparen'>(</span><span class='symbol'>:update_customer_tag</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Wed Aug 11 22:57:49 2021 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.26 (ruby-2.7.0).
+</div>
+
+    </div>
+  </body>
+</html>
