@@ -22,6 +22,7 @@ module Elarian
     # @param session_id [String] Session id of the simulation
     # @param message_parts [Array] Array of the message parts
     # @param cost [Hash] Details of the message cost amount and currency
+    # @return [Rx::Observable] The observable response
     def receive_message(phone_number:, messaging_channel:, session_id:, message_parts:, cost: nil)
       Utils.assert_keys_present(cost, "cost", %i[currency_code amount], strict: true) unless cost.nil?
       Utils.assert_keys_present(messaging_channel, %i[channel number], "messaging_channel", strict: true)
@@ -45,6 +46,7 @@ module Elarian
     # @param transaction_id [String] Transaction id of the simulation
     # @param value [Array] Details on the transaction value and currency
     # @param status [String] Status of the transaction
+    # @return [Rx::Observable] The observable response
     def receive_payment(phone_number:, payment_channel:, transaction_id:, value:, status:)
       Utils.assert_keys_present(value, %i[currency_code amount], "value", strict: true)
       Utils.assert_keys_present(payment_channel, %i[number channel], "payment_channel", strict: true)
@@ -65,6 +67,7 @@ module Elarian
     # Simulates updating of a payment status.
     # @param transaction_id [String] Transaction id of the simulation
     # @param status [String] Status of the transaction
+    # @return [Rx::Observable] The observable response
     def update_payment_status(transaction_id, status)
       status_val = Utils.get_enum_value(P::PaymentStatus, status, "PAYMENT_STATUS")
       command =  P::UpdatePaymentStatusSimulatorCommand.new(transaction_id: transaction_id, status: status_val)

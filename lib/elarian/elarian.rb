@@ -34,6 +34,7 @@ module Elarian
     end
 
     # Generate an auth token to use in place of API keys
+    # @return [Rx::Observable] The observable response
     def generate_auth_token
       command = P::GenerateAuthTokenCommand.new
       send_command(:generate_auth_token, command)
@@ -42,6 +43,7 @@ module Elarian
     # Set a reminder to be triggered at the specified time for customers with a particular tag
     # @param tag [Hash] A particular Tag associated with the customer
     # @param reminder [Hash] The Reminder to be added
+    # @return [Rx::Observable] The observable response
     def add_customer_reminder_by_tag(tag, reminder)
       Utils.assert_type(reminder, "reminder", Hash)
       Utils.assert_type(tag, "tag", Hash)
@@ -63,6 +65,7 @@ module Elarian
     # Cancels a a previously set reminder using a tag and key
     # @param tag [Hash] A particular Tag associated with the customer
     # @param key [Hash] The key of a reminder to be cancelled
+    # @return [Rx::Observable] The observable response
     def cancel_customer_reminder_by_tag(key, tag)
       Utils.assert_type(key, "key", String)
       Utils.assert_type(tag, "tag", Hash)
@@ -78,6 +81,7 @@ module Elarian
     # @param tag [Hash] A particular Tag associated with the customer
     # @param messaging_channel [Hash] The messaging channel to be used
     # @param message [Hash] The message to be sent
+    # @return [Rx::Observable] The observable response
     def send_message_by_tag(tag, messaging_channel, message)
       { tag: tag, messaging_channel: messaging_channel, message: message }.each do |name, value|
         Utils.assert_type(value, name, Hash)
@@ -99,6 +103,7 @@ module Elarian
     # @param debit_party[Hash] Details of the customer the money is coming from
     # @param credit_party[Hash] Details of the customer the money is going to
     # @param value[Hash] Details of the Amount and Currency being sent
+    # @return [Rx::Observable] The observable response
     def initiate_payment(debit_party:, credit_party:, value:)
       Utils.assert_type(debit_party, "debit_party", Hash)
       Utils.assert_type(credit_party, "credit_party", Hash)

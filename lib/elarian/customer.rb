@@ -30,6 +30,7 @@ module Elarian
     end
 
     # Gets a customer's current state
+    # @return [Rx::Observable] The observable response
     def get_state
       command = P::GetCustomerStateCommand.new(id_or_number)
       send_command(:get_customer_state, command)
@@ -37,6 +38,7 @@ module Elarian
 
     # Updates a customer's tags
     # @param tags [Array] Array of tags being updated
+    # @return [Rx::Observable] The observable response
     def update_tags(tags)
       Utils.assert_type(tags, "tags", Array)
 
@@ -50,6 +52,7 @@ module Elarian
 
     # Deletes a customer's tags
     # @param keys [Array] Array of tags being deleted
+    # @return [Rx::Observable] The observable response
     def delete_tags(keys)
       Utils.assert_type(keys, "keys", Array)
 
@@ -58,6 +61,7 @@ module Elarian
     end
 
     # Gets a customer's tags
+    # @return [Rx::Observable] The observable response
     def get_tags
       get_state.map do |get_state_payload|
         get_state_payload.dig(:data, :identity_state, :tags)
@@ -66,6 +70,7 @@ module Elarian
 
     # Adds a reminder
     # @param reminder [Hash] Hash containing the details of the reminder
+    # @return [Rx::Observable] The observable response
     def add_reminder(reminder)
       Utils.assert_type(reminder, "reminder", Hash)
       Utils.assert_only_valid_keys_present(reminder, "reminder", %i[key remind_at interval payload])
@@ -84,12 +89,14 @@ module Elarian
 
     # Cancels a reminder based on a key
     # @param key [String] Reminder key
+    # @return [Rx::Observable] The observable response
     def cancel_reminder(key)
       command = P::CancelCustomerReminderCommand.new(**id_or_number, key: key)
       send_command(:cancel_customer_reminder, command)
     end
 
     # Gets the secondary ids of a customer
+    # @return [Rx::Observable] The observable response
     def get_secondary_ids
       get_state.map do |get_state_resp|
         get_state_resp.dig(:data, :identity_state, :secondary_ids)
@@ -98,6 +105,7 @@ module Elarian
 
     # Updates a customer's secondary ids
     # @param secondary_ids [Array]  Array of secondary ids being updated
+    # @return [Rx::Observable] The observable response
     def update_secondary_ids(secondary_ids)
       updates = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
@@ -112,6 +120,7 @@ module Elarian
 
     # Deletes a customer's secondary ids
     # @param secondary_ids [Array] Array of secondary ids being deleted
+    # @return [Rx::Observable] The observable response
     def delete_secondary_ids(secondary_ids)
       deletions = secondary_ids.map do |id|
         raise ArgumentError, "Invalid secondary id #{id}. Missing :key and/or :value" unless id[:key] && id[:value]
@@ -124,6 +133,7 @@ module Elarian
     end
 
     # Gets the metadata of a customer
+    # @return [Rx::Observable] The observable response
     def get_metadata
       get_state.map do |get_state_resp|
         metadata = get_state_resp.dig(:data, :identity_state, :metadata)
@@ -137,6 +147,7 @@ module Elarian
 
     # Updates a customer's metadata
     # @param data [Hash] Hash containing the metadata being updated
+    # @return [Rx::Observable] The observable response
     def update_metadata(data)
       command = P::UpdateCustomerMetadataCommand.new(**id_or_number)
       data.map do |key, val|
@@ -147,6 +158,7 @@ module Elarian
 
     # Deletes a customer's metadata
     # @param keys [Array] Metadata keys being deleted
+    # @return [Rx::Observable] The observable response
     def delete_metadata(keys)
       Utils.assert_type(keys, "keys", Array)
 
@@ -156,6 +168,7 @@ module Elarian
 
     # Updates a customer's app data
     # @param data [Hash] Hash containing the data being updated
+    # @return [Rx::Observable] The observable response
     def update_app_data(data)
       update = P::DataMapValue.new(string_val: JSON.dump(data))
       command = P::UpdateCustomerAppDataCommand.new(**id_or_number, update: update)
@@ -163,12 +176,14 @@ module Elarian
     end
 
     # Deletes a customer's app data
+    # @return [Rx::Observable] The observable response
     def delete_app_data
       command = P::DeleteCustomerAppDataCommand.new(**id_or_number)
       send_command(:delete_customer_app_data, command)
     end
 
     # Leases customer's app data
+    # @return [Rx::Observable] The observable response
     def lease_app_data
       command = P::LeaseCustomerAppDataCommand.new(**id_or_number)
       send_command(:lease_customer_app_data, command).map do |payload|
@@ -181,6 +196,7 @@ module Elarian
     # Updates a customer's activity
     # @param activity_channel [Hash] Hash containing the activity channels
     # @param activity [Hash] Hash containing the activities
+    # @return [Rx::Observable] The observable response
     def update_activity(activity_channel, activity)
       raise "Customer number not set" unless @number
 
@@ -202,6 +218,10 @@ module Elarian
       send_command(:customer_activity, command)
     end
 
+    # Sends a message to a customer
+    # @param messaging_channel [Hash] The messaging channel used
+    # @param message [Hash] The message being sent
+    # @return [Rx::Observable] The observable response
     def send_message(messaging_channel, message)
       raise "Customer number not set" unless @number
 
@@ -220,6 +240,7 @@ module Elarian
 
     # Adopts another customer's state
     # @param other_customer [Hash] Hash containing the other customer's details
+    # @return [Rx::Observable] The observable response
     def adopt_state(other_customer)
       Utils.assert_type(other_customer, "other_customer", Hash)
       raise "Customer id not set" unless @id
@@ -242,6 +263,7 @@ module Elarian
     # Updates a customer's engagement consent on this channel
     # @param messaging_channel [Hash] Hash containing the messaging channels
     # @param action [String] Choice of messaging consent.
+    # @return [Rx::Observable] The observable response
     def update_messaging_consent(messaging_channel, action = "ALLOW")
       Utils.assert_type(messaging_channel, "messaging_channel", Hash)
       raise "Missing Customer Number" unless @number
@@ -264,6 +286,7 @@ module Elarian
     # Replies to a message from a customer
     # @param message_id [String] Specific message id being replied to
     # @param message [String] Message being sent back
+    # @return [Rx::Observable] The observable response
     def reply_to_message(message_id, message)
       raise "customer_id not set" unless @id
 

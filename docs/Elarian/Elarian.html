@@ -140,7 +140,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_customer_reminder_by_tag-instance_method" title="#add_customer_reminder_by_tag (instance method)">#<strong>add_customer_reminder_by_tag</strong>(tag, reminder)  &#x21d2; Object </a>
+      <a href="#add_customer_reminder_by_tag-instance_method" title="#add_customer_reminder_by_tag (instance method)">#<strong>add_customer_reminder_by_tag</strong>(tag, reminder)  &#x21d2; Rx::Observable </a>
     
 
     
@@ -164,7 +164,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#cancel_customer_reminder_by_tag-instance_method" title="#cancel_customer_reminder_by_tag (instance method)">#<strong>cancel_customer_reminder_by_tag</strong>(key, tag)  &#x21d2; Object </a>
+      <a href="#cancel_customer_reminder_by_tag-instance_method" title="#cancel_customer_reminder_by_tag (instance method)">#<strong>cancel_customer_reminder_by_tag</strong>(key, tag)  &#x21d2; Rx::Observable </a>
     
 
     
@@ -188,7 +188,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#generate_auth_token-instance_method" title="#generate_auth_token (instance method)">#<strong>generate_auth_token</strong>  &#x21d2; Object </a>
+      <a href="#generate_auth_token-instance_method" title="#generate_auth_token (instance method)">#<strong>generate_auth_token</strong>  &#x21d2; Rx::Observable </a>
     
 
     
@@ -238,7 +238,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initiate_payment-instance_method" title="#initiate_payment (instance method)">#<strong>initiate_payment</strong>(debit_party:, credit_party:, value:)  &#x21d2; Object </a>
+      <a href="#initiate_payment-instance_method" title="#initiate_payment (instance method)">#<strong>initiate_payment</strong>(debit_party:, credit_party:, value:)  &#x21d2; Rx::Observable </a>
     
 
     
@@ -262,7 +262,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#send_message_by_tag-instance_method" title="#send_message_by_tag (instance method)">#<strong>send_message_by_tag</strong>(tag, messaging_channel, message)  &#x21d2; Object </a>
+      <a href="#send_message_by_tag-instance_method" title="#send_message_by_tag (instance method)">#<strong>send_message_by_tag</strong>(tag, messaging_channel, message)  &#x21d2; Rx::Observable </a>
     
 
     
@@ -462,7 +462,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="add_customer_reminder_by_tag-instance_method">
   
-    #<strong>add_customer_reminder_by_tag</strong>(tag, reminder)  &#x21d2; <tt>Object</tt> 
+    #<strong>add_customer_reminder_by_tag</strong>(tag, reminder)  &#x21d2; <tt>Rx::Observable</tt> 
   
 
   
@@ -514,6 +514,24 @@
   
 </ul>
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Rx::Observable</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The observable response</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -521,8 +539,6 @@
       <pre class="lines">
 
 
-45
-46
 47
 48
 49
@@ -537,10 +553,12 @@
 58
 59
 60
-61</pre>
+61
+62
+63</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 45</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 47</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_add_customer_reminder_by_tag'>add_customer_reminder_by_tag</span><span class='lparen'>(</span><span class='id identifier rubyid_tag'>tag</span><span class='comma'>,</span> <span class='id identifier rubyid_reminder'>reminder</span><span class='rparen'>)</span>
   <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_reminder'>reminder</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>reminder</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Hash</span><span class='rparen'>)</span>
@@ -567,7 +585,7 @@
       <div class="method_details ">
   <h3 class="signature " id="cancel_customer_reminder_by_tag-instance_method">
   
-    #<strong>cancel_customer_reminder_by_tag</strong>(key, tag)  &#x21d2; <tt>Object</tt> 
+    #<strong>cancel_customer_reminder_by_tag</strong>(key, tag)  &#x21d2; <tt>Rx::Observable</tt> 
   
 
   
@@ -619,6 +637,24 @@
   
 </ul>
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Rx::Observable</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The observable response</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -626,19 +662,19 @@
       <pre class="lines">
 
 
-66
-67
-68
 69
 70
 71
 72
 73
 74
-75</pre>
+75
+76
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 66</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_cancel_customer_reminder_by_tag'>cancel_customer_reminder_by_tag</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='id identifier rubyid_tag'>tag</span><span class='rparen'>)</span>
   <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>key</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>String</span><span class='rparen'>)</span>
@@ -658,7 +694,7 @@
       <div class="method_details ">
   <h3 class="signature " id="generate_auth_token-instance_method">
   
-    #<strong>generate_auth_token</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>generate_auth_token</strong>  &#x21d2; <tt>Rx::Observable</tt> 
   
 
   
@@ -674,6 +710,24 @@
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Rx::Observable</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The observable response</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -681,13 +735,13 @@
       <pre class="lines">
 
 
-37
 38
 39
-40</pre>
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 38</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_generate_auth_token'>generate_auth_token</span>
   <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>GenerateAuthTokenCommand</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -701,7 +755,7 @@
       <div class="method_details ">
   <h3 class="signature " id="initiate_payment-instance_method">
   
-    #<strong>initiate_payment</strong>(debit_party:, credit_party:, value:)  &#x21d2; <tt>Object</tt> 
+    #<strong>initiate_payment</strong>(debit_party:, credit_party:, value:)  &#x21d2; <tt>Rx::Observable</tt> 
   
 
   
@@ -769,6 +823,24 @@
   
 </ul>
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Rx::Observable</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The observable response</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -776,11 +848,6 @@
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
 107
 108
 109
@@ -790,10 +857,15 @@
 113
 114
 115
-116</pre>
+116
+117
+118
+119
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initiate_payment'>initiate_payment</span><span class='lparen'>(</span><span class='label'>debit_party:</span><span class='comma'>,</span> <span class='label'>credit_party:</span><span class='comma'>,</span> <span class='label'>value:</span><span class='rparen'>)</span>
   <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_debit_party'>debit_party</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>debit_party</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Hash</span><span class='rparen'>)</span>
@@ -818,7 +890,7 @@
       <div class="method_details ">
   <h3 class="signature " id="send_message_by_tag-instance_method">
   
-    #<strong>send_message_by_tag</strong>(tag, messaging_channel, message)  &#x21d2; <tt>Object</tt> 
+    #<strong>send_message_by_tag</strong>(tag, messaging_channel, message)  &#x21d2; <tt>Rx::Observable</tt> 
   
 
   
@@ -886,6 +958,24 @@
   
 </ul>
 
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Rx::Observable</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The observable response</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -893,10 +983,6 @@
       <pre class="lines">
 
 
-81
-82
-83
-84
 85
 86
 87
@@ -908,10 +994,14 @@
 93
 94
 95
-96</pre>
+96
+97
+98
+99
+100</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/elarian.rb', line 85</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_send_message_by_tag'>send_message_by_tag</span><span class='lparen'>(</span><span class='id identifier rubyid_tag'>tag</span><span class='comma'>,</span> <span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
   <span class='lbrace'>{</span> <span class='label'>tag:</span> <span class='id identifier rubyid_tag'>tag</span><span class='comma'>,</span> <span class='label'>messaging_channel:</span> <span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='comma'>,</span> <span class='label'>message:</span> <span class='id identifier rubyid_message'>message</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -939,7 +1029,7 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Aug 12 01:49:57 2021 by
+  Generated on Fri Aug 13 00:35:27 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.26 (ruby-2.7.0).
 </div>
