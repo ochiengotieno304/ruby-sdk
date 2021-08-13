@@ -2,7 +2,7 @@
 
 module Elarian
   # Elarian class that allows setting of handlers and reacting to various events
-  class Elarian < BaseClient
+  class Client < BaseClient
     include Utils::AppToServerCommandsHelper
 
     # @param org_id The Organization id

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Elarian::Elarian do
+RSpec.describe Elarian::Client do
   let(:client) { Helpers::EventMachine.get_client(described_class) }
 
   describe "#generate_new_token" do
