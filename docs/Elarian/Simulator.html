@@ -69,12 +69,12 @@
   <dl>
     <dt>Inherits:</dt>
     <dd>
-      <span class="inheritName"><span class='object_link'><a href="Client.html" title="Elarian::Client (class)">Client</a></span></span>
+      <span class="inheritName">BaseClient</span>
       
         <ul class="fullTree">
           <li>Object</li>
           
-            <li class="next"><span class='object_link'><a href="Client.html" title="Elarian::Client (class)">Client</a></span></li>
+            <li class="next">BaseClient</li>
           
             <li class="next">Elarian::Simulator</li>
           
@@ -122,11 +122,6 @@
 
 
 
-
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Client.html" title="Elarian::Client (class)">Client</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Client.html#is_simulator-instance_method" title="Elarian::Client#is_simulator (method)">#is_simulator</a></span></p>
 
 
   
@@ -240,17 +235,7 @@
 
 
   
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Client.html" title="Elarian::Client (class)">Client</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="Client.html#connect-instance_method" title="Elarian::Client#connect (method)">#connect</a></span>, <span class='object_link'><a href="Client.html#connected%3F-instance_method" title="Elarian::Client#connected? (method)">#connected?</a></span>, <span class='object_link'><a href="Client.html#disconnect-instance_method" title="Elarian::Client#disconnect (method)">#disconnect</a></span>, <span class='object_link'><a href="Client.html#on-instance_method" title="Elarian::Client#on (method)">#on</a></span>, <span class='object_link'><a href="Client.html#send_request-instance_method" title="Elarian::Client#send_request (method)">#send_request</a></span></p>
-<div id="constructor_details" class="method_details_list">
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -522,14 +507,16 @@
 38
 39
 40
-41</pre>
+41
+42</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/elarian/simulator.rb', line 26</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_receive_message'>receive_message</span><span class='lparen'>(</span><span class='label'>phone_number:</span><span class='comma'>,</span> <span class='label'>messaging_channel:</span><span class='comma'>,</span> <span class='label'>session_id:</span><span class='comma'>,</span> <span class='label'>message_parts:</span><span class='comma'>,</span> <span class='label'>cost:</span> <span class='kw'>nil</span><span class='rparen'>)</span>
-  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_keys_present'>assert_keys_present</span><span class='lparen'>(</span><span class='id identifier rubyid_cost'>cost</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cost</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>currency_code</span><span class='words_sep'> </span><span class='tstring_content'>amount</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='label'>strict:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_cost'>cost</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_keys_present'>assert_keys_present</span><span class='lparen'>(</span><span class='id identifier rubyid_cost'>cost</span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>currency_code</span><span class='words_sep'> </span><span class='tstring_content'>amount</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cost</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>strict:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_cost'>cost</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_keys_present'>assert_keys_present</span><span class='lparen'>(</span><span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>channel</span><span class='words_sep'> </span><span class='tstring_content'>number</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>messaging_channel</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>strict:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_type'>assert_type</span><span class='lparen'>(</span><span class='id identifier rubyid_message_parts'>message_parts</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>message_parts</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='const'>Array</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_cost'>cost</span> <span class='op'>||=</span> <span class='lbrace'>{</span> <span class='label'>currency_code:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>KES</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>amount:</span> <span class='int'>0</span> <span class='rbrace'>}</span>
   <span class='id identifier rubyid_channel_enum'>channel_enum</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_value'>get_enum_value</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>MessagingChannel</span><span class='comma'>,</span> <span class='id identifier rubyid_messaging_channel'>messaging_channel</span><span class='lbracket'>[</span><span class='symbol'>:channel</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>MESSAGING_CHANNEL</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -676,7 +663,6 @@
       <pre class="lines">
 
 
-50
 51
 52
 53
@@ -691,10 +677,11 @@
 62
 63
 64
-65</pre>
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/simulator.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/simulator.rb', line 51</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_receive_payment'>receive_payment</span><span class='lparen'>(</span><span class='label'>phone_number:</span><span class='comma'>,</span> <span class='label'>payment_channel:</span><span class='comma'>,</span> <span class='label'>transaction_id:</span><span class='comma'>,</span> <span class='label'>value:</span><span class='comma'>,</span> <span class='label'>status:</span><span class='rparen'>)</span>
   <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_assert_keys_present'>assert_keys_present</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='qsymbols_beg'>%i[</span><span class='tstring_content'>currency_code</span><span class='words_sep'> </span><span class='tstring_content'>amount</span><span class='tstring_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>strict:</span> <span class='kw'>true</span><span class='rparen'>)</span>
@@ -797,15 +784,15 @@
       <pre class="lines">
 
 
-71
 72
 73
 74
 75
-76</pre>
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/elarian/simulator.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/elarian/simulator.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_payment_status'>update_payment_status</span><span class='lparen'>(</span><span class='id identifier rubyid_transaction_id'>transaction_id</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_status_val'>status_val</span> <span class='op'>=</span> <span class='const'>Utils</span><span class='period'>.</span><span class='id identifier rubyid_get_enum_value'>get_enum_value</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Elarian.html#P-constant" title="Elarian::P (constant)">P</a></span></span><span class='op'>::</span><span class='const'>PaymentStatus</span><span class='comma'>,</span> <span class='id identifier rubyid_status'>status</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>PAYMENT_STATUS</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
@@ -823,9 +810,9 @@
 </div>
 
       <div id="footer">
-  Generated on Fri Aug 13 00:35:27 2021 by
+  Generated on Fri Aug 13 15:59:48 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.26 (ruby-2.7.0).
+  0.9.26 (ruby-2.7.2).
 </div>
 
     </div>
