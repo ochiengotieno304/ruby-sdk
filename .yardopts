@@ -1,9 +1,9 @@
 --protected
 --no-private
 --exclude lib/elarian/utils
+lib/elarian/base_client.rb
 lib/elarian/client.rb
 lib/elarian/customer.rb
-lib/elarian/elarian.rb
 lib/elarian/simulator.rb
 lib/elarian.rb
 --output-dir docs
