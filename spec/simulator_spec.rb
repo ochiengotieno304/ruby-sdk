@@ -27,7 +27,7 @@ RSpec.describe Elarian::Simulator do
         .to raise_error("cost missing one or more required keys. Required keys are: [:currency_code, :amount]")
     end
 
-    it do
+    it "has the expected response" do
       res = await(simulator.receive_message(**params))
       expect(res).to include(:status, :description, :message)
     end
@@ -56,7 +56,7 @@ RSpec.describe Elarian::Simulator do
       expect { simulator.receive_payment(**params.merge(status: "dummy")) }.to raise_error(/Invalid key "dummy"/)
     end
 
-    it do
+    it "has the expected response" do
       res = await(simulator.receive_payment(**params))
       expect(res).to include(:status, :description, :message)
     end
@@ -69,7 +69,7 @@ RSpec.describe Elarian::Simulator do
       expect { simulator.update_payment_status(transaction_id, status) }.to raise_error(/Invalid key "bar"/)
     end
 
-    it do
+    it "has the expected response" do
       transaction_id = "some_id"
       res = await(simulator.update_payment_status(transaction_id, status))
       expect(res).to include(:status, :description, :message)

@@ -36,7 +36,7 @@ RSpec.describe Elarian::Elarian do
         )
     end
 
-    it do
+    it "adds reminder by tag" do
       res = await(client.add_customer_reminder_by_tag(valid_tag, valid_reminder))
       expect(res).to include(:status, :description, :work_id)
       expect(res[:status]).to be true
@@ -56,7 +56,7 @@ RSpec.describe Elarian::Elarian do
         .to raise_error("Invalid tag type. Expected Hash got Integer")
     end
 
-    it do
+    it "cancels reminder by tag" do
       res = await(client.cancel_customer_reminder_by_tag(valid_key, valid_tag))
       expect(res).to include(:status, :description, :work_id)
       expect(res[:status]).to be true
@@ -87,7 +87,7 @@ RSpec.describe Elarian::Elarian do
         .to raise_error("messaging_channel missing one or more required keys. Required keys are: [:channel, :number]")
     end
 
-    it do
+    it "sends message by tag" do
       res = await(client.send_message_by_tag(valid_tag, valid_messaging_channel, valid_message))
       expect(res).to include(:status, :description, :work_id)
       expect(res[:status]).to be true
@@ -120,7 +120,5 @@ RSpec.describe Elarian::Elarian do
       expect { client.initiate_payment(valid_debit_party, valid_credit_party, value_without_amount) }
         .to raise_error("value missing one or more required keys. Required keys are: [:amount, :currency_code]")
     end
-
-    it "works"
   end
 end

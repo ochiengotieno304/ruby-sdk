@@ -46,7 +46,7 @@ RSpec.describe Elarian::Customer do
         .to raise_error(/tags\[1\] missing one or more required keys.*Required keys.*\[:key, :value\]/)
     end
 
-    it "works" do
+    it "updates tags" do
       tags = [{ key: "consumer_group", value: "heavy_consumer" }]
       res = await(customer.update_tags(tags))
 
@@ -60,7 +60,7 @@ RSpec.describe Elarian::Customer do
       expect { customer.delete_tags([1, "key"]) }.to raise_error(/Invalid keys\[0\] type.*Expected String/)
     end
 
-    it "works" do
+    it "deletes tags" do
       res = await(customer.delete_tags(%w[test consumer_group]))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
@@ -68,7 +68,7 @@ RSpec.describe Elarian::Customer do
   end
 
   describe "#get_tags" do
-    it do
+    it "retrieves tags" do
       update_tag = { key: "consumer_group", value: "heavy_consumer" }
       await(customer.update_tags([update_tag]))
 
@@ -78,7 +78,6 @@ RSpec.describe Elarian::Customer do
       tag = res.find { |el| el.dig(:mapping, :key) == "consumer_group" }
       expect(tag).to be_a Hash
 
-      # TODO: Yuck! Maybe this is a sign that #get_tags should undergo some more parsing
       expect(tag[:mapping]).to eql({ key: update_tag[:key], value: { value: update_tag[:value] } })
     end
   end
@@ -97,7 +96,7 @@ RSpec.describe Elarian::Customer do
         .to raise_error(/Either :key or :remind_at is missing in reminder/)
     end
 
-    it "works" do
+    it "adds reminder" do
       res = await(customer.add_reminder(reminder))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
@@ -109,7 +108,7 @@ RSpec.describe Elarian::Customer do
       expect { customer.cancel_reminder(1) }.to raise_error(/Expected String got Integer/)
     end
 
-    it "works" do
+    it "cancels reminder" do
       res = await(customer.cancel_reminder("test"))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
@@ -117,7 +116,7 @@ RSpec.describe Elarian::Customer do
   end
 
   describe "#get_secondary_ids" do
-    it do
+    it "retrieves secondary IDs" do
       res = await(customer.get_secondary_ids)
       expect(res).to be_an(Array)
     end
@@ -139,7 +138,7 @@ RSpec.describe Elarian::Customer do
         .to raise_error("secondary_ids[1] missing one or more required keys. Required keys are: [:key, :value]")
     end
 
-    it "works" do
+    it "updates secondary IDs" do
       secondary_ids = [{ key: "work_email", value: "john.doe@foo.bar" }]
       res = await(customer.update_secondary_ids(secondary_ids))
       expect(res).to include(:status, :description, :customer_id)
@@ -161,7 +160,7 @@ RSpec.describe Elarian::Customer do
         .to raise_error("secondary_ids[1] missing one or more required keys. Required keys are: [:key, :value]")
     end
 
-    it "works" do
+    it "deletes secondary IDs" do
       secondary_ids = [{ key: "work_email", value: "john.doe@foo.bar" }]
       res = await(customer.delete_secondary_ids(secondary_ids))
       expect(res).to include(:status, :description, :customer_id)
@@ -174,7 +173,7 @@ RSpec.describe Elarian::Customer do
       expect { customer.update_metadata([]) }.to raise_error("Invalid data type. Expected Hash got Array")
     end
 
-    it do
+    it "updates metadata" do
       meta = { name: "John Doe", role: "admin" }
       res = await(customer.update_metadata(meta))
       expect(res).to include(:status, :description, :customer_id)
@@ -183,7 +182,7 @@ RSpec.describe Elarian::Customer do
   end
 
   describe "#get_metadata" do
-    it do
+    it "retrieves customer metadata" do
       await(customer.update_metadata({ name: "No name" }))
 
       res = await(customer.get_metadata)
@@ -197,7 +196,7 @@ RSpec.describe Elarian::Customer do
       expect { customer.delete_metadata(1) }.to raise_error("Invalid keys type. Expected Array got Integer")
     end
 
-    it "works" do
+    it "deletes customer metadata" do
       res = await(customer.delete_metadata([:name]))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
@@ -209,7 +208,7 @@ RSpec.describe Elarian::Customer do
       expect { customer.update_app_data(1) }.to raise_error("Invalid data type. Expected Hash got Integer")
     end
 
-    it "works" do
+    it "updates customer app data" do
       app_data = { last_sign_in_ip: "10.10.10.10", last_sign_in_time: Time.now - 100 }
       res = await(customer.update_app_data(app_data))
       expect(res).to include(:status, :description, :customer_id)
@@ -218,7 +217,7 @@ RSpec.describe Elarian::Customer do
   end
 
   describe "#lease_app_data" do
-    it do
+    it "retrieves customer app data" do
       app_data = { loan_details: { balance: 150, repayment_date: Time.now + 86_400 } }
       await(customer.update_app_data(app_data))
 
@@ -229,7 +228,7 @@ RSpec.describe Elarian::Customer do
   end
 
   describe "#delete_app_data" do
-    it do
+    it "deletes customer app data" do
       res = await(customer.delete_app_data)
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
@@ -250,7 +249,7 @@ RSpec.describe Elarian::Customer do
         .to raise_error("activity missing one or more required keys. Required keys are: [:session_id, :key]")
     end
 
-    it "works" do
+    it "updates customer activity" do
       res = await(customer.update_activity(activity_channel, activity))
       expect(res).to include(:status, :description, :customer_id)
       expect(res[:status]).to be true
@@ -258,7 +257,7 @@ RSpec.describe Elarian::Customer do
   end
 
   describe "#send_message" do
-    it do
+    it "makes a send message request" do
       messaging_channel = { number: "RSDK_SENDER", channel: "sms" }
       message = { body: { text: "hello world!" } }
 
@@ -268,7 +267,7 @@ RSpec.describe Elarian::Customer do
   end
 
   describe "#reply_to_message" do
-    it do
+    it "makes a reply_to_message request" do
       reply = { body: { text: "Replying to your message" } }
       res = await(customer.reply_to_message("some_message_id", reply))
 
@@ -282,7 +281,7 @@ RSpec.describe Elarian::Customer do
         .to raise_error("Invalid other_customer type. Expected Hash got Integer")
     end
 
-    it "works" do
+    it "adopts the new state" do
       other_state = { number: "0712345432", provider: "CELLULAR" }
       res = await(customer.adopt_state(other_state))
       expect(res).to include(:status, :description, :customer_id)
