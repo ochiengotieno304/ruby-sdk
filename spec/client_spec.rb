@@ -61,12 +61,16 @@ RSpec.describe Elarian::Client do
         client
       end
 
-      it "calls handlers for :pending, :connecting and :connected but does not call :error or :closed" do
+      it "calls handlers for :pending, :connecting and :connected" do
         aggregate_failures do
           %i[pending connecting connected].each do |event|
             expect(handlers[event].called).to be(true), "Expected handler on_#{event} to have been called."
           end
+        end
+      end
 
+      it "does not call handlers for :error and closed" do
+        aggregate_failures do
           %i[error closed].each do |event|
             expect(handlers[event].called).to be(false), "Expected handler on_#{event} NOT to have been called."
           end
@@ -81,15 +85,11 @@ RSpec.describe Elarian::Client do
         client
       end
 
-      it "calls the handlers :pending, :connecting, :connected, :error and :closed" do
-        # seems weird to assert that "connected" handler was called
-        # But for this case, the way we simulate a connection error is by sending invalid credentials
-        # Technically the connection succeeded, but then failed due to invalid creds
-
+      it "calls the handlers for :error and :closed" do
         sleep 1
 
         aggregate_failures do
-          %i[pending connecting connected error closed].each do |event|
+          %i[error closed].each do |event|
             expect(handlers[event].called).to be(true), "Expected handler on_#{event} to have been called."
           end
         end

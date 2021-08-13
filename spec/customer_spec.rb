@@ -22,11 +22,14 @@ RSpec.describe Elarian::Customer do
     end
 
     it "rejects unrecognized providers" do
+      expect { described_class.new(client: client, number: "+25411111111", provider: "invalid") }
+        .to raise_error ArgumentError, /Unrecognized provider/
+    end
+
+    it "accepts recognized providers" do
       %w[facebook cellular telegram web email].each do |provider|
         expect { described_class.new(client: client, number: "+25411111111", provider: provider) }.not_to raise_error
       end
-      expect { described_class.new(client: client, number: "+25411111111", provider: "invalid") }
-        .to raise_error ArgumentError, /Unrecognized provider/
     end
   end
 
