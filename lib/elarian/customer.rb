@@ -220,8 +220,6 @@ module Elarian
         key: activity[:key],
         session_id: activity[:session_id]
       )
-      # TODO: logic copy-pasted from Python-SDK, confirm that this is what we want.
-      # Would be more logical to set each property one by one.
       command.properties["property"] = activity[:properties].to_s
       send_command(:customer_activity, command)
     end
