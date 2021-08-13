@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Elarian
-  # Client class that handles connections to Elarian backend
-  class Client
+  # BaseClient class that handles connections to Elarian backend
+  class BaseClient
     # @return [Boolean] Indicates if client is a simulator or not
     attr_reader :is_simulator
 

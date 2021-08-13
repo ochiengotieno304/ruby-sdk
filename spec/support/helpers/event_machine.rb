@@ -55,7 +55,7 @@ module Helpers
       end
 
       # returns a connected client used for testing
-      def get_client(client_class = ::Elarian::Client)
+      def get_client(client_class = ::Elarian::BaseClient)
         @default_client ||= client_class.new(connection_credentials)
         on_error = lambda do |error|
           puts "Error occurred #{error}"

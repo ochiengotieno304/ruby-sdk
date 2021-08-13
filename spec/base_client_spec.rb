@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Elarian::Client do
+RSpec.describe Elarian::BaseClient do
   before { Singleton.__init__(Elarian::RequestHandler) }
 
   describe "#new" do

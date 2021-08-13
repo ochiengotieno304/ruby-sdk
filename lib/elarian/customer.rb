@@ -339,7 +339,7 @@ module Elarian
     end
 
     def validate
-      raise ArgumentError, "Invalid client" unless @client.is_a? Client
+      raise ArgumentError, "Invalid client" unless @client.is_a? BaseClient
       raise ArgumentError, "id or number must be provided" unless @id || @number
       return if valid_provider?
 

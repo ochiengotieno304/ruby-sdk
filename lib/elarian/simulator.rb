@@ -2,7 +2,7 @@
 
 module Elarian
   # Client class that simulates a connection to the Elarian backend
-  class Simulator < Client
+  class Simulator < BaseClient
     include Utils::AppToServerCommandsHelper
 
     # @param org_id The Organization id
