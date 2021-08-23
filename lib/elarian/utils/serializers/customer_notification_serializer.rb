@@ -142,7 +142,6 @@ module Elarian
       end
 
       def serialize_customer_activity
-        @data[:session_id] = @data.dig(:session_id, :value)
         serialize_channel_number(P::ActivityChannel, "ACTIVITY_CHANNEL")
       end
 

@@ -17,7 +17,7 @@ module Elarian
     end
 
     def error?
-      !@data.status
+      !@data.status if @data.respond_to? :status
     end
 
     def error_message

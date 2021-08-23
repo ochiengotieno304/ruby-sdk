@@ -13,7 +13,7 @@ require "elarian"
 
 @purse_id = ENV["PURSE_ID"]
 
-@client = Elarian::Elarian.new(
+@client = Elarian::Client.new(
   org_id: ENV["ORG_ID"],
   app_id: ENV["APP_ID"],
   api_key: ENV["API_KEY"]

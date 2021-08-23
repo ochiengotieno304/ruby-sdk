@@ -69,6 +69,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (1.7.0)
+    yard (0.9.26)
 
 PLATFORMS
   ruby
@@ -83,6 +84,7 @@ DEPENDENCIES
   rspec (~> 3.0)
   rubocop (~> 0.8)
   rx
+  yard
 
 BUNDLED WITH
-   2.2.16
+   2.2.23
