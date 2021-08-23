@@ -244,7 +244,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :debit_party, :message, 1, "com.elarian.hera.proto.PaymentCounterParty"
       optional :credit_party, :message, 2, "com.elarian.hera.proto.PaymentCounterParty"
       optional :value, :message, 3, "com.elarian.hera.proto.Cash"
-      optional :mode, :enum, 4, "com.elarian.hera.proto.PaymentMode"
     end
     add_message "com.elarian.hera.proto.InitiatePaymentReply" do
       optional :status, :enum, 1, "com.elarian.hera.proto.PaymentStatus"
@@ -367,8 +366,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :customer_number, :message, 3, "com.elarian.hera.proto.CustomerNumber"
       optional :channel_number, :message, 4, "com.elarian.hera.proto.PaymentChannelNumber"
       optional :value, :message, 5, "com.elarian.hera.proto.Cash"
-      optional :mode, :enum, 6, "com.elarian.hera.proto.PaymentMode"
-      optional :status, :enum, 7, "com.elarian.hera.proto.PaymentStatus"
+      optional :status, :enum, 6, "com.elarian.hera.proto.PaymentStatus"
     end
     add_message "com.elarian.hera.proto.PaymentStatusNotification" do
       optional :transaction_id, :string, 1

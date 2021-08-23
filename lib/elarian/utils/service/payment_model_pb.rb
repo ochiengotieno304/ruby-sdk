@@ -16,16 +16,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :created_at, :message, 1, "google.protobuf.Timestamp"
       optional :value, :message, 2, "com.elarian.hera.proto.Cash"
       optional :converted, :message, 3, "com.elarian.hera.proto.Cash"
-      optional :mode, :enum, 4, "com.elarian.hera.proto.PaymentMode"
-    end
-    add_message "com.elarian.hera.proto.LedgerBalance" do
-      optional :available, :message, 1, "com.elarian.hera.proto.Cash"
-      optional :actual, :message, 2, "com.elarian.hera.proto.Cash"
     end
     add_message "com.elarian.hera.proto.PaymentBalance" do
       optional :currency_code, :string, 1
-      optional :hosted, :message, 2, "com.elarian.hera.proto.LedgerBalance"
-      optional :virtual, :message, 3, "com.elarian.hera.proto.LedgerBalance"
+      optional :available, :message, 2, "com.elarian.hera.proto.Cash"
+      optional :actual, :message, 3, "com.elarian.hera.proto.Cash"
       map :pending, :string, :message, 4, "com.elarian.hera.proto.PendingPaymentTransaction"
       optional :sequence_nr, :int64, 5
     end
@@ -61,20 +56,14 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :debit_party, :message, 4, "com.elarian.hera.proto.PaymentCounterParty"
       optional :credit_party, :message, 5, "com.elarian.hera.proto.PaymentCounterParty"
       optional :value, :message, 6, "com.elarian.hera.proto.Cash"
-      optional :mode, :enum, 7, "com.elarian.hera.proto.PaymentMode"
-      optional :status, :enum, 8, "com.elarian.hera.proto.PaymentStatus"
-      optional :created_at, :message, 9, "google.protobuf.Timestamp"
-      optional :updated_at, :message, 10, "google.protobuf.Timestamp"
+      optional :status, :enum, 7, "com.elarian.hera.proto.PaymentStatus"
+      optional :created_at, :message, 8, "google.protobuf.Timestamp"
+      optional :updated_at, :message, 9, "google.protobuf.Timestamp"
     end
     add_enum "com.elarian.hera.proto.PaymentChannel" do
       value :PAYMENT_CHANNEL_UNSPECIFIED, 0
       value :PAYMENT_CHANNEL_CELLULAR, 1
       value :PAYMENT_CHANNEL_AIRTIME, 2
-    end
-    add_enum "com.elarian.hera.proto.PaymentMode" do
-      value :PAYMENT_MODE_UNSPECIFIED, 0
-      value :PAYMENT_MODE_HOSTED, 1
-      value :PAYMENT_MODE_VIRTUAL, 2
     end
     add_enum "com.elarian.hera.proto.PaymentStatus" do
       value :PAYMENT_STATUS_UNSPECIFIED, 0
@@ -107,7 +96,6 @@ module Com
       module Proto
         PaymentChannelNumber = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentChannelNumber").msgclass
         PendingPaymentTransaction = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PendingPaymentTransaction").msgclass
-        LedgerBalance = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.LedgerBalance").msgclass
         PaymentBalance = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentBalance").msgclass
         PaymentPurseCounterParty = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentPurseCounterParty").msgclass
         PaymentWalletCounterParty = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentWalletCounterParty").msgclass
@@ -116,7 +104,6 @@ module Com
         PaymentCounterParty = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentCounterParty").msgclass
         PaymentTransaction = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentTransaction").msgclass
         PaymentChannel = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentChannel").enummodule
-        PaymentMode = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentMode").enummodule
         PaymentStatus = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.PaymentStatus").enummodule
       end
     end

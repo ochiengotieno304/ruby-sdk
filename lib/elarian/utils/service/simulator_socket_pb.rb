@@ -30,8 +30,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :channel_number, :message, 2, "com.elarian.hera.proto.PaymentChannelNumber"
       optional :customer_number, :string, 3
       optional :value, :message, 4, "com.elarian.hera.proto.Cash"
-      optional :mode, :enum, 5, "com.elarian.hera.proto.PaymentMode"
-      optional :status, :enum, 6, "com.elarian.hera.proto.PaymentStatus"
+      optional :status, :enum, 5, "com.elarian.hera.proto.PaymentStatus"
     end
     add_message "com.elarian.hera.proto.UpdatePaymentStatusSimulatorCommand" do
       optional :transaction_id, :string, 1
