@@ -41,7 +41,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :CUSTOMER_NUMBER_PROVIDER_FACEBOOK, 1
       value :CUSTOMER_NUMBER_PROVIDER_CELLULAR, 2
       value :CUSTOMER_NUMBER_PROVIDER_TELEGRAM, 3
-      value :CUSTOMER_NUMBER_PROVIDER_WEB, 4
+      value :CUSTOMER_NUMBER_PROVIDER_APP, 4
       value :CUSTOMER_NUMBER_PROVIDER_EMAIL, 5
     end
     add_enum "com.elarian.hera.proto.ChannelNumberProvider" do
@@ -49,10 +49,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :CHANNEL_NUMBER_PROVIDER_AT, 1
       value :CHANNEL_NUMBER_PROVIDER_TWILIO, 2
       value :CHANNEL_NUMBER_PROVIDER_MAILGUN, 3
-      value :CHANNEL_NUMBER_PROVIDER_WEBAPP, 4
-      value :CHANNEL_NUMBER_PROVIDER_FACEBOOK, 5
-      value :CHANNEL_NUMBER_PROVIDER_TELEGRAM, 6
-      value :CHANNEL_NUMBER_PROVIDER_SIMULATOR, 7
+      value :CHANNEL_NUMBER_PROVIDER_FACEBOOK, 4
+      value :CHANNEL_NUMBER_PROVIDER_TELEGRAM, 5
+      value :CHANNEL_NUMBER_PROVIDER_SIMULATOR, 6
     end
     add_enum "com.elarian.hera.proto.MediaType" do
       value :MEDIA_TYPE_UNSPECIFIED, 0

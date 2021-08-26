@@ -259,7 +259,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "com.elarian.hera.proto.CustomerActivityCommand" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
-      optional :channel_number, :message, 2, "com.elarian.hera.proto.ActivityChannelNumber"
+      optional :source, :string, 2
       optional :session_id, :string, 3
       optional :key, :string, 4
       map :properties, :string, :string, 5
@@ -379,7 +379,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "com.elarian.hera.proto.CustomerActivityNotification" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
-      optional :channel_number, :message, 2, "com.elarian.hera.proto.ActivityChannelNumber"
+      optional :source, :string, 2
       optional :session_id, :string, 3
       optional :activity, :message, 4, "com.elarian.hera.proto.CustomerActivity"
     end
