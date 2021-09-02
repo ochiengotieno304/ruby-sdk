@@ -75,6 +75,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "com.elarian.hera.proto.CreateCustomerCommand" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
     end
+    add_message "com.elarian.hera.proto.CreateCustomerReply" do
+      optional :status, :bool, 1
+      optional :description, :bool, 2
+      optional :customer_id, :message, 3, "google.protobuf.StringValue"
+    end
     add_message "com.elarian.hera.proto.GetCustomerStateCommand" do
       oneof :customer do
         optional :customer_id, :string, 1
@@ -400,6 +405,7 @@ module Com
         GenerateAuthTokenCommand = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.GenerateAuthTokenCommand").msgclass
         GenerateAuthTokenReply = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.GenerateAuthTokenReply").msgclass
         CreateCustomerCommand = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CreateCustomerCommand").msgclass
+        CreateCustomerReply = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CreateCustomerReply").msgclass
         GetCustomerStateCommand = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.GetCustomerStateCommand").msgclass
         GetCustomerStateReply = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.GetCustomerStateReply").msgclass
         CustomerStateReplyData = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CustomerStateReplyData").msgclass
