@@ -84,9 +84,11 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :org_id, :string, 1
       optional :app_id, :string, 2
       optional :transaction_id, :string, 5
-      optional :channel_number, :message, 6, "com.elarian.hera.proto.PaymentChannelNumber"
-      optional :account, :message, 7, "google.protobuf.StringValue"
-      optional :value, :message, 8, "com.elarian.hera.proto.Cash"
+      optional :channel, :enum, 6, "com.elarian.hera.proto.PaymentChannel"
+      optional :source, :string, 7
+      optional :destination, :string, 8
+      optional :account, :message, 9, "google.protobuf.StringValue"
+      optional :value, :message, 10, "com.elarian.hera.proto.Cash"
       oneof :debit_party do
         optional :wallet, :message, 3, "com.elarian.hera.proto.PaymentWalletCounterParty"
         optional :purse, :message, 4, "com.elarian.hera.proto.PaymentPurseCounterParty"

@@ -7,10 +7,6 @@ require 'google/protobuf/wrappers_pb'
 require 'google/protobuf/timestamp_pb'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("common_model.proto", :syntax => :proto3) do
-    add_message "com.elarian.hera.proto.Memory" do
-      optional :unit, :enum, 1, "com.elarian.hera.proto.MemoryUnit"
-      optional :value, :double, 2
-    end
     add_message "com.elarian.hera.proto.DataMapValue" do
       oneof :value do
         optional :string_val, :string, 2
@@ -45,7 +41,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :CUSTOMER_NUMBER_PROVIDER_FACEBOOK, 1
       value :CUSTOMER_NUMBER_PROVIDER_CELLULAR, 2
       value :CUSTOMER_NUMBER_PROVIDER_TELEGRAM, 3
-      value :CUSTOMER_NUMBER_PROVIDER_WEB, 4
+      value :CUSTOMER_NUMBER_PROVIDER_APP, 4
       value :CUSTOMER_NUMBER_PROVIDER_EMAIL, 5
     end
     add_enum "com.elarian.hera.proto.ChannelNumberProvider" do
@@ -53,10 +49,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :CHANNEL_NUMBER_PROVIDER_AT, 1
       value :CHANNEL_NUMBER_PROVIDER_TWILIO, 2
       value :CHANNEL_NUMBER_PROVIDER_MAILGUN, 3
-      value :CHANNEL_NUMBER_PROVIDER_WEBAPP, 4
-      value :CHANNEL_NUMBER_PROVIDER_FACEBOOK, 5
-      value :CHANNEL_NUMBER_PROVIDER_TELEGRAM, 6
-      value :CHANNEL_NUMBER_PROVIDER_SIMULATOR, 7
+      value :CHANNEL_NUMBER_PROVIDER_FACEBOOK, 4
+      value :CHANNEL_NUMBER_PROVIDER_TELEGRAM, 5
+      value :CHANNEL_NUMBER_PROVIDER_SIMULATOR, 6
     end
     add_enum "com.elarian.hera.proto.MediaType" do
       value :MEDIA_TYPE_UNSPECIFIED, 0
@@ -78,13 +73,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :CUSTOMER_REQUEST_ORIGIN_API_REQUEST, 1
       value :CUSTOMER_REQUEST_ORIGIN_CUSTOMER_TAG, 2
     end
-    add_enum "com.elarian.hera.proto.MemoryUnit" do
-      value :MEMORY_UNIT_UNSPECIFIED, 0
-      value :MEMORY_UNIT_BYTES, 1
-      value :MEMORY_UNIT_KILOBYTES, 2
-      value :MEMORY_UNIT_MEGABYTES, 3
-      value :MEMORY_UNIT_GIGABYTES, 4
-    end
   end
 end
 
@@ -92,7 +80,6 @@ module Com
   module Elarian
     module Hera
       module Proto
-        Memory = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.Memory").msgclass
         DataMapValue = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.DataMapValue").msgclass
         Cash = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.Cash").msgclass
         IndexMapping = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.IndexMapping").msgclass
@@ -104,7 +91,6 @@ module Com
         MediaType = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.MediaType").enummodule
         CustomerEventDirection = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CustomerEventDirection").enummodule
         CustomerRequestOrigin = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CustomerRequestOrigin").enummodule
-        MemoryUnit = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.MemoryUnit").enummodule
       end
     end
   end

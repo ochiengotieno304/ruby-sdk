@@ -10,7 +10,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_file("activity_state.proto", :syntax => :proto3) do
     add_message "com.elarian.hera.proto.ActivitySessionState" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
-      optional :channel_number, :message, 2, "com.elarian.hera.proto.ActivityChannelNumber"
+      optional :source, :string, 2
       optional :session_id, :string, 3
       optional :app_id, :string, 4
       repeated :activities, :message, 5, "com.elarian.hera.proto.CustomerActivity"

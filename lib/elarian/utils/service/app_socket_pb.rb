@@ -28,27 +28,28 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "com.elarian.hera.proto.AppToServerCommand" do
       oneof :entry do
         optional :generate_auth_token, :message, 1, "com.elarian.hera.proto.GenerateAuthTokenCommand"
-        optional :get_customer_state, :message, 2, "com.elarian.hera.proto.GetCustomerStateCommand"
-        optional :adopt_customer_state, :message, 3, "com.elarian.hera.proto.AdoptCustomerStateCommand"
-        optional :add_customer_reminder, :message, 4, "com.elarian.hera.proto.AddCustomerReminderCommand"
-        optional :add_customer_reminder_tag, :message, 5, "com.elarian.hera.proto.AddCustomerReminderTagCommand"
-        optional :cancel_customer_reminder, :message, 6, "com.elarian.hera.proto.CancelCustomerReminderCommand"
-        optional :cancel_customer_reminder_tag, :message, 7, "com.elarian.hera.proto.CancelCustomerReminderTagCommand"
-        optional :update_customer_tag, :message, 8, "com.elarian.hera.proto.UpdateCustomerTagCommand"
-        optional :delete_customer_tag, :message, 9, "com.elarian.hera.proto.DeleteCustomerTagCommand"
-        optional :update_customer_secondary_id, :message, 10, "com.elarian.hera.proto.UpdateCustomerSecondaryIdCommand"
-        optional :delete_customer_secondary_id, :message, 11, "com.elarian.hera.proto.DeleteCustomerSecondaryIdCommand"
-        optional :update_customer_metadata, :message, 12, "com.elarian.hera.proto.UpdateCustomerMetadataCommand"
-        optional :delete_customer_metadata, :message, 13, "com.elarian.hera.proto.DeleteCustomerMetadataCommand"
-        optional :lease_customer_app_data, :message, 14, "com.elarian.hera.proto.LeaseCustomerAppDataCommand"
-        optional :update_customer_app_data, :message, 15, "com.elarian.hera.proto.UpdateCustomerAppDataCommand"
-        optional :delete_customer_app_data, :message, 16, "com.elarian.hera.proto.DeleteCustomerAppDataCommand"
-        optional :send_message, :message, 17, "com.elarian.hera.proto.SendMessageCommand"
-        optional :send_message_tag, :message, 18, "com.elarian.hera.proto.SendMessageTagCommand"
-        optional :reply_to_message, :message, 19, "com.elarian.hera.proto.ReplyToMessageCommand"
-        optional :update_messaging_consent, :message, 20, "com.elarian.hera.proto.UpdateMessagingConsentCommand"
-        optional :initiate_payment, :message, 21, "com.elarian.hera.proto.InitiatePaymentCommand"
-        optional :customer_activity, :message, 22, "com.elarian.hera.proto.CustomerActivityCommand"
+        optional :create_customer, :message, 2, "com.elarian.hera.proto.CreateCustomerCommand"
+        optional :get_customer_state, :message, 3, "com.elarian.hera.proto.GetCustomerStateCommand"
+        optional :adopt_customer_state, :message, 4, "com.elarian.hera.proto.AdoptCustomerStateCommand"
+        optional :add_customer_reminder, :message, 5, "com.elarian.hera.proto.AddCustomerReminderCommand"
+        optional :add_customer_reminder_tag, :message, 6, "com.elarian.hera.proto.AddCustomerReminderTagCommand"
+        optional :cancel_customer_reminder, :message, 7, "com.elarian.hera.proto.CancelCustomerReminderCommand"
+        optional :cancel_customer_reminder_tag, :message, 8, "com.elarian.hera.proto.CancelCustomerReminderTagCommand"
+        optional :update_customer_tag, :message, 9, "com.elarian.hera.proto.UpdateCustomerTagCommand"
+        optional :delete_customer_tag, :message, 10, "com.elarian.hera.proto.DeleteCustomerTagCommand"
+        optional :update_customer_secondary_id, :message, 11, "com.elarian.hera.proto.UpdateCustomerSecondaryIdCommand"
+        optional :delete_customer_secondary_id, :message, 12, "com.elarian.hera.proto.DeleteCustomerSecondaryIdCommand"
+        optional :update_customer_metadata, :message, 13, "com.elarian.hera.proto.UpdateCustomerMetadataCommand"
+        optional :delete_customer_metadata, :message, 14, "com.elarian.hera.proto.DeleteCustomerMetadataCommand"
+        optional :lease_customer_app_data, :message, 15, "com.elarian.hera.proto.LeaseCustomerAppDataCommand"
+        optional :update_customer_app_data, :message, 16, "com.elarian.hera.proto.UpdateCustomerAppDataCommand"
+        optional :delete_customer_app_data, :message, 17, "com.elarian.hera.proto.DeleteCustomerAppDataCommand"
+        optional :send_message, :message, 18, "com.elarian.hera.proto.SendMessageCommand"
+        optional :send_message_tag, :message, 19, "com.elarian.hera.proto.SendMessageTagCommand"
+        optional :reply_to_message, :message, 20, "com.elarian.hera.proto.ReplyToMessageCommand"
+        optional :update_messaging_consent, :message, 21, "com.elarian.hera.proto.UpdateMessagingConsentCommand"
+        optional :initiate_payment, :message, 22, "com.elarian.hera.proto.InitiatePaymentCommand"
+        optional :customer_activity, :message, 23, "com.elarian.hera.proto.CustomerActivityCommand"
       end
     end
     add_message "com.elarian.hera.proto.AppToServerCommandReply" do
@@ -70,6 +71,9 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     add_message "com.elarian.hera.proto.GenerateAuthTokenReply" do
       optional :token, :string, 1
       optional :lifetime, :message, 2, "google.protobuf.Duration"
+    end
+    add_message "com.elarian.hera.proto.CreateCustomerCommand" do
+      optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
     end
     add_message "com.elarian.hera.proto.GetCustomerStateCommand" do
       oneof :customer do
@@ -259,7 +263,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "com.elarian.hera.proto.CustomerActivityCommand" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
-      optional :channel_number, :message, 2, "com.elarian.hera.proto.ActivityChannelNumber"
+      optional :source, :string, 2
       optional :session_id, :string, 3
       optional :key, :string, 4
       map :properties, :string, :string, 5
@@ -379,7 +383,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     end
     add_message "com.elarian.hera.proto.CustomerActivityNotification" do
       optional :customer_number, :message, 1, "com.elarian.hera.proto.CustomerNumber"
-      optional :channel_number, :message, 2, "com.elarian.hera.proto.ActivityChannelNumber"
+      optional :source, :string, 2
       optional :session_id, :string, 3
       optional :activity, :message, 4, "com.elarian.hera.proto.CustomerActivity"
     end
@@ -395,6 +399,7 @@ module Com
         AppToServerCommandReply = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.AppToServerCommandReply").msgclass
         GenerateAuthTokenCommand = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.GenerateAuthTokenCommand").msgclass
         GenerateAuthTokenReply = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.GenerateAuthTokenReply").msgclass
+        CreateCustomerCommand = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CreateCustomerCommand").msgclass
         GetCustomerStateCommand = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.GetCustomerStateCommand").msgclass
         GetCustomerStateReply = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.GetCustomerStateReply").msgclass
         CustomerStateReplyData = ::Google::Protobuf::DescriptorPool.generated_pool.lookup("com.elarian.hera.proto.CustomerStateReplyData").msgclass
