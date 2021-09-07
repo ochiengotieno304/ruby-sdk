@@ -33,7 +33,7 @@ module Elarian
       set_handlers
       EM.defer(@handlers[:pending]) if @handlers[:pending]
       @socket = ::Elarian.connect(
-        "#{ENV["URL"]}:#{ENV["PORT"]}",
+        "tcp://tcp.elarian.com:443",
         metadata_encoding: "application/octet-stream",
         data_encoding: "application/octet-stream",
         setup_payload: payload_of(app_connection_metadata.to_proto, nil)
@@ -122,8 +122,11 @@ module Elarian
     def set_on_connected_handler
       handler = @handlers[:connected]
       Requester.class_eval do
-        # TODO: Change this to ssl_handshake_completed, or other appropriate callback when we start using TLS
-        define_method(:connection_completed) do
+        define_method(:post_init) do
+          start_tls(sni_hostname: "tcp.elarian.com")
+        end
+
+        define_method(:ssl_handshake_completed) do
           super()
           @connected = true
           EM.defer(handler) if handler
