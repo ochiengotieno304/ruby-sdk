@@ -29,7 +29,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       optional :body_html, :string, 3
       repeated :cc_list, :string, 4
       repeated :bcc_list, :string, 5
-      repeated :attachments, :string, 6
     end
     add_message "com.elarian.hera.proto.TemplateMessageBody" do
       optional :id, :string, 1
