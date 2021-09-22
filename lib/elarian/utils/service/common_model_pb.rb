@@ -51,7 +51,6 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
       value :CHANNEL_NUMBER_PROVIDER_MAILGUN, 3
       value :CHANNEL_NUMBER_PROVIDER_FACEBOOK, 4
       value :CHANNEL_NUMBER_PROVIDER_TELEGRAM, 5
-      value :CHANNEL_NUMBER_PROVIDER_SIMULATOR, 6
     end
     add_enum "com.elarian.hera.proto.MediaType" do
       value :MEDIA_TYPE_UNSPECIFIED, 0
